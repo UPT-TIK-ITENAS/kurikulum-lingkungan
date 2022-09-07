@@ -58,11 +58,17 @@
                 <section id="auth-login" class="row flexbox-container">
                     <div class="col-xl-8 col-11">
                         <div class="card bg-authentication mb-0">
+                            <div class="card-header">
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                    <h2>TEKNIK LINGKUNGAN</h2>
+                                </div>
+                            </div>
                             <div class="row m-0">
                                 <!-- left section-login -->
-                                <div class="col-md-6 col-12 px-0">
-                                    <div class="card disable-rounded-right h-100 d-flex justify-content-center">
-                                        <div class="card-body">
+                                <div class="col-sm-6 col-md-6 col-lg-6 px-0">
+                                    <div
+                                        class="card disable-rounded-right h-100 d-flex justify-content-center align-items-center">
+                                        <div class="col-md-6 col-12">
                                             <form action="{{ route('auth') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group mb-50">
@@ -91,13 +97,13 @@
                                                     class="btn btn-primary glow w-100 position-relative">Login<i
                                                         id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                                             </form>
-                                            <hr>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- right section image -->
-                                <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
-                                    <img class="img-fluid" src="{{ asset('images/pages/login.png') }}"
+                                <div class="col-md-6 d-md-block d-none text-center align-self-center p-3"
+                                    style="background-color: #fff;">
+                                    <img class="img-fluid" src="{{ asset('images/pages/log-in.jpg') }}"
                                         alt="branding logo">
                                 </div>
                             </div>
