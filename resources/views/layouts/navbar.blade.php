@@ -1,42 +1,85 @@
-<div class="header-navbar-shadow"></div>
-<nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top ">
-    <div class="navbar-wrapper">
-        <div class="navbar-container content">
-            <div class="navbar-collapse" id="navbar-mobile">
-                <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+<nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+    <div class="container-fluid">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <!-- <div class="navbar-nav align-items-center">
+                <div class="nav-item navbar-search-wrapper mb-0">
+                    <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+                        <i class="bx bx-search-alt bx-sm"></i>
+                        <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
+                    </a>
                 </div>
-                <ul class="nav navbar-nav float-right">
-                    <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
-                            href="javascript:void(0);" data-toggle="dropdown">
-                            <div class="user-nav d-sm-flex d-none"><span class="user-name">
-                                    @if(isset($data['nmdosMSDOS']))
-                                    {{ $data['nmdosMSDOS'] }}{{$data['gelarMSDOS']}}
-                                    @else
-                                    {{$data['name']}}
-                                    @endif
-                                </span><span class="user-status text-muted">Available</span></div><span><img
-                                    class="round" src="{{ asset('images/profile/Akun.png') }}" alt="avatar" height="40"
-                                    width="40"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right pb-0"><a class="dropdown-item" href=""><i
-                                    class="bx bx-user mr-50"></i> Edit Profile</a><a class="dropdown-item"
-                                href="app-email.html"><i class="bx bx-envelope mr-50"></i> My
-                                Inbox</a><a class="dropdown-item" href="app-todo.html"><i
-                                    class="bx bx-check-square mr-50"></i> Task</a><a class="dropdown-item"
-                                href="app-chat.html"><i class="bx bx-message mr-50"></i> Chats</a>
-                            <div class="dropdown-divider mb-0"></div><a class="dropdown-item"
-                                href="{{ route('logout') }}" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();"><i class="bx bx-power-off mr-50"></i>
-                                Logout
+            </div> -->
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                <!-- Style Switcher -->
+                <li class="nav-item me-2 me-xl-0">
+                    <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+                        <i class="bx bx-sm"></i>
+                    </a>
+                </li>
+                <!--/ Style Switcher -->
+
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside" aria-expanded="false">
+                        <i class='bx bxs-user-circle bx-md'></i>
+                        <span>@if(isset($data['nmdosMSDOS']))
+                            {{ $data['nmdosMSDOS'] }}{{$data['gelarMSDOS']}}
+                            @else
+                            {{$data['name']}}
+                            @endif</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="pages-account-settings-account.html">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            <i class='bx bxs-user-circle bx-md'></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-semibold d-block lh-1">
+                                            @if(isset($data['nmdosMSDOS']))
+                                            {{ $data['nmdosMSDOS'] }}{{$data['gelarMSDOS']}}
+                                            @else
+                                            {{$data['name']}}
+                                            @endif</span>
+                                        <small>Dosen</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                                <i class="bx bx-power-off me-2"></i>
+                                <span class="align-middle">Log Out</span>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                        </li>
+                    </ul>
+                </li>
+                <!--/ User -->
+            </ul>
         </div>
+
     </div>
 </nav>

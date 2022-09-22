@@ -1,104 +1,139 @@
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="en" class="light-style layout-navbar-fixed layout-menu-fixed " dir="ltr"
+    data-theme="theme-semi-dark" data-assets-path="{{ url('') }}/" data-template="vertical-menu-template-semi-dark">
 <!-- BEGIN: Head-->
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description"
-        content="Frest admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords"
-        content="admin template, Frest admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
-    <title>Dashboard</title>
-    <link rel="apple-touch-icon" href="{{ asset('images/ico/apple-icon-120.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href=".{{ asset('images/ico/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700"
-        rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/vendors.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <title>Enviromental Engineering - Curriculum</title>
 
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/semi-dark-layout.css') }}">
-    <!-- END: Theme CSS-->
+    <meta name="description" content="" />
 
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/dashboard-ecommerce.css') }}">
-    <!-- END: Page CSS-->
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/icons/logo.png') }}" />
 
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    <!-- END: Custom CSS-->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/flag-icons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/css/rtl/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/rtl/theme-default.css') }}"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/flatpickr/flatpickr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/select2/select2.css') }}" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="{{ asset('vendor/js/helpers.js') }}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script src="{{ asset('vendor/js/template-customizer.js') }}"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('js/config.js') }}"></script>
 
 </head>
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern semi-dark-layout 2-columns  navbar-sticky footer-static  "
-    data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="semi-dark-layout">
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
 
-    <!-- BEGIN: Header-->
-    @include('layouts.navbar')
-    <!-- END: Header-->
+            <!-- BEGIN: Main Menu-->
+            @include('layouts.sidebar')
 
+            <div class="layout-page">
+                @include('layouts.navbar')
+                <!-- BEGIN: Content-->
+                <div class="content-wrapper">
+                    @yield('content')
+                    <!-- / Content -->
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div
+                            class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                , made with ❤️ by
+                                <a href="https://pixinvent.com" target="_blank"
+                                    class="footer-link fw-semibold">PIXINVENT</a>
+                            </div>
+                            <div>
+                                <a href="https://themeforest.net/licenses/standard" class="footer-link me-4"
+                                    target="_blank">License</a>
+                                <a href="https://1.envato.market/pixinvent_portfolio" target="_blank"
+                                    class="footer-link me-4">More
+                                    Themes</a>
 
-    <!-- BEGIN: Main Menu-->
-    @include('layouts.sidebar')
-    <!-- END: Main Menu-->
+                                <a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation-bs5/"
+                                    target="_blank" class="footer-link me-4">Documentation</a>
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            @yield('content')
+                                <a href="https://pixinvent.ticksy.com/" target="_blank"
+                                    class="footer-link d-none d-sm-inline-block">Support</a>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
         </div>
-    </div>
-    <!-- END: Content-->
+        <div class="layout-overlay layout-menu-toggle"></div>
 
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
     </div>
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
-
-    <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light">
-        <p class="clearfix mb-0"><span class="float-left d-inline-block">2022 &copy; UPT-TIK</span><span
-                class="float-right d-sm-inline-block d-none">Institut Teknologi Nasional</span>
-            <button class="btn btn-primary btn-icon scroll-top" type="button"><i
-                    class="bx bx-up-arrow-alt"></i></button>
-        </p>
-    </footer>
-    <!-- END: Footer-->
     @stack('modal')
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('js/scripts/configs/vertical-menu-dark.js') }}"></script>
-    <script src="{{ asset('js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('js/core/app.js') }}"></script>
-    <script src="{{ asset('js/scripts/components.js') }}"></script>
-    <script src="{{ asset('js/scripts/footer.js') }}"></script>
-    <!-- END: Theme JS-->
+    <script src="{{ asset('vendor/libs/hammer/hammer.js') }}"></script>
 
+    <script src="{{ asset('vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('vendor/libs/typeahead-js/typeahead.js') }}"></script>
+
+    <script src="{{ asset('vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <script src="{{ asset('vendor/libs/cleavejs/cleave.js') }}"></script>
+    <script src="{{ asset('vendor/libs/cleavejs/cleave-phone.js') }}"></script>
+    <script src="{{ asset('vendor/libs/moment/moment.js') }}"></script>
+    <script src="{{ asset('vendor/libs/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('vendor/libs/select2/select2.js') }}"></script>
+    <!-- Main JS -->
     @section('scripts')
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('js/scripts/pages/dashboard-ecommerce.js') }}"></script>
-    <!-- END: Page JS-->
+    <script src="{{ asset('js/main.js') }}"></script>
     @show
     @stack('scripts')
 </body>

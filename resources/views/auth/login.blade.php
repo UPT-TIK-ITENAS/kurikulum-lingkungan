@@ -1,145 +1,141 @@
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
+
+<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default"
+    data-assets-path="{{ asset('') }}" data-template="vertical-menu-template">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description"
-        content="Frest admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords"
-        content="admin template, Frest admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
-    <title>Login Page</title>
-    <link rel="apple-touch-icon" href="{{ asset('images/ico/apple-icon-120.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href=".{{ asset('images/ico/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700"
-        rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/vendors.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <title>Login Cover - Pages | Frest - Bootstrap Admin Template</title>
 
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/semi-dark-layout.css') }}">
-    <!-- END: Theme CSS-->
+    <meta name="description" content="" />
 
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/authentication.css') }}">
-    <!-- END: Page CSS-->
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/icons/logo.png') }}" />
 
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    <!-- END: Custom CSS-->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
 
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/flag-icons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/css/rtl/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/rtl/theme-default.css') }}"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/typeahead-js/typeahead.css') }}" />
+    <!-- Vendor -->
+    <link rel="stylesheet" href="{{ asset('vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ asset('vendor/css/pages/page-auth.css') }}" />
+    <!-- Helpers -->
+    <script src="{{ asset('vendor/js/helpers.js') }}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script src="{{ asset('vendor/js/template-customizer.js') }}"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('js/config.js') }}"></script>
 </head>
-<!-- END: Head-->
 
-<!-- BEGIN: Body-->
+<body>
+    <!-- Content -->
 
-<body
-    class="vertical-layout vertical-menu-modern semi-dark-layout 1-column  navbar-sticky footer-static bg-full-screen-image  blank-page"
-    data-open="click" data-menu="vertical-menu-modern" data-col="1-column" data-layout="semi-dark-layout">
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
+    <div class="authentication-wrapper authentication-cover">
+        <div class="authentication-inner row m-0">
+            <!-- /Left Text -->
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center">
+                <div class="flex-row text-center mx-auto">
+                    <img src="{{ asset('img/icons/TL-01-1024x512-1.jpg') }}" alt="Auth Cover Bg color" width="520"
+                        class="img-fluid authentication-cover-img" />
+                    <div class="mx-auto">
+                        <h3>Welcome in Website Environmental Engineering Curriculum</h3>
+                    </div>
+                </div>
             </div>
-            <div class="content-body">
-                <!-- login page start -->
-                <section id="auth-login" class="row flexbox-container">
-                    <div class="col-xl-8 col-11">
-                        <div class="card bg-authentication mb-0">
-                            <div class="card-header">
-                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-                                    <h2>TEKNIK LINGKUNGAN</h2>
-                                </div>
+            <!-- /Left Text -->
+
+            <!-- Login -->
+            <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-5 p-4">
+                <div class="w-px-400 mx-auto">
+                    <!-- Logo -->
+                    <div class="app-brand mb-4">
+                        <a href="index.html" class="app-brand-link gap-2 mb-2">
+                            <span class="app-brand-logo demo">
+                                <img src="{{ asset('img/icons/logo.png') }}" class="img-fluid" alt="">
+                            </span>
+                            <span class="app-brand-text demo h3 mb-0 fw-bold">Environmental Engineering</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <p class="mb-4">Please sign-in to your account👋</p>
+
+                    <form action="{{ route('auth') }}" method="POST" class="mb-3">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Enter your username" autofocus />
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
                             </div>
-                            <div class="row m-0">
-                                <!-- left section-login -->
-                                <div class="col-sm-6 col-md-6 col-lg-6 px-0">
-                                    <div
-                                        class="card disable-rounded-right h-100 d-flex justify-content-center align-items-center">
-                                        <div class="col-md-6 col-12">
-                                            <form action="{{ route('auth') }}" method="POST">
-                                                @csrf
-                                                <div class="form-group mb-50">
-                                                    <label class="text-bold-600"
-                                                        for="exampleInputEmail1">Username</label>
-                                                    <input type="text" name="username" class="form-control"
-                                                        id="exampleInputUsername1" placeholder="Username">
-                                                    @error('username')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="text-bold-600"
-                                                        for="exampleInputPassword1">Password</label>
-                                                    <input type="password" name="password" class="form-control"
-                                                        id="exampleInputPassword1" placeholder="Password">
-                                                    @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                <button type="submit"
-                                                    class="btn btn-primary glow w-100 position-relative">Login<i
-                                                        id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- right section image -->
-                                <div class="col-md-6 d-md-block d-none text-center align-self-center p-3"
-                                    style="background-color: #fff;">
-                                    <img class="img-fluid" src="{{ asset('images/pages/log-in.jpg') }}"
-                                        alt="branding logo">
-                                </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password" class="form-control" name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <!-- login page ends -->
-
+                        <button class="btn btn-primary d-grid w-100">Sign in</button>
+                    </form>
+                </div>
             </div>
+            <!-- /Login -->
         </div>
     </div>
-    <!-- END: Content-->
 
+    <!-- / Content -->
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js') }}"></script>
-    <script src="{{ asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-    <!-- BEGIN: Page Vendor JS-->
-    <!-- END: Page Vendor JS-->
+    <script src="{{ asset('vendor/libs/hammer/hammer.js') }}"></script>
 
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('js/scripts/configs/vertical-menu-dark.js') }}"></script>
-    <script src="{{ asset('js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('js/core/app.js') }}"></script>
-    <script src="{{ asset('js/scripts/components.js') }}"></script>
-    <script src="{{ asset('js/scripts/footer.js') }}"></script>
-    <!-- END: Theme JS-->
+    <script src="{{ asset('vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('vendor/libs/typeahead-js/typeahead.js') }}"></script>
 
-    <!-- BEGIN: Page JS-->
-    <!-- END: Page JS-->
+    <script src="{{ asset('vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
 
+    <!-- Vendors JS -->
+    <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
+    <script src="{{ asset('vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
+
+    <!-- Main JS -->
+    <script src="{{ asset('js/main.js') }}"></script>
+
+    <!-- Page JS -->
+    <script src="{{ asset('js/pages-auth.js') }}"></script>
 </body>
-<!-- END: Body-->
 
 </html>
