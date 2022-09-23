@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 // use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Session;
@@ -61,6 +62,13 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+        $response = Http::asForm()->post(config('app.urlApi') . 'dosen/login', [
+            'username' => $request->username,
+            'password' => $request->password,
+            'APIKEY' => config('app.APIKEY')
+        ]);
+
+        $resdsn = $response->json();
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required'
@@ -68,23 +76,21 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return back()->with('errors', $validator->messages()->all()[0])->withInput();
         }
-        // $credentials = $request->only('username', 'password');
-        // if (Auth::attempt($credentials)) {
-        $response = Http::asForm()->post(config('app.urlApi') . 'dosen/login', [
-            'username' => $request->username,
-            'password' => $request->password,
-            'APIKEY' => config('app.APIKEY')
-        ]);
-        $resdsn = $response->json();
+        $res = User::where(['username' => $request->username, 'password' => $request->password])->first();
+        // dd($res);
         if ($resdsn['success']) {
             Session::put('data', $resdsn['user']);
             Session::put('login', 'dosen');
-            // dd(Session::get('data'));
             return redirect()->intended('/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
+        } else if (isset($res)) {
+            Session::put('data', $res);
+            Session::put('login', 'admin');
+            Session::put('admin', $res);
+            // dd($res);
+            return redirect()->intended('/admin/home')->with('login-success', $res->nama);
+        } else {
+            return back()->with('login-failed', 'Username / Password Incorrect!');
         }
-        // }
-        // return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
-
     }
 
     public function logout(Request $request)

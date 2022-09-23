@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login Cover - Pages | Frest - Bootstrap Admin Template</title>
+    <title>Course Evaluation - Login</title>
 
     <meta name="description" content="" />
 
@@ -58,14 +58,11 @@
     <div class="authentication-wrapper authentication-cover">
         <div class="authentication-inner row m-0">
             <!-- /Left Text -->
-            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center">
-                <div class="flex-row text-center mx-auto">
-                    <img src="{{ asset('img/icons/TL-01-1024x512-1.jpg') }}" alt="Auth Cover Bg color" width="520"
-                        class="img-fluid authentication-cover-img" />
-                    <div class="mx-auto">
-                        <h3>Welcome in Website Environmental Engineering Curriculum</h3>
-                    </div>
-                </div>
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center"
+                style="background-image: url({{ asset('img/Gedung-Itenas-Final.jpg') }}); background-repeat: no-repeat; background-size: cover;">
+                {{-- <div class="flex-row text-center mx-auto">
+                    <img src="" alt="Auth Cover Bg color" class="img-fluid authentication-cover-img" />
+                </div> --}}
             </div>
             <!-- /Left Text -->
 
@@ -75,14 +72,13 @@
                     <!-- Logo -->
                     <div class="app-brand mb-4">
                         <a href="index.html" class="app-brand-link gap-2 mb-2">
-                            <span class="app-brand-logo demo">
-                                <img src="{{ asset('img/icons/logo.png') }}" class="img-fluid" alt="">
-                            </span>
-                            <span class="app-brand-text demo h3 mb-0 fw-bold">Environmental Engineering</span>
+                            <img src="{{ asset('img/logoitenas.png') }}" class="img-fluid" alt=""
+                                width="50%">
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <p class="mb-4">Please sign-in to your account👋</p>
+                    <h4>Course Evaluation</h4>
+                    <p class="mb-4" style="font-size:12px;">Please sign-in to your account👋</p>
 
                     <form action="{{ route('auth') }}" method="POST" class="mb-3">
                         @csrf

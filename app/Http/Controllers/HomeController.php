@@ -20,7 +20,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = Session::get('data');
-        return view('content.home', compact('data'));
+        $appdata = [
+            'sesi'  => Session::get('data')
+        ];
+        return view('content.home', compact('appdata'));
     }
 }

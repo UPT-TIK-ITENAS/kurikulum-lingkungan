@@ -34,11 +34,13 @@
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-expanded="false">
                         <i class='bx bxs-user-circle bx-md'></i>
-                        <span>@if(isset($data['nmdosMSDOS']))
-                            {{ $data['nmdosMSDOS'] }}{{$data['gelarMSDOS']}}
+                        <span>
+                            @if (isset($appdata['sesi']['nmdosMSDOS']))
+                                {{ $appdata['sesi']['nmdosMSDOS'] }}{{ $appdata['sesi']['gelarMSDOS'] }}
                             @else
-                            {{$data['name']}}
-                            @endif</span>
+                                {{ $appdata['sesi']['name'] }}
+                            @endif
+                        </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
@@ -51,12 +53,17 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <span class="fw-semibold d-block lh-1">
-                                            @if(isset($data['nmdosMSDOS']))
-                                            {{ $data['nmdosMSDOS'] }}{{$data['gelarMSDOS']}}
+                                            @if (isset($appdata['sesi']['nmdosMSDOS']))
+                                                {{ $appdata['sesi']['nmdosMSDOS'] }}{{ $appdata['sesi']['gelarMSDOS'] }}
                                             @else
-                                            {{$data['name']}}
-                                            @endif</span>
-                                        <small>Dosen</small>
+                                                {{ $appdata['sesi']['name'] }}
+                                            @endif
+                                        </span>
+                                        @if (isset($appdata['sesi']['nmdosMSDOS']))
+                                            <small>Dosen</small>
+                                        @else
+                                            <small>Administrator</small>
+                                        @endif
                                     </div>
                                 </div>
                             </a>
@@ -65,7 +72,8 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                                 <i class="bx bx-power-off me-2"></i>
                                 <span class="align-middle">Log Out</span>

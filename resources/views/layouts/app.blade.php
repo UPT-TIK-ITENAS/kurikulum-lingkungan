@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Enviromental Engineering - Curriculum</title>
+    <title>{{ $appdata['title'] . ' - ' }} Course Evaluation</title>
 
     <meta name="description" content="" />
 
@@ -38,7 +38,13 @@
     <link rel="stylesheet" href="{{ asset('vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ asset('vendor/libs/flatpickr/flatpickr.css') }}" />
     <link rel="stylesheet" href="{{ asset('vendor/libs/select2/select2.css') }}" />
-
+    <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-select-bs5/select.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/sweetalert2/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/libs/formvalidation/dist/css/formValidation.min.css') }}">
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -67,33 +73,26 @@
                 @include('layouts.navbar')
                 <!-- BEGIN: Content-->
                 <div class="content-wrapper">
-                    @yield('content')
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <h4 class="py-3 breadcrumb-wrapper mb-4">
+                            @yield('content-header')
+                        </h4>
+                        @yield('content')
+                    </div>
                     <!-- / Content -->
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
                         <div
                             class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                             <div class="mb-2 mb-md-0">
-                                ©
+                                Copyright ©
                                 <script>
                                     document.write(new Date().getFullYear());
                                 </script>
-                                , made with ❤️ by
-                                <a href="https://pixinvent.com" target="_blank"
-                                    class="footer-link fw-semibold">PIXINVENT</a>
+                                , Institut Teknologi Nasional | UPT-TIK
                             </div>
                             <div>
-                                <a href="https://themeforest.net/licenses/standard" class="footer-link me-4"
-                                    target="_blank">License</a>
-                                <a href="https://1.envato.market/pixinvent_portfolio" target="_blank"
-                                    class="footer-link me-4">More
-                                    Themes</a>
-
-                                <a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation-bs5/"
-                                    target="_blank" class="footer-link me-4">Documentation</a>
-
-                                <a href="https://pixinvent.ticksy.com/" target="_blank"
-                                    class="footer-link d-none d-sm-inline-block">Support</a>
+                                <span>Version {{ env('APP_VER', '2.0') }}</span>
                             </div>
                         </div>
                     </footer>
@@ -131,9 +130,54 @@
     <script src="{{ asset('vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-responsive/datatables.responsive.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-buttons/datatables-buttons.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-buttons/buttons.html5.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-buttons/buttons.colVis.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-buttons/buttons.print.js') }}"></script>
+    <script src="{{ asset('vendor/libs/datatables-select-bs5/select.bootstrap5.js') }}"></script>
+    <script src="{{ asset('vendor/libs/block-ui/block-ui.js') }}"></script>
+    <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
+    <script src="{{ asset('js/form-validation.js') }}"></script>
     <!-- Main JS -->
     @section('scripts')
-    <script src="{{ asset('js/main.js') }}"></script>
+        <script>
+            @if (Session::has('success'))
+                $(document).ready(function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: '{{ Session('success') }}',
+                        showConfirmButton: true,
+                    });
+                });
+            @endif
+
+            @if ($errors->any())
+                @php
+                    $error_msg = '';
+                @endphp
+                @foreach ($errors->getMessages() as $this_error)
+                    @php
+                        $error_msg .= $this_error[0] . '<br>';
+                    @endphp
+                    $(document).ready(function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            html: '{!! $error_msg !!}',
+                            showConfirmButton: true,
+                        });
+                    });
+                @endforeach
+            @endif
+        </script>
+        <script src="{{ asset('js/main.js') }}"></script>
     @show
     @stack('scripts')
 </body>
