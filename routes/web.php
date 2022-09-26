@@ -34,8 +34,8 @@ Route::middleware(['isLogin'])->group(function () {
     Route::group(['prefix' => ''], function () {
         Route::get('/admin/home', [MainController::class, 'index'])->name('admin.home');
         Route::get('/admin/cpl/index', [CPLController::class, 'index'])->name('admin.cpl.index');
-        Route::get('/admin/cpl/store', [CPLController::class, 'store'])->name('admin.cpl.store');
-        Route::get('/admin/cpl/update/{id}', [CPLController::class, 'update'])->name('admin.cpl.update');
+        Route::post('/admin/cpl/store', [CPLController::class, 'store'])->name('admin.cpl.store');
+        Route::post('/admin/cpl/update/{id}', [CPLController::class, 'update'])->name('admin.cpl.update');
         Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
         Route::get('/admin/cpmk/index', [CPMKController::class, 'index'])->name('admin.cpmk.index');
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');

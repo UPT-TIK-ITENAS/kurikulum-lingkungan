@@ -16,38 +16,37 @@ class CPLController extends Controller
      */
     public function index()
     {
-        $appdata = [
-            'title' => 'CPL',
-            'sesi'  => Session::get('data')
-        ];
-        $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->get();
-        return view('admin.cpl_index', compact('appdata', 'cpl'));
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'CPL',
+                'sesi'  => Session::get('data')
+            ];
+            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->get();
+            return view('admin.cpl_index', compact('appdata', 'cpl'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
     public function store(Request $request)
     {
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            $data = [
+                'kode_cpl'  => 'CPL-' . $request->kode_cpl,
+                'nama_cpl'  => $request->nama_cpl,
+                'idprodi'   => $sesi['idprodi'],
+                'idfakultas' => $sesi['idfakultas']
+            ];
+            $query = CPL::insert($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success add');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
     /**
@@ -59,17 +58,36 @@ class CPLController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            $data = [
+                'kode_cpl'  => 'CPL-' . $request->kode_cpl,
+                'nama_cpl'  => $request->nama_cpl,
+                'idprodi'   => $sesi['idprodi'],
+                'idfakultas' => $sesi['idfakultas']
+            ];
+            $query = CPL::where('id', $id)->update($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success update');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        if (Session::has('data')) {
+            $query = CPL::where('id', $id)->delete();
+            if ($query) {
+                return redirect()->back()->with('success', 'Success delete');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 }

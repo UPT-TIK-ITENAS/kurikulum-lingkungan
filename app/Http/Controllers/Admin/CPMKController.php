@@ -14,7 +14,6 @@ class CPMKController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**

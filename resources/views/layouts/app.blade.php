@@ -143,7 +143,7 @@
     <script src="{{ asset('vendor/libs/datatables-select-bs5/select.bootstrap5.js') }}"></script>
     <script src="{{ asset('vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
-    <script src="{{ asset('js/form-validation.js') }}"></script>
+    {{-- <script src="{{ asset('js/form-validation.js') }}"></script> --}}
     <!-- Main JS -->
     @section('scripts')
         <script>
@@ -151,8 +151,17 @@
                 $(document).ready(function() {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Berhasil',
-                        text: '{{ Session('success') }}',
+                        title: '{{ Session('success') }}',
+                        timer: 1500
+                    });
+                });
+            @endif
+            @if (Session::has('error'))
+                $(document).ready(function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        html: '{{ Session('error') }}',
                         showConfirmButton: true,
                     });
                 });
@@ -169,7 +178,7 @@
                     $(document).ready(function() {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal',
+                            title: 'Error',
                             html: '{!! $error_msg !!}',
                             showConfirmButton: true,
                         });

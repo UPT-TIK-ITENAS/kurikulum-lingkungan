@@ -15,11 +15,15 @@ class MainController extends Controller
      */
     public function index()
     {
-        $appdata = [
-            'title' => 'Dashboard',
-            'sesi'  => Session::get('data')
-        ];
-        return view('admin.dashboard', compact('appdata'));
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Dashboard',
+                'sesi'  => Session::get('data')
+            ];
+            return view('admin.dashboard', compact('appdata'));
+        } else {
+            return redirect()->route('login')->with('error', 'Sesi anda telah habis');
+        }
     }
 
     /**
