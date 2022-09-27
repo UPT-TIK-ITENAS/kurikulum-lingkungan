@@ -49,7 +49,10 @@
             </ul>
         </li>
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Course Evaluation</span></li>
-        <li class="menu-item @if (request()->routeIs('admin.cpl.index') || request()->routeIs('admin.cpmk.index')) open @endif">
+        <li class="menu-item @if (request()->routeIs('admin.cpl.index') ||
+            request()->routeIs('admin.cpmk.index') ||
+            request()->routeIs('admin.cpmk.kelola') ||
+            request()->routeIs('admin.cpmk.cpl')) open @endif">
             <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div>CPL - CPMK</div>
@@ -60,7 +63,9 @@
                         <div>Data CPL</div>
                     </a>
                 </li>
-                <li class="menu-item @if (request()->routeIs('admin.cpmk.index')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.cpmk.index') ||
+                    request()->routeIs('admin.cpmk.kelola') ||
+                    request()->routeIs('admin.cpmk.cpl')) active @endif">
                     <a href="{{ route('admin.cpmk.index') }}" class="menu-link">
                         <div>Data CPMK</div>
                     </a>

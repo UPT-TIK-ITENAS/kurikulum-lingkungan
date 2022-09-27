@@ -21,7 +21,7 @@ class CPLController extends Controller
                 'title' => 'CPL',
                 'sesi'  => Session::get('data')
             ];
-            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->get();
+            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
             return view('admin.cpl_index', compact('appdata', 'cpl'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -77,7 +77,7 @@ class CPLController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         if (Session::has('data')) {
             $query = CPL::where('id', $id)->delete();

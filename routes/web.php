@@ -38,6 +38,16 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/cpl/update/{id}', [CPLController::class, 'update'])->name('admin.cpl.update');
         Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
         Route::get('/admin/cpmk/index', [CPMKController::class, 'index'])->name('admin.cpmk.index');
+        Route::get('/admin/cpmk/listmatakuliah', [CPMKController::class, 'listmatakuliah'])->name('admin.cpmk.listmatakuliah');
+        Route::get('/admin/cpmk/kelola/{id}', [CPMKController::class, 'kelola'])->name('admin.cpmk.kelola');
+        Route::post('/admin/cpmk/store', [CPMKController::class, 'store'])->name('admin.cpmk.store');
+        Route::post('/admin/cpmk/update/{id}', [CPMKController::class, 'update'])->name('admin.cpmk.update');
+        Route::get('/admin/cpmk/delete/{id}', [CPMKController::class, 'delete'])->name('admin.cpmk.delete');
+        Route::get('/admin/cpmk/cpl/{idcpmk}', [CPMKController::class, 'cpl'])->name('admin.cpmk.cpl');
+        Route::post('/admin/cpmk/store_cpmk_cpl', [CPMKController::class, 'store_cpmk_cpl'])->name('admin.cpmk.store_cpmk_cpl');
+        Route::post('/admin/cpmk/update_cpmk_cpl/{id}', [CPMKController::class, 'update_cpmk_cpl'])->name('admin.cpmk.update_cpmk_cpl');
+        Route::get('/admin/cpmk/delete_cpmk_cpl/{id}', [CPMKController::class, 'delete_cpmk_cpl'])->name('admin.cpmk.delete_cpmk_cpl');
+
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');
         Route::get('/admin/data-master/mahasiswa', [MainController::class, 'index'])->name('admin.mahasiswa.index');
         Route::get('/admin/data-master/matkul', [MainController::class, 'index'])->name('admin.matkul.index');

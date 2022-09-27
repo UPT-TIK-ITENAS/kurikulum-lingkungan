@@ -14,7 +14,15 @@ class CEController extends Controller
      */
     public function index()
     {
-        //
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Course Evaluation',
+                'sesi'  => Session::get('data')
+            ];
+            return view('admin.ce_index.blade', compact('appdata'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
     /**

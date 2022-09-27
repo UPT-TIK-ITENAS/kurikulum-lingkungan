@@ -11,13 +11,14 @@
                     <b>Capaian Pembelajaran Mata Kuliah (Daftar Mata kuliah)</b>
                 </div>
                 <div class="card-body">
-                    <table id="table-cpl" class="table table-bordered">
+                    <table id="table_cpmk" class="table table-bordered">
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
                                 <th>Kode MK</th>
                                 <th>Nama MK (Indonesia)</th>
                                 <th>Nama MK (Inggris)</th>
+                                <th>Jumlah SKS</th>
                                 <th>Wajib / Pilihan</th>
                                 <th>Aksi</th>
                             </tr>
@@ -32,35 +33,56 @@
 @push('scripts')
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('#table-cpl').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "lengthMenu": [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
+        $().ready(function() {
+            let table = $('#table_cpmk').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                columnDefs: [{
+                    responsivePriority: 1,
+                    targets: 1
+                }, ],
+                ajax: "{{ route('admin.cpmk.listmatakuliah') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'kdkmktbkmk',
+                        name: 'kdkmktbkmk',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'nakmktbkmk',
+                        name: 'nakmktbkmk',
+                    },
+                    {
+                        data: 'nakmitbkmk',
+                        name: 'nakmitbkmk',
+                    },
+                    {
+                        data: 'sksmktbkmk',
+                        name: 'sksmktbkmk',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'wbpiltbkur',
+                        name: 'wbpiltbkur',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        className: 'text-center'
+                    },
                 ],
-                // "pageLength": 50
             });
-            $('#table-cpl tbody').on('click', '.del-btn', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Lanjutkan?',
-                    text: `Anda akan menghapus CPL ${$(this).data('nama')}`,
-                    icon: 'question',
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = $(this).attr('href');
-                    }
-                });
-            });
+            $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
+                console.log(message);
+            };
         });
     </script>
 @endpush

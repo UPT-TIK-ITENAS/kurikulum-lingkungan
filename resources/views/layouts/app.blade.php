@@ -152,7 +152,8 @@
                     Swal.fire({
                         icon: 'success',
                         title: '{{ Session('success') }}',
-                        timer: 1500
+                        timer: 1500,
+                        showConfirmButton: false
                     });
                 });
             @endif

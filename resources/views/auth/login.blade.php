@@ -42,6 +42,7 @@
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('vendor/css/pages/page-auth.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/sweetalert2/sweetalert2.css') }}">
     <!-- Helpers -->
     <script src="{{ asset('vendor/js/helpers.js') }}"></script>
 
@@ -126,12 +127,24 @@
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
-
+    <script src="{{ asset('vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('js/pages-auth.js') }}"></script>
+    <script>
+        @if (Session::has('error'))
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    html: '{{ Session('error') }}',
+                    showConfirmButton: true,
+                });
+            });
+        @endif
+    </script>
 </body>
 
 </html>
