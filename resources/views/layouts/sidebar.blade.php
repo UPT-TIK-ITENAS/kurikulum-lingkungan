@@ -29,19 +29,19 @@
 
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Master</span></li>
 
-        <li class="menu-item">
+        <li class="menu-item @if (request()->routeIs('admin.matkul.index') || request()->routeIs('admin.mahasiswa.index')) open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div>Data Master</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item @if (request()->routeIs('admin.mahasiswa.index')) active @endif">
                     <a href="{{ route('admin.mahasiswa.index') }}" class="menu-link">
                         <div>Mahasiswa</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item  @if (request()->routeIs('admin.matkul.index')) active @endif">
                     <a href="{{ route('admin.matkul.index') }}" class="menu-link">
                         <div>Mata Kuliah</div>
                     </a>

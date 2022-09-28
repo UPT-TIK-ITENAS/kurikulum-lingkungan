@@ -49,7 +49,9 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/cpmk/delete_cpmk_cpl/{id}', [CPMKController::class, 'delete_cpmk_cpl'])->name('admin.cpmk.delete_cpmk_cpl');
 
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');
-        Route::get('/admin/data-master/mahasiswa', [MainController::class, 'index'])->name('admin.mahasiswa.index');
-        Route::get('/admin/data-master/matkul', [MainController::class, 'index'])->name('admin.matkul.index');
+        Route::get('/admin/data-master/mahasiswa', [MainController::class, 'index_mahasiswa'])->name('admin.mahasiswa.index');
+        Route::get('/admin/data-master/mahasiswa/nilai/{nim}', [MainController::class, 'nilai_mahasiswa'])->name('admin.mahasiswa.nilai');
+        Route::get('/admin/data-master/matkul', [MainController::class, 'index_matkul'])->name('admin.matkul.index');
+        Route::get('/admin/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('admin.mahasiswa.listmahasiswa');
     });
 });

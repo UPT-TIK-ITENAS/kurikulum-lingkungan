@@ -108,14 +108,14 @@
         </div>
     </div>
     @foreach ($data['ce'] as $ce)
-        <div class="modal fade" id="editCPMKCPL{{ $ce->id }}" style="display: none;">
+        <div class="modal fade" id="editCPMKCPL{{ $ce->idce }}" style="display: none;">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel3">Edit Relasi CPMK - CPL</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('admin.cpmk.update_cpmk_cpl', $ce->id) }}" method="post"
+                    <form action="{{ route('admin.cpmk.update_cpmk_cpl', $ce->idce) }}" method="post"
                         class="needs-validation">
                         @csrf
                         <div class="modal-body">
@@ -123,9 +123,9 @@
                                 <div class="col mb-3">
                                     <label for="nameLarge" class="form-label">Kode CPL</label>
                                     <select class="form-control select2cpl" name="idcpl"
-                                        id="select2cpl{{ $ce->id }}">
+                                        id="select2cpl{{ $ce->idce }}">
                                         @foreach ($data['cpl'] as $cp)
-                                            <option @if ($cp->id == $ce->idcpl) selected @endif
+                                            <option @if ($cp->id == $ce->cpl_id) selected @endif
                                                 value="{{ $cp->id }}">
                                                 {{ $cp->kode_cpl . ' ' . $cp->nama_cpl }}
                                             </option>
@@ -166,8 +166,8 @@
         @push('scripts')
             <script>
                 $(document).ready(function() {
-                    $("#select2cpl{{ $ce->id }}").select2({
-                        dropdownParent: $("#editCPMKCPL{{ $ce->id }}")
+                    $("#select2cpl{{ $ce->idce }}").select2({
+                        dropdownParent: $("#editCPMKCPL{{ $ce->idce }}")
                     });
                 });
             </script>

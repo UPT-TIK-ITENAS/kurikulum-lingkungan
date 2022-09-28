@@ -35,7 +35,7 @@ class CPMKController extends Controller
     {
         $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
             'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => 2022,
+            'tahun'     => 2017,
             'prodi'     => Session::get('data')['idprodi'],
         ]);
         $json = $res->json();
