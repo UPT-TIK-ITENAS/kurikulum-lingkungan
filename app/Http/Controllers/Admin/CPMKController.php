@@ -59,7 +59,7 @@ class CPMKController extends Controller
                     return $row['wbpiltbkur'];
                 })
                 ->addColumn('action', function ($row) {
-                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk']);
+                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
                     $edit_url = route('admin.cpmk.kelola', $data);
                     $actionBtn =
                         "<div class='btn-group' role='group' aria-label='Action'>
@@ -109,6 +109,7 @@ class CPMKController extends Controller
                 'idmatakuliah'  => $request->idmatakuliah,
                 'nama_matkul'  => $request->nama_matkul,
                 'nama_matkul_en'  => $request->nama_matkul_en,
+                'sks'  => $request->sks,
                 'idprodi'   => $sesi['idprodi'],
                 'idfakultas' => $sesi['idfakultas']
             ];
@@ -140,6 +141,7 @@ class CPMKController extends Controller
                 'idmatakuliah'  => $request->idmatakuliah,
                 'nama_matkul'  => $request->nama_matkul,
                 'nama_matkul_en'  => $request->nama_matkul_en,
+                'sks'  => $request->sks,
                 'idprodi'   => $sesi['idprodi'],
                 'idfakultas' => $sesi['idfakultas']
             ];

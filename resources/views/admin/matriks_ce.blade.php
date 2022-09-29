@@ -7,7 +7,17 @@
 
 @section('content')
     <div class="row">
-
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table id="matriks_ce" class="table table-bordered">
+                        <thead>
+                            <th></th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('scripts')
