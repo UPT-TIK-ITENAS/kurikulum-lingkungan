@@ -29,15 +29,17 @@ class CEController extends Controller
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
                 )->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
-                'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
+
+                'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
                         'idprodi' => $appdata['sesi']['idprodi'],
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
-                )->orderBy('ce_mk.idmatakuliah', 'asc')->get()
+                )->orderBy('ce_mk.idmatakuliah', 'asc')
+                    ->get()
             ];
-            // dd($data);
-            return view('admin.matriks_ce', compact('appdata'));
+
+            return view('admin.matriks_ce', compact('appdata', 'data'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
