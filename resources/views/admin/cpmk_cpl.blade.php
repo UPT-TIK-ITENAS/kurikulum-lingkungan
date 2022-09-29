@@ -40,7 +40,7 @@
                                                 <span class='tf-icons fa-solid fa-edit'></span>
                                             </a>
                                             <a role='button' class='btn btn-icon btn-danger del-btn'
-                                                href='{{ route('admin.cpmk.delete', $d->idce) }}'
+                                                href='{{ route('admin.cpmk.delete_cpmk_cpl', $d->idce) }}'
                                                 data-nama="{{ $d->kode_cpl }}" data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-danger' title='Hapus CPMK'>
@@ -193,7 +193,7 @@
                 ],
                 // "pageLength": 50
             });
-            $('#table-cpl tbody').on('click', '.del-btn', function(e) {
+            $('#table_cpmk_cpl tbody').on('click', '.del-btn', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
