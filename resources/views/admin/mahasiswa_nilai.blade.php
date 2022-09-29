@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">Data Master / Mahasiswa / </span> Nilai
+    <span class="text-muted fw-light">Data Master / <a href="{{ route('admin.mahasiswa.index') }}">Mahasiswa</a> / </span>
+    Nilai
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->

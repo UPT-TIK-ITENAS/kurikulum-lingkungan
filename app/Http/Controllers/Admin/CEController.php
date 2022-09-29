@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Session;
 
 class CEController extends Controller
 {
@@ -16,10 +17,10 @@ class CEController extends Controller
     {
         if (Session::has('data')) {
             $appdata = [
-                'title' => 'Course Evaluation',
+                'title' => 'Matriks Course Evaluation',
                 'sesi'  => Session::get('data')
             ];
-            return view('admin.ce_index.blade', compact('appdata'));
+            return view('admin.matriks_ce', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

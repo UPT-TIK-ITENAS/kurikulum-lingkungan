@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK / </span> Relasi CPL - CPMK
+    <span class="text-muted fw-light">CPL - CPMK / CPMK / </span> Relasi CPL - CPMK
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -19,8 +19,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode CPL</th>
-                                <th>Bobot CPL</th>
-                                <th>Bobot CPMK</th>
+                                <th>Bobot CPMK terhadap CPL</th>
+                                <th>Bobot CPMK terhadap MK</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -80,17 +80,16 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label for="nameLarge" class="form-label">Bobot CPL</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="bobot_cpl" name="bobot_cpl" required>
-                                    <span class="input-group-text" id="basic-addon13">%</span>
-                                </div>
+                                <label for="nameLarge" class="form-label">Bobot CPMK terhadap CPL</label>
+                                <input type="text" class="form-control" id="bobot_cpl" name="bobot_cpl" required></input>
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
                             <div class="col-6">
-                                <label for="nameLarge" class="form-label">Bobot CPMK</label>
-                                <input type="text" class="form-control" id="bobot_cpmk" name="bobot_cpmk"
-                                    required></input>
+                                <label for="nameLarge" class="form-label">Bobot CPMK terhadap MK</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="bobot_cpmk" name="bobot_cpmk" required>
+                                    <span class="input-group-text" id="basic-addon13">%</span>
+                                </div>
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
                         </div>
@@ -135,18 +134,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="nameLarge" class="form-label">Bobot CPL</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="bobot_cpl" name="bobot_cpl"
-                                            required value="{{ $ce->bobot_cpl }}">
-                                        <span class="input-group-text" id="basic-addon13">%</span>
-                                    </div>
+                                    <label for="nameLarge" class="form-label">Bobot CPMK terhadap CPL</label>
+                                    <input type="text" class="form-control" id="bobot_cpl" name="bobot_cpl" required
+                                        value="{{ $ce->bobot_cpl }}"></input>
                                     <div class="invalid-feedback">Wajib Diisi !</div>
                                 </div>
                                 <div class="col-6">
-                                    <label for="nameLarge" class="form-label">Bobot CPMK</label>
-                                    <input type="text" class="form-control" id="bobot_cpmk" name="bobot_cpmk"
-                                        required value="{{ $ce->bobot_cpmk }}"></input>
+                                    <label for="nameLarge" class="form-label">Bobot CPMK terhadap MK</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="bobot_cpmk" name="bobot_cpmk"
+                                            required value="{{ $ce->bobot_cpmk }}">
+                                        <span class="input-group-text" id="basic-addon13">%</span>
+                                    </div>
                                     <div class="invalid-feedback">Wajib Diisi !</div>
                                 </div>
                             </div>
