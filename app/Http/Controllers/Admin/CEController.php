@@ -35,10 +35,10 @@ class CEController extends Controller
                         'idprodi' => $appdata['sesi']['idprodi'],
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
-                )->orderBy('ce_mk.idmatakuliah', 'asc')
+                )->orderBy('cpmk.idmatakuliah', 'asc')->orderByRaw('CAST(SUBSTRING(cpmk.kode_cpmk,6,2) AS INT)', 'asc')
                     ->get()
             ];
-
+            // dd($data);
             return view('admin.matriks_ce', compact('appdata', 'data'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
