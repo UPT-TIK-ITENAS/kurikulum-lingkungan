@@ -52,6 +52,7 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');
         Route::get('/admin/data-master/mahasiswa', [MainController::class, 'index_mahasiswa'])->name('admin.mahasiswa.index');
         Route::get('/admin/data-master/mahasiswa/nilai/{nim}', [MainController::class, 'nilai_mahasiswa'])->name('admin.mahasiswa.nilai');
+        Route::get('/admin/data-master/mahasiswa/cpl/{nim}', [CPLController::class, 'cpl_mahasiswa'])->name('admin.mahasiswa.cpl');
         Route::get('/admin/data-master/matkul', [MainController::class, 'index_matkul'])->name('admin.matkul.index');
         Route::get('/admin/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('admin.mahasiswa.listmahasiswa');
         Route::get('/admin/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('admin.matkul.listmatakuliah');

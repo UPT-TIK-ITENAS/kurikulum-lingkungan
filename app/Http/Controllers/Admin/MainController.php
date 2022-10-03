@@ -93,12 +93,13 @@ class MainController extends Controller
                 ->addColumn('action', function ($row) {
                     $data = encrypt($row['NIMHSHSIPK'] . '|' . $row['nmmhsMSMHS']);
                     $edit_url = route('admin.mahasiswa.nilai', $data);
+                    $cpl_url = route('admin.mahasiswa.cpl', $data);
                     $actionBtn =
                         "<div class='btn-group' role='group' aria-label='Action'>
                                 <a role='button' class='btn btn-icon btn-info' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-info' title='Nilai Mahasiswa'>
                                    <span class='tf-icons fa-solid fa-circle-info'></span>
                                 </a>
-                                <a role='button' class='btn btn-icon btn-success' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
+                                <a role='button' class='btn btn-icon btn-success' href='$cpl_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
                                    CPL
                                 </a>
                             </div>";

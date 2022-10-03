@@ -31,14 +31,17 @@
 
         <li class="menu-item @if (request()->routeIs('admin.matkul.index') ||
             request()->routeIs('admin.mahasiswa.index') ||
-            request()->routeIs('admin.mahasiswa.nilai')) open @endif">
+            request()->routeIs('admin.mahasiswa.nilai') ||
+            request()->routeIs('admin.mahasiswa.cpl')) open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div>Data Master</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item @if (request()->routeIs('admin.mahasiswa.index') || request()->routeIs('admin.mahasiswa.nilai')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.mahasiswa.index') ||
+                    request()->routeIs('admin.mahasiswa.nilai') ||
+                    request()->routeIs('admin.mahasiswa.cpl')) active @endif">
                     <a href="{{ route('admin.mahasiswa.index') }}" class="menu-link">
                         <div>Mahasiswa</div>
                     </a>
