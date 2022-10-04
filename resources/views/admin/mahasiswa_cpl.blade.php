@@ -25,7 +25,7 @@
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $c->kode_cpl }}</td>
                                     <td>{{ $c->nama_cpl }}</td>
-                                    <td></td>
+                                    <td>{{ getNilaiCPL($c->id, $data['mhs'][0]) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

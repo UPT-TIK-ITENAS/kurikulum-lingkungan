@@ -34,7 +34,17 @@ if (!function_exists('getNilaiCPL')) {
         $nilaimhs = $json['data'];
 
         $total_nilai = 0;
-        foreach ($getCE as $ce) {
+        $array_nilai = [];
+        for ($i = 0; $i < count($getCE); $i++) {
+            for ($j = 0; $j < count($nilaimhs); $j++) {
+                if ($getCE[$i]['idmatakuliah'] == $nilaimhs[$j]['KDKMKHSNIL']) {
+                    $bobot = $getCE[$i]['bobot_cpl'] * $nilaimhs[$j]['BOBOTHSNIL'];
+                    $total_nilai += $bobot;
+                    array_push($array_nilai, $bobot);
+                }
+            }
         }
+
+        return $total_nilai;
     }
 }
