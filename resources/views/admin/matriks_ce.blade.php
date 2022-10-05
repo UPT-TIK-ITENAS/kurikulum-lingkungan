@@ -32,6 +32,16 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr align="center">
+                                    <th colspan="4">Total</th>
+                                        @foreach ($data['cpl'] as $cpl)
+                                            <td>{{ round(getBobot(null, null, $cpl->id,'totalbobot'),2) }}</td>
+                                        @endforeach
+                                    </td>
+                                </tr>
+
+                            </tfoot>
                         </table>
                     </div>
                 </div>

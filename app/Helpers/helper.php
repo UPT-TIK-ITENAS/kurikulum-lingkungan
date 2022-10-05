@@ -4,19 +4,25 @@ use App\Models\CE;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('getBobot')) {
-    function getBobot($ce, $cpmk, $cpl)
+    function getBobot($ce, $cpmk, $cpl,$tipe)
     {
         $cek_matriks = CE::where([
             'id'        => $ce,
             'idcpmk'    => $cpmk,
             'idcpl'     => $cpl
         ])->first();
-        if (empty($cek_matriks)) {
-            $td = "";
-        } else {
-            $td = $cek_matriks->bobot_cpl;
+
+        if($tipe == 'totalbobot'){
+            $bobot = CE::where('idcpl',$cpl)->sum('bobot_cpl');
+            return $bobot;
+        }elseif($tipe =='bobot'){
+            if (empty($cek_matriks)) {
+                $td = "";
+            } else {
+                $td = $cek_matriks->bobot_cpl;
+            }
+            return $td;
         }
-        return $td;
     }
 }
 
