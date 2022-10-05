@@ -37,6 +37,7 @@
                             <th>Kode CPL</th>
                             <th>Nama CPL</th>
                             <th>Nilai</th>
+                            <th>Persentase</th>
                         </thead>
                         <tbody>
                             @foreach ($data['cpl'] as $no => $c)
@@ -45,6 +46,7 @@
                                     <td>{{ $c->kode_cpl }}</td>
                                     <td>{{ $c->nama_cpl }}</td>
                                     <td>{{ getNilaiCPL($c->id, $data['mhs'][0]) }}</td>
+                                    <td>{{ round(getNilaiCPL($c->id, $data['mhs'][0])/4*100) }} %</td>
                                 </tr>
                             @endforeach
                         </tbody>
