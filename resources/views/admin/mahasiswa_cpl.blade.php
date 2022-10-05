@@ -146,7 +146,7 @@
                                         borderColor: a
                                     },
                                     ticks: {
-                                        stepSize: 100,
+                                        stepSize: 1,
                                         tickColor: a,
                                         color: n
                                     }
