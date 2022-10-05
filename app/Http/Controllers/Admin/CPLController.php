@@ -140,17 +140,21 @@ class CPLController extends Controller
             ];
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get('kode_cpl');
+            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
             $data_json = [];
+            $label = [];
             foreach ($data as $c) {
                 $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
-                array_push($data_json, [
-                    'bobot' => $bobotCPL,
-                    'cpl'   => $c->kode_cpl
-                ]);
+                // array_push($data_json, [
+                //     'id' => $c->id,
+                //     'bobot' => $bobotCPL,
+                //     'cpl'   => $c->kode_cpl
+                // ]);
+                array_push($data_json, $bobotCPL);
+                array_push($label, $c->kode_cpl);
             }
 
-            return response()->json($data_json);
+            return response()->json(['cpl' => $label, 'bobot' => $data_json]);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

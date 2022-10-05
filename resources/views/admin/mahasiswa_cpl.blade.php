@@ -80,6 +80,7 @@
                 i = "#2B9AFF",
                 e = "#84D0FF";
             let a, n;
+
             n = isDarkStyle ? (a = config.colors_dark.borderColor, config.colors_dark.axisColor) : (a = config
                 .colors.borderColor, config.colors.axisColor);
             const d = document.querySelectorAll(".chartjs");
@@ -91,7 +92,6 @@
                 type: "GET",
                 url: "{{ route('admin.cpl.getLabelCPLChart', $data['en_mhs']) }}",
                 success: function(r) {
-                    console.log(r);
                     var cplChart = new Chart("cplChart", {
                         type: "bar",
                         data: {
@@ -140,7 +140,7 @@
                                 },
                                 y: {
                                     min: 0,
-                                    max: 400,
+                                    max: 10,
                                     grid: {
                                         color: a,
                                         borderColor: a
