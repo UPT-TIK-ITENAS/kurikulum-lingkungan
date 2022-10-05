@@ -96,7 +96,7 @@ class CPLController extends Controller
     public function cpl_mahasiswa(Request $request, $datamhs)
     {
         if (Session::has('data')) {
-            $datamhs = explode('|', decrypt($datamhs));
+            $datamhs_dec = explode('|', decrypt($datamhs));
             $appdata = [
                 'title' => 'Matriks Course Evaluation',
                 'sesi'  => Session::get('data')
@@ -104,13 +104,14 @@ class CPLController extends Controller
 
             $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
                 'APIKEY'    => config('app.APIKEY'),
-                'nrp'       => $datamhs[0],
+                'nrp'       => $datamhs_dec[0],
             ]);
             $json = $res->json();
             $nilaimhs = $json['data'];
 
             $data = [
-                'mhs'   => $datamhs,
+                'mhs'   => $datamhs_dec,
+                'en_mhs' => $datamhs,
                 'cpl'   => CPL::where([
                     'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
                 ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
@@ -124,6 +125,32 @@ class CPLController extends Controller
                 'nilai' => $nilaimhs
             ];
             return view('admin.mahasiswa_cpl', compact('data', 'appdata'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function getLabelCPLChart($datamhs)
+    {
+        if (Session::has('data')) {
+            $datamhs = explode('|', decrypt($datamhs));
+            $appdata = [
+                'title' => 'Matriks Course Evaluation',
+                'sesi'  => Session::get('data')
+            ];
+            $data = CPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get('kode_cpl');
+            $data_json = [];
+            foreach ($data as $c) {
+                $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
+                array_push($data_json, [
+                    'bobot' => $bobotCPL,
+                    'cpl'   => $c->kode_cpl
+                ]);
+            }
+
+            return response()->json($data_json);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
