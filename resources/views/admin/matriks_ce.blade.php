@@ -27,7 +27,7 @@
                                         <td>{{ $ce->sks }}</td>
                                         <td>{{ $ce->kode_cpmk }}</td>
                                         @foreach ($data['cpl'] as $cpl)
-                                            <td>{{ getBobot($ce->idce, $ce->cpmk_id, $cpl->id) }}</td>
+                                            <td>{{ getBobot($ce->idce, $ce->cpmk_id, $cpl->id,'bobot') }}</td>
                                         @endforeach
                                     </tr>
                                 @endforeach
