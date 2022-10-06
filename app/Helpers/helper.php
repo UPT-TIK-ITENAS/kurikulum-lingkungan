@@ -4,7 +4,7 @@ use App\Models\CE;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('getBobot')) {
-    function getBobot($ce, $cpmk, $cpl,$tipe)
+    function getBobot($ce, $cpmk, $cpl, $tipe)
     {
         $cek_matriks = CE::where([
             'id'        => $ce,
@@ -12,10 +12,10 @@ if (!function_exists('getBobot')) {
             'idcpl'     => $cpl
         ])->first();
 
-        if($tipe == 'totalbobot'){
-            $bobot = CE::where('idcpl',$cpl)->sum('bobot_cpl');
+        if ($tipe == 'totalbobot') {
+            $bobot = CE::where('idcpl', $cpl)->sum('bobot_cpl');
             return $bobot;
-        }elseif($tipe =='bobot'){
+        } elseif ($tipe == 'bobot') {
             if (empty($cek_matriks)) {
                 $td = "";
             } else {
@@ -35,6 +35,35 @@ if (!function_exists('getNilaiCPL')) {
         $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
             'APIKEY'    => config('app.APIKEY'),
             'nrp'       => $nim,
+        ]);
+        $json = $res->json();
+        $nilaimhs = $json['data'];
+
+        $total_nilai = 0;
+        $array_nilai = [];
+        for ($i = 0; $i < count($getCE); $i++) {
+            for ($j = 0; $j < count($nilaimhs); $j++) {
+                if ($getCE[$i]['idmatakuliah'] == $nilaimhs[$j]['KDKMKHSNIL']) {
+                    $bobot = $getCE[$i]['bobot_cpl'] * $nilaimhs[$j]['BOBOTHSNIL'];
+                    $total_nilai += $bobot;
+                    array_push($array_nilai, $bobot);
+                }
+            }
+        }
+
+        return $total_nilai;
+    }
+}
+if (!function_exists('getNilaiCPLBySemester')) {
+    function getNilaiCPLBySemester($cpl, $nim, $semester)
+    {
+        $getCE = CE::where([
+            'idcpl'     => $cpl
+        ])->get();
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs-semester', [
+            'APIKEY'    => config('app.APIKEY'),
+            'nrp'       => $nim,
+            'semester'  => $semester
         ]);
         $json = $res->json();
         $nilaimhs = $json['data'];

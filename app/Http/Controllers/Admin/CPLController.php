@@ -135,7 +135,7 @@ class CPLController extends Controller
         if (Session::has('data')) {
             $datamhs = explode('|', decrypt($datamhs));
             $appdata = [
-                'title' => 'Matriks Course Evaluation',
+                'title' => 'Data Label Chart CPL',
                 'sesi'  => Session::get('data')
             ];
             $data = CPL::where([
@@ -145,16 +145,67 @@ class CPLController extends Controller
             $label = [];
             foreach ($data as $c) {
                 $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
-                // array_push($data_json, [
-                //     'id' => $c->id,
-                //     'bobot' => $bobotCPL,
-                //     'cpl'   => $c->kode_cpl
-                // ]);
                 array_push($data_json, $bobotCPL);
                 array_push($label, $c->kode_cpl);
             }
 
             return response()->json(['cpl' => $label, 'bobot' => $data_json]);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function getCPLPerMHS($nim, $semester)
+    {
+        $appdata = [
+            'title' => 'Data Label Chart CPL',
+            'sesi'  => Session::get('data')
+        ];
+        $data = CPL::where([
+            'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+        ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+        $data_cpl = [];
+        foreach ($data as $c) {
+            $bobotCPL = getNilaiCPLBySemester($c->id, $nim, $semester);
+            array_push($data_cpl, [
+                'kode_cpl'  => $c->kode_cpl,
+                'bobot_cpl' => $bobotCPL
+            ]);
+        }
+        return $data_cpl;
+    }
+
+    public function getLabelCPLChartBySemester(Request $request)
+    {
+        if (Session::has('data')) {
+            $data_json = [];
+            $label = [];
+            $avg_per_cpl = 0;
+            $total_bobot_cpl = 0;
+
+            $appdata = [
+                'title' => 'Data Label Chart CPL By Semester',
+                'sesi'  => Session::get('data')
+            ];
+            $data = CPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+
+            $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
+                'APIKEY'    => config('app.APIKEY'),
+                'fakultas'  => $appdata['sesi']['idfakultas'],
+                'jurusan'   => substr($appdata['sesi']['idprodi'], 1, 1),
+                'semester'  => $request->semester
+            ]);
+            $json = $res->json();
+            $listmhs = $json['data'];
+
+            foreach ($listmhs as $m) {
+                array_push($data_json, $this->getCPLPerMHS($m['NIMHSHSIPK'], $request->semester));
+            }
+
+            // return response()->json(['cpl' => $label, 'bobot' => $data_json]);
+            return response()->json($data_json);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

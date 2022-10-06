@@ -20,7 +20,7 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item">
+        <li class="menu-item @if (request()->routeIs('admin.home')) active @endif"">
             <a href="{{ route('admin.home') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div>Dashboards</div>

@@ -27,11 +27,6 @@ Route::controller(LoginController::class)->group(function () {
 });
 Route::middleware(['isLogin'])->group(function () {
     Route::group(['prefix' => ''], function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
-    });
-});
-Route::middleware(['isLogin'])->group(function () {
-    Route::group(['prefix' => ''], function () {
         Route::get('/admin/home', [MainController::class, 'index'])->name('admin.home');
         Route::get('/admin/cpl/index', [CPLController::class, 'index'])->name('admin.cpl.index');
         Route::post('/admin/cpl/store', [CPLController::class, 'store'])->name('admin.cpl.store');
@@ -59,5 +54,6 @@ Route::middleware(['isLogin'])->group(function () {
 
         // for chart 
         Route::get('/admin/data-charts/labelCPL/{data}', [CPLController::class, 'getLabelCPLChart'])->name('admin.cpl.getLabelCPLChart');
+        Route::post('/admin/data-charts/labelCPLBySemester', [CPLController::class, 'getLabelCPLChartBySemester'])->name('admin.cpl.getLabelCPLChartBySemester');
     });
 });

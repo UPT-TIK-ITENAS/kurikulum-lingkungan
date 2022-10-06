@@ -18,10 +18,16 @@ class MainController extends Controller
     public function index()
     {
         if (Session::has('data')) {
+            $response = Http::get(config('app.urlApi') . 'mahasiswa/thn_akdmk_hsipk', [
+                'APIKEY' => config('app.APIKEY')
+            ]);
+            $tahunAkademik = $response->json();
             $appdata = [
                 'title' => 'Dashboard',
-                'sesi'  => Session::get('data')
+                'sesi'  => Session::get('data'),
+                'tahunAkademik' => $tahunAkademik['data']
             ];
+            // dd($appdata);
             return view('admin.dashboard', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'Sesi anda telah habis');
