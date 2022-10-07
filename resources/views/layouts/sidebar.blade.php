@@ -32,7 +32,8 @@
         <li class="menu-item @if (request()->routeIs('admin.matkul.index') ||
             request()->routeIs('admin.mahasiswa.index') ||
             request()->routeIs('admin.mahasiswa.nilai') ||
-            request()->routeIs('admin.mahasiswa.cpl')) open @endif">
+            request()->routeIs('admin.mahasiswa.cpl') ||
+            request()->routeIs('admin.lulusan.index')) open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div>Data Master</div>
@@ -49,6 +50,11 @@
                 <li class="menu-item  @if (request()->routeIs('admin.matkul.index')) active @endif">
                     <a href="{{ route('admin.matkul.index') }}" class="menu-link">
                         <div>Mata Kuliah</div>
+                    </a>
+                </li>
+                <li class="menu-item  @if (request()->routeIs('admin.lulusan.index')) active @endif">
+                    <a href="{{ route('admin.lulusan.index') }}" class="menu-link">
+                        <div>Lulusan</div>
                     </a>
                 </li>
             </ul>

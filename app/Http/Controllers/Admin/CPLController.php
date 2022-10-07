@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CE;
 use App\Models\CPL;
+use App\Models\Lulusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +17,7 @@ class CPLController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Session::has('data')) {
             $appdata = [
@@ -24,6 +25,7 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+
             return view('admin.cpl_index', compact('appdata', 'cpl'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -178,10 +180,9 @@ class CPLController extends Controller
     public function getLabelCPLChartBySemester(Request $request)
     {
         if (Session::has('data')) {
-            $data_json = [];
-            $label = [];
-            $avg_per_cpl = 0;
-            $total_bobot_cpl = 0;
+            $label_cpl_json = [];
+            $bobot_cpl_json = [];
+            $data_cpl = [];
 
             $appdata = [
                 'title' => 'Data Label Chart CPL By Semester',
@@ -191,21 +192,41 @@ class CPLController extends Controller
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
             ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
 
-            $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
-                'APIKEY'    => config('app.APIKEY'),
-                'fakultas'  => $appdata['sesi']['idfakultas'],
-                'jurusan'   => substr($appdata['sesi']['idprodi'], 1, 1),
-                'semester'  => $request->semester
-            ]);
-            $json = $res->json();
-            $listmhs = $json['data'];
+            // $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'fakultas'  => $appdata['sesi']['idfakultas'],
+            //     'jurusan'   => substr($appdata['sesi']['idprodi'], 1, 1),
+            //     'semester'  => $request->semester
+            // ]);
+            // $json = $res->json();
+
+            $listmhs = Lulusan::where([
+                'idprodi'    => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas'],
+                'semester_lulus' => $request->semester
+            ])->get();
 
             foreach ($listmhs as $m) {
-                array_push($data_json, $this->getCPLPerMHS($m['NIMHSHSIPK'], $request->semester));
+                array_push($data_cpl, $this->getCPLPerMHS($m->nim, $request->semester));
             }
 
-            // return response()->json(['cpl' => $label, 'bobot' => $data_json]);
-            return response()->json($data_json);
+            foreach ($data as $d) {
+                $avg_per_cpl = 0;
+                $total_bobot_cpl = 0;
+                foreach ($data_cpl as $cpl) {
+                    foreach ($cpl as $c) {
+                        if ($d->kode_cpl == $c['kode_cpl']) {
+                            $total_bobot_cpl += $c['bobot_cpl'];
+                        }
+                    }
+                }
+                $avg_per_cpl = $total_bobot_cpl / count($data_cpl);
+                array_push($label_cpl_json, $d->kode_cpl);
+                array_push($bobot_cpl_json, $avg_per_cpl);
+            }
+
+            return response()->json(['cpl' => $label_cpl_json, 'bobot' => $bobot_cpl_json]);
+            // return response()->json($data_cpl);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

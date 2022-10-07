@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lulusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Session;
@@ -18,17 +19,18 @@ class MainController extends Controller
     public function index()
     {
         if (Session::has('data')) {
-            $response = Http::get(config('app.urlApi') . 'mahasiswa/thn_akdmk_hsipk', [
-                'APIKEY' => config('app.APIKEY')
-            ]);
-            $tahunAkademik = $response->json();
             $appdata = [
                 'title' => 'Dashboard',
                 'sesi'  => Session::get('data'),
-                'tahunAkademik' => $tahunAkademik['data']
+            ];
+            $data = [
+                'tahunAkademik' => Lulusan::where([
+                    'idprodi'    => $appdata['sesi']['idprodi'],
+                    'idfakultas' => $appdata['sesi']['idfakultas']
+                ])->groupBy('semester_lulus')->get('semester_lulus')
             ];
             // dd($appdata);
-            return view('admin.dashboard', compact('appdata'));
+            return view('admin.dashboard', compact('appdata', 'data'));
         } else {
             return redirect()->route('login')->with('error', 'Sesi anda telah habis');
         }
@@ -144,7 +146,7 @@ class MainController extends Controller
         if (Session::has('data')) {
             $datamhs = explode('|', decrypt($datamhs));
             $appdata = [
-                'title' => 'Data Mahasiswa',
+                'title' => 'Data Nilai Mahasiswa',
                 'sesi'  => Session::get('data')
             ];
             $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
@@ -159,59 +161,107 @@ class MainController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index_lulusan()
     {
-        //
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Data Lulusan',
+                'sesi'  => Session::get('data')
+            ];
+
+            $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi', [
+                'APIKEY'    => config('app.APIKEY'),
+                'fakultas'  => Session::get('data')['idfakultas'],
+                'jurusan'   => substr(Session::get('data')['idprodi'], 1, 1),
+            ]);
+            $json = $res->json();
+            $mhs = $json['data'];
+
+            $data = [
+                'mhs'            => $mhs
+            ];
+            return view('admin.lulusan_index', compact('appdata', 'data'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function listlulusan(Request $request)
     {
-        //
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Data Lulusan',
+                'sesi'  => Session::get('data')
+            ];
+            $data =  Lulusan::where([
+                'idprodi'    => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas']
+            ])->get();
+
+            if ($request->ajax()) {
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('nim', function ($row) {
+                        return $row->nim;
+                    })
+                    ->addColumn('nama_mhs', function ($row) {
+                        return $row->nama_mhs;
+                    })
+                    ->addColumn('semester_lulus', function ($row) {
+                        return $row->semester_lulus;
+                    })
+                    ->addColumn('action', function ($row) {
+                        $delete_url = route('admin.lulusan.delete', $row->id);
+                        $actionBtn =
+                            "<div class='btn-group' role='group' aria-label='Action'>
+                                    <a role='button' class='btn btn-icon btn-danger del-btn' href='$delete_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
+                                    <span class='tf-icons fa-solid fa-trash'></span>
+                                    </a>
+                                </div>";
+                        return $actionBtn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function storelulusan(Request $request)
     {
-        //
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            $datamhs = explode('|', $request->nim);
+            $data = [
+                'nim'       => $datamhs[0],
+                'nama_mhs'  => $datamhs[1],
+                'semester_lulus'  => str_replace('/', '', $request->semester_lulus),
+                'idprodi'   => $sesi['idprodi'],
+                'idfakultas' => $sesi['idfakultas']
+            ];
+            $query = Lulusan::insert($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success add');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function deletelulusan($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if (Session::has('data')) {
+            $query = Lulusan::where('id', $id)->delete();
+            if ($query) {
+                return redirect()->back()->with('success', 'Success delete');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 }

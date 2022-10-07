@@ -55,5 +55,11 @@ Route::middleware(['isLogin'])->group(function () {
         // for chart 
         Route::get('/admin/data-charts/labelCPL/{data}', [CPLController::class, 'getLabelCPLChart'])->name('admin.cpl.getLabelCPLChart');
         Route::post('/admin/data-charts/labelCPLBySemester', [CPLController::class, 'getLabelCPLChartBySemester'])->name('admin.cpl.getLabelCPLChartBySemester');
+
+        // Lulusan
+        Route::get('/admin/data-master/lulusan', [MainController::class, 'index_lulusan'])->name('admin.lulusan.index');
+        Route::get('/admin/data-master/listlulusan', [MainController::class, 'listlulusan'])->name('admin.lulusan.listlulusan');
+        Route::post('/admin/data-master/storelulusan', [MainController::class, 'storelulusan'])->name('admin.lulusan.store');
+        Route::get('/admin/data-master/storelulusan/{id}', [MainController::class, 'deletelulusan'])->name('admin.lulusan.delete');
     });
 });

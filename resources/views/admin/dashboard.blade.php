@@ -9,19 +9,19 @@
             <div class="col-xl-12 col-12">
                 <div class="card">
                     <div class="card-header header-elements">
-                        <h5 class="card-title mb-0">Grafik Capaian Mahasiswa terhadap CPL Prodi <br>
+                        <h5 class="card-title mb-0">Grafik Capaian Lulusan terhadap CPL Prodi <br>
                         </h5>
                         <div class="card-action-element ms-auto py-0">
                             <select id="select2semester">
                                 <option value="" disabled selected>Pilih Semester</option>
-                                @foreach ($appdata['tahunAkademik'] as $t)
-                                    <option value="{{ $t['THSMSHSIPK'] }}">
-                                        @if (substr($t['THSMSHSIPK'], 4, 1) == 1)
-                                            {{ 'Semester Ganjil ' . substr($t['THSMSHSIPK'], 0, 4) }}
-                                        @elseif(substr($t['THSMSHSIPK'], 4, 1) == 2)
-                                            {{ 'Semester Genap ' . substr($t['THSMSHSIPK'], 0, 4) }}
-                                        @elseif(substr($t['THSMSHSIPK'], 4, 1) == 3)
-                                            {{ 'Semester Pendek ' . substr($t['THSMSHSIPK'], 0, 4) }}
+                                @foreach ($data['tahunAkademik'] as $t)
+                                    <option value="{{ $t->semester_lulus }}">
+                                        @if (substr($t->semester_lulus, 4, 1) == 1)
+                                            {{ 'Semester Ganjil ' . substr($t->semester_lulus, 0, 4) }}
+                                        @elseif(substr($t->semester_lulus, 4, 1) == 2)
+                                            {{ 'Semester Genap ' . substr($t->semester_lulus, 0, 4) }}
+                                        @elseif(substr($t->semester_lulus, 4, 1) == 3)
+                                            {{ 'Semester Pendek ' . substr($t->semester_lulus, 0, 4) }}
                                         @endif
                                     </option>
                                 @endforeach
