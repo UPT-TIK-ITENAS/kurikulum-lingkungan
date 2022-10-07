@@ -57,6 +57,68 @@
                 o.height = o.dataset.height
             });
 
+            var cplChart = new Chart("cplChart", {
+                type: "bar",
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Bobot Capaian',
+                        data: [],
+                        backgroundColor: t,
+                        borderColor: "transparent",
+                        maxBarThickness: 15,
+                        borderRadius: {
+                            topRight: 15,
+                            topLeft: 15
+                        }
+                    }]
+                },
+                options: {
+                    responsive: !0,
+                    maintainAspectRatio: !1,
+                    animation: {
+                        duration: 500
+                    },
+                    plugins: {
+                        tooltip: {
+                            rtl: isRtl,
+                            backgroundColor: config.colors.white,
+                            titleColor: config.colors.black,
+                            bodyColor: config.colors.black,
+                            borderWidth: 1,
+                            borderColor: a
+                        },
+                        legend: {
+                            display: !1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: a,
+                                borderColor: a
+                            },
+                            ticks: {
+                                color: n
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 10,
+                            grid: {
+                                color: a,
+                                borderColor: a
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                tickColor: a,
+                                color: n
+                            }
+                        }
+                    }
+                }
+            });
+
             $('#select2semester').select2().on("change", function(e) {
                 console.log($(this).val())
                 let semester = $(this).val();
@@ -69,68 +131,9 @@
                     },
                     success: function(r) {
                         console.log(r);
-                        var cplChart = new Chart("cplChart", {
-                            type: "bar",
-                            data: {
-                                labels: r.cpl,
-                                datasets: [{
-
-                                    label: 'Bobot Capaian',
-                                    data: r.bobot,
-                                    backgroundColor: t,
-                                    borderColor: "transparent",
-                                    maxBarThickness: 15,
-                                    borderRadius: {
-                                        topRight: 15,
-                                        topLeft: 15
-                                    }
-                                }]
-                            },
-                            options: {
-                                responsive: !0,
-                                maintainAspectRatio: !1,
-                                animation: {
-                                    duration: 500
-                                },
-                                plugins: {
-                                    tooltip: {
-                                        rtl: isRtl,
-                                        backgroundColor: config.colors.white,
-                                        titleColor: config.colors.black,
-                                        bodyColor: config.colors.black,
-                                        borderWidth: 1,
-                                        borderColor: a
-                                    },
-                                    legend: {
-                                        display: !1
-                                    }
-                                },
-                                scales: {
-                                    x: {
-                                        grid: {
-                                            color: a,
-                                            borderColor: a
-                                        },
-                                        ticks: {
-                                            color: n
-                                        }
-                                    },
-                                    y: {
-                                        min: 0,
-                                        max: 10,
-                                        grid: {
-                                            color: a,
-                                            borderColor: a
-                                        },
-                                        ticks: {
-                                            stepSize: 1,
-                                            tickColor: a,
-                                            color: n
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        cplChart.data.datasets[0].data = r.bobot;
+                        cplChart.data.labels = r.cpl;
+                        cplChart.update();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseJSON);
