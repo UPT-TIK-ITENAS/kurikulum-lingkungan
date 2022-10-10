@@ -104,7 +104,7 @@
                         },
                         y: {
                             min: 0,
-                            max: 10,
+                            max: 4,
                             grid: {
                                 color: a,
                                 borderColor: a
@@ -133,6 +133,7 @@
                         console.log(r);
                         cplChart.data.datasets[0].data = r.bobot;
                         cplChart.data.labels = r.cpl;
+                        cplChart.options.scales.y.min = r.max_bobot + 0.5;
                         cplChart.update();
                     },
                     error: function(xhr) {

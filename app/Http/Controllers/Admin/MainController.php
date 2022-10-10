@@ -211,12 +211,21 @@ class MainController extends Controller
                         return $row->semester_lulus;
                     })
                     ->addColumn('action', function ($row) {
+                        $data = encrypt($row->nim . '|' . $row->nama_mhs);
                         $delete_url = route('admin.lulusan.delete', $row->id);
+                        $edit_url = route('admin.mahasiswa.nilai', $data);
+                        $cpl_url = route('admin.mahasiswa.cpl', $data);
                         $actionBtn =
                             "<div class='btn-group' role='group' aria-label='Action'>
-                                    <a role='button' class='btn btn-icon btn-danger del-btn' href='$delete_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
-                                    <span class='tf-icons fa-solid fa-trash'></span>
-                                    </a>
+                                <a role='button' class='btn btn-icon btn-info' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-info' title='Nilai Mahasiswa'>
+                                <span class='tf-icons fa-solid fa-circle-info'></span>
+                                </a>
+                                <a role='button' class='btn btn-icon btn-success' href='$cpl_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
+                                CPL
+                                </a>
+                                <a role='button' class='btn btn-icon btn-danger del-btn' href='$delete_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
+                                <span class='tf-icons fa-solid fa-trash'></span>
+                                </a>
                                 </div>";
                         return $actionBtn;
                     })
