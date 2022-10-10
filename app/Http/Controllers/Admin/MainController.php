@@ -134,6 +134,10 @@ class MainController extends Controller
 
     public function storemk(Request $request)
     {
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+        
         if (Session::has('data')) {   
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
@@ -161,6 +165,10 @@ class MainController extends Controller
 
     public function storemhs(Request $request)
     {
+        $request->validate([
+            'file' => 'required|file',
+        ]); 
+
         if (Session::has('data')) {   
             if ($request->hasFile('file')) {
                 $file = $request->file('file');

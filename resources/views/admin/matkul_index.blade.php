@@ -69,10 +69,10 @@
     </div>
 
     <div class="modal fade" id="showcplMK" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel3">Show CPL Mata Kuliah</h5>
+                    <h5 class="modal-title" id="exampleModalLabel3">Show CPL terhadap Mata Kuliah</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="data" class="needs-validation">
@@ -92,7 +92,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel3">Edit CPL terhadap Mata Kuliah</h5>
+                    <h5 class="modal-title" id="exampleModalLabel3">Edit CPL terhadap Mahasiswa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('admin.matkul.storemhs') }}" method="post"  id="datamhs" enctype="multipart/form-data" class="needs-validation">
@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">CPl terhadap Mahasiswa</label>
-                                <input type="file" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="file" name="file" required>
+                                <input type="file" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="file" name="file" data-allowed-file-extensions="jpg png jpeg svg" required>
                             </div>
                         </div>
                     </div>
@@ -127,10 +127,10 @@
     </div>
 
     <div class="modal fade" id="showcplMhs" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel3">Show CPL Mata Kuliah</h5>
+                    <h5 class="modal-title" id="exampleModalLabel3">Show CPL terhadap Mahasiswa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="datamhs" class="needs-validation">
