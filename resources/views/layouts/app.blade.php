@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/css/rtl/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/dropzone/dropzone.css') }}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -143,6 +144,8 @@
     <script src="{{ asset('vendor/libs/datatables-select-bs5/select.bootstrap5.js') }}"></script>
     <script src="{{ asset('vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
+    <script src="{{ asset('vendor/libs/dropzone/dropzone.js') }}"></script>
+
     {{-- <script src="{{ asset('js/form-validation.js') }}"></script> --}}
     <!-- Main JS -->
     @section('scripts')
