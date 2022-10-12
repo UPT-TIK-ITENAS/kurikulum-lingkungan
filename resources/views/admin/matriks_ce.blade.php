@@ -27,17 +27,17 @@
                                         <td>{{ $ce->sks }}</td>
                                         <td>{{ $ce->kode_cpmk }}</td>
                                         @foreach ($data['cpl'] as $cpl)
-                                            <td>{{ getBobot($ce->idce, $ce->cpmk_id, $cpl->id,'bobot') }}</td>
+                                            <td>{{ getBobot($ce->idce, $ce->cpmk_id, $cpl->id, 'bobot') }}</td>
                                         @endforeach
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
-                                <tr align="center">
+                                <tr align="center" style="background-color: rgb(228, 228, 228)">
                                     <th colspan="4">Total</th>
-                                        @foreach ($data['cpl'] as $cpl)
-                                            <td>{{ round(getBobot(null, null, $cpl->id,'totalbobot'),2) }}</td>
-                                        @endforeach
+                                    @foreach ($data['cpl'] as $cpl)
+                                        <td>{{ round(getBobot(null, null, $cpl->id, 'totalbobot'), 2) }}</td>
+                                    @endforeach
                                     </td>
                                 </tr>
 

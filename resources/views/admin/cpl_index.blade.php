@@ -149,7 +149,7 @@
                     [10, 25, 50, -1],
                     [10, 25, 50, "All"]
                 ],
-                // "pageLength": 50
+                "pageLength": 25
             });
             $('#table-cpl tbody').on('click', '.del-btn', function(e) {
                 e.preventDefault();
