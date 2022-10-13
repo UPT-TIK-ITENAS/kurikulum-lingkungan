@@ -24,7 +24,7 @@ class CPLController extends Controller
                 'title' => 'CPL',
                 'sesi'  => Session::get('data')
             ];
-            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
 
             return view('admin.cpl_index', compact('appdata', 'cpl'));
         } else {
@@ -39,6 +39,7 @@ class CPLController extends Controller
             $data = [
                 'kode_cpl'  => 'CPL-' . $request->kode_cpl,
                 'nama_cpl'  => $request->nama_cpl,
+                'nama_cpleng'  => $request->nama_cpleng,
                 'idprodi'   => $sesi['idprodi'],
                 'idfakultas' => $sesi['idfakultas']
             ];
@@ -67,6 +68,7 @@ class CPLController extends Controller
             $data = [
                 'kode_cpl'  => 'CPL-' . $request->kode_cpl,
                 'nama_cpl'  => $request->nama_cpl,
+                'nama_cpleng'  => $request->nama_cpleng,
                 'idprodi'   => $sesi['idprodi'],
                 'idfakultas' => $sesi['idfakultas']
             ];

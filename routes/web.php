@@ -62,5 +62,6 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/data-master/listlulusan', [MainController::class, 'listlulusan'])->name('admin.lulusan.listlulusan');
         Route::post('/admin/data-master/storelulusan', [MainController::class, 'storelulusan'])->name('admin.lulusan.store');
         Route::get('/admin/data-master/storelulusan/{id}', [MainController::class, 'deletelulusan'])->name('admin.lulusan.delete');
+        Route::get('/admin/data-master/printskpi/{nim}', [MainController::class, 'printskpi'])->name('admin.lulusan.printskpi');
     });
 });

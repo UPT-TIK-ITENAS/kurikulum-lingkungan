@@ -8,6 +8,7 @@ use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Session;
+use PDF;
 use Yajra\DataTables\DataTables;
 
 class MainController extends Controller
@@ -338,6 +339,8 @@ class MainController extends Controller
                         $delete_url = route('admin.lulusan.delete', $row->id);
                         $edit_url = route('admin.mahasiswa.nilai', $data);
                         $cpl_url = route('admin.mahasiswa.cpl', $data);
+                        $print =  route('admin.lulusan.printskpi', $row->nim);
+
                         $actionBtn =
                             "<div class='btn-group' role='group' aria-label='Action'>
                                 <a role='button' class='btn btn-icon btn-info' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-info' title='Nilai Mahasiswa'>
@@ -346,9 +349,13 @@ class MainController extends Controller
                                 <a role='button' class='btn btn-icon btn-success' href='$cpl_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
                                 CPL
                                 </a>
+                                <a role='button' class='btn btn-icon btn-light' href='$print' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
+                                <span class='tf-icons fa-solid fa-print'></span>
+                                </a>
                                 <a role='button' class='btn btn-icon btn-danger del-btn' href='$delete_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
                                 <span class='tf-icons fa-solid fa-trash'></span>
                                 </a>
+                               
                                 </div>";
                         return $actionBtn;
                     })
@@ -395,5 +402,12 @@ class MainController extends Controller
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
+    }
+
+    public function printskpi($nim)
+    {
+        $data = Lulusan::where('nim', $nim)->first();
+        $pdf = PDF::loadview('admin.lulusan_print', compact('data'))->setPaper('A4','potrait');
+        return $pdf->stream();
     }
 }

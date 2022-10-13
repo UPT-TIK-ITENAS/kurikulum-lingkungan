@@ -28,7 +28,7 @@
                                 <tr>
                                     <td width="5%" align="center">{{ $no + 1 }}</td>
                                     <td align="center">{{ $c->kode_cpl }}</td>
-                                    <td>{{ $c->nama_cpl }}</td>
+                                    <td>{{ $c->nama_cpl }} <i> ({{ $c->nama_cpleng }})</i></td>
                                     <td>
                                         <div class='btn-group' role='group' aria-label='Action'>
                                             <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
@@ -82,6 +82,13 @@
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nameLarge" class="form-label">Nama CPL (Eng)</label>
+                                <textarea class="form-control" id="nama_cpleng" name="nama_cpleng" required>{{ $c->nama_cpleng }}</textarea>
+                                <div class="invalid-feedback">Wajib Diisi !</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -118,6 +125,13 @@
                                 <div class="col mb-3">
                                     <label for="nameLarge" class="form-label">Nama CPL</label>
                                     <textarea class="form-control" id="nama_cpl" name="nama_cpl" required>{{ $c->nama_cpl }}</textarea>
+                                    <div class="invalid-feedback">Wajib Diisi !</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameLarge" class="form-label">Nama CPL (Eng)</label>
+                                    <textarea class="form-control" id="nama_cpleng" name="nama_cpleng" required>{{ $c->nama_cpleng }}</textarea>
                                     <div class="invalid-feedback">Wajib Diisi !</div>
                                 </div>
                             </div>
