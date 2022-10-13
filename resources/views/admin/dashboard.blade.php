@@ -267,7 +267,7 @@
                 data: {
                     labels: [],
                     datasets: [{
-                        label: "Lulusan pada semester yang dipilih",
+                        label: "Mahasiswa pada semester yang dipilih",
                         data: [],
                         fill: true,
                         backgroundColor: 'rgba(242, 145, 0, 0.2)',
