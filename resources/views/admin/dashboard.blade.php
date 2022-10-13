@@ -299,14 +299,14 @@
                     },
                     success: function(r) {
                         console.log(r);
-                        cplChartMhs.data.datasets[0].data = r.bobot;
-                        cplChartMhs.data.labels = r.cpl;
-                        cplChartMhs.options.scales.y.max = r.max_bobot + 0.5;
-                        cplChartMhs.update();
+                        cplChart.data.datasets[0].data = r.bobot;
+                        cplChart.data.labels = r.cpl;
+                        cplChart.options.scales.y.max = r.max_bobot + 0.5;
+                        cplChart.update();
 
-                        cplChartMhs2.data.datasets[0].data = r.bobot;
-                        cplChartMhs2.data.labels = r.cpl;
-                        cplChartMhs2.update();
+                        cplChart2.data.datasets[0].data = r.bobot;
+                        cplChart2.data.labels = r.cpl;
+                        cplChart2.update();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseJSON);
