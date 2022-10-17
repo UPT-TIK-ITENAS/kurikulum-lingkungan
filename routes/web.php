@@ -56,6 +56,7 @@ Route::middleware(['isLogin'])->group(function () {
         // for chart 
         Route::get('/admin/data-charts/labelCPL/{data}', [CPLController::class, 'getLabelCPLChart'])->name('admin.cpl.getLabelCPLChart');
         Route::post('/admin/data-charts/labelCPLBySemester', [CPLController::class, 'getLabelCPLChartBySemester'])->name('admin.cpl.getLabelCPLChartBySemester');
+        Route::post('/admin/data-charts/labelCPLMhsBySemester', [CPLController::class, 'getLabelCPLChartMhsBySemester'])->name('admin.cpl.getLabelCPLChartMhsBySemester');
 
         // Lulusan
         Route::get('/admin/data-master/lulusan', [MainController::class, 'index_lulusan'])->name('admin.lulusan.index');

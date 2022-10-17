@@ -71,24 +71,24 @@ class MainController extends Controller
                 ->addColumn('wbpiltbkur', function ($row) {
                     return $row['wbpiltbkur'];
                 })
-                ->addColumn('cpl_mk', function ($row) {    
-                        $mk = Matakuliah::where('id_matakuliah',$row['kdkmktbkmk'])->first();
-                        if (isset($mk)) {
-                            $gambarmk = asset('cpl/'.$mk->cpl_mk);
-                            $actionBtn =
+                ->addColumn('cpl_mk', function ($row) {
+                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                    if (isset($mk)) {
+                        $gambarmk = asset('cpl/' . $mk->cpl_mk);
+                        $actionBtn =
                             '<div class="btn-group" role="group" aria-label="Action">
                                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)"  data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
                                     <span class="tf-icons fa-solid fa-edit"></span>
                                 </a>   
 
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" data-gambarmk="'.$gambarmk.'"
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" data-gambarmk="' . $gambarmk . '"
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL MK">
                                     <span class="tf-icons fa-solid fa-eye"></span>
                                 </a>    
                             </div>';
-                        }else{
-                            $actionBtn =
+                    } else {
+                        $actionBtn =
                             '<div class="btn-group" role="group" aria-label="Action">
                                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
@@ -96,28 +96,28 @@ class MainController extends Controller
                                 </a>   
         
                             </div>';
-                        }
-                        
-                        return $actionBtn;
+                    }
+
+                    return $actionBtn;
                 })
-                ->addColumn('cpl_mhs', function ($row) {    
-                    $mk = Matakuliah::where('id_matakuliah',$row['kdkmktbkmk'])->first();
-                        if (isset($mk) && $mk->cpl_mhs != NULL) {
-                            $gambarmhs = asset('cpl/'.$mk->cpl_mhs);
-                            $actionBtn =
+                ->addColumn('cpl_mhs', function ($row) {
+                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                    if (isset($mk) && $mk->cpl_mhs != NULL) {
+                        $gambarmhs = asset('cpl/' . $mk->cpl_mhs);
+                        $actionBtn =
                             '<div class="btn-group" role="group" aria-label="Action">
                                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)"  data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
                                     <span class="tf-icons fa-solid fa-edit"></span>
                                 </a>   
 
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" data-gambarmhs="'.$gambarmhs.'"
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" data-gambarmhs="' . $gambarmhs . '"
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL Mhs">
                                     <span class="tf-icons fa-solid fa-eye"></span>
                                 </a>    
                             </div>';
-                        }else{
-                            $actionBtn =
+                    } else {
+                        $actionBtn =
                             '<div class="btn-group" role="group" aria-label="Action">
                                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
                                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
@@ -125,11 +125,11 @@ class MainController extends Controller
                                 </a>   
         
                             </div>';
-                        }
-                        
-                        return $actionBtn;
+                    }
+
+                    return $actionBtn;
                 })
-                ->rawColumns(['cpl_mk','cpl_mhs'])
+                ->rawColumns(['cpl_mk', 'cpl_mhs'])
                 ->make(true);
         }
     }
@@ -139,8 +139,8 @@ class MainController extends Controller
         $request->validate([
             'file' => 'required|file',
         ]);
-        
-        if (Session::has('data')) {   
+
+        if (Session::has('data')) {
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $file_name = $file->getClientOriginalName();
@@ -148,12 +148,12 @@ class MainController extends Controller
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_name = str_replace('%', '', $file_name);
                 $file->move(public_path('cpl'), $file_name);
-    
+
                 $query = Matakuliah::updateOrCreate(
                     ['id_matakuliah' =>  request('kdmk')],
                     ['cpl_mk' =>  $file_name]
                 );
-    
+
                 if ($query) {
                     return redirect()->back()->with('success', 'Success add');
                 } else {
@@ -169,9 +169,9 @@ class MainController extends Controller
     {
         $request->validate([
             'file' => 'required|file',
-        ]); 
+        ]);
 
-        if (Session::has('data')) {   
+        if (Session::has('data')) {
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $file_name = $file->getClientOriginalName();
@@ -179,12 +179,12 @@ class MainController extends Controller
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_name = str_replace('%', '', $file_name);
                 $file->move(public_path('cpl'), $file_name);
-    
+
                 $query = Matakuliah::updateOrCreate(
                     ['id_matakuliah' =>  request('kdmkk')],
                     ['cpl_mhs' =>  $file_name]
                 );
-    
+
                 if ($query) {
                     return redirect()->back()->with('success', 'Success add');
                 } else {
@@ -294,7 +294,7 @@ class MainController extends Controller
                 'sesi'  => Session::get('data')
             ];
 
-            $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi', [
+            $res = Http::post(config('app.urlApi') . 'mahasiswa/all_mahasiswa', [
                 'APIKEY'    => config('app.APIKEY'),
                 'fakultas'  => Session::get('data')['idfakultas'],
                 'jurusan'   => substr(Session::get('data')['idprodi'], 1, 1),

@@ -28,6 +28,13 @@
                                     width="243"></canvas>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <canvas id="cplChart3" class="chartjs" data-height="400" height="400"
+                                    width="243"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,7 +178,6 @@
                         data: {
                             labels: r.cpl,
                             datasets: [{
-
                                 label: 'Bobot Capaian',
                                 data: r.persen,
                                 backgroundColor: config.colors.info,
@@ -228,6 +234,72 @@
                             }
                         }
                     });
+                    cplChart3 = new Chart("cplChart3", {
+                        type: "radar",
+                        data: {
+                            labels: r.cpl,
+                            datasets: [{
+                                label: "{{ $data['mhs'][0] . ' - ' . $data['mhs'][1] }}",
+                                data: r.bobot,
+                                // fill: !0,
+                                // pointStyle: "dash",
+                                // backgroundColor: "#cfffba",
+                                // borderColor: "transparent",
+                                // // pointBorderColor: "transparent"
+                                fill: true,
+                                backgroundColor: 'rgba(242, 145, 0, 0.2)',
+                                borderColor: 'rgb(242, 145, 0)',
+                                pointBackgroundColor: 'rgb(242, 145, 0)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgb(242, 145, 0)'
+                            }]
+                        },
+                        options: {
+                            responsive: !0,
+                            maintainAspectRatio: !1,
+                            animation: {
+                                duration: 500
+                            },
+                            // scales: {
+                            //     r: {
+                            //         ticks: {
+                            //             maxTicksLimit: 1,
+                            //             display: !1,
+                            //             color: d
+                            //         },
+                            //         grid: {
+                            //             color: a
+                            //         },
+                            //         angleLines: {
+                            //             color: a
+                            //         },
+                            //         pointLabels: {
+                            //             color: config.colors.black
+                            //         }
+                            //     }
+                            // },
+
+                            // plugins: {
+                            //     legend: {
+                            //         rtl: isRtl,
+                            //         position: "top",
+                            //         labels: {
+                            //             padding: 25,
+                            //             color: config.colors.black
+                            //         }
+                            //     },
+                            //     tooltip: {
+                            //         rtl: isRtl,
+                            //         backgroundColor: config.colors.white,
+                            //         titleColor: config.colors.black,
+                            //         bodyColor: config.colors.black,
+                            //         borderWidth: 1,
+                            //         borderColor: a
+                            //     },
+                            // }
+                        }
+                    })
                 },
                 error: function(xhr) {
                     console.log(xhr.responseJSON);

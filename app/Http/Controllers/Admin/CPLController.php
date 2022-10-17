@@ -236,4 +236,57 @@ class CPLController extends Controller
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
+    public function getLabelCPLChartMhsBySemester(Request $request)
+    {
+        if (Session::has('data')) {
+            $label_cpl_json = [];
+            $bobot_cpl_json = [];
+            $data_cpl = [];
+
+            $appdata = [
+                'title' => 'Data Label Chart CPL By Semester',
+                'sesi'  => Session::get('data')
+            ];
+            $data = CPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+
+            $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
+                'APIKEY'    => config('app.APIKEY'),
+                'fakultas'  => $appdata['sesi']['idfakultas'],
+                'jurusan'   => substr($appdata['sesi']['idprodi'], 1, 1),
+                'semester'  => $request->semester
+            ]);
+            $json = $res->json();
+            $listmhs = $json['data'];
+            // $listmhs = Lulusan::where([
+            //     'idprodi'    => $appdata['sesi']['idprodi'],
+            //     'idfakultas' => $appdata['sesi']['idfakultas'],
+            //     'semester_lulus' => $request->semester
+            // ])->get();
+
+            foreach ($listmhs as $m) {
+                array_push($data_cpl, $this->getCPLPerMHS($m['NIMHSHSIPK'], $request->semester));
+            }
+
+            foreach ($data as $d) {
+                $avg_per_cpl = 0;
+                $total_bobot_cpl = 0;
+                foreach ($data_cpl as $cpl) {
+                    foreach ($cpl as $c) {
+                        if ($d->kode_cpl == $c['kode_cpl']) {
+                            $total_bobot_cpl += $c['bobot_cpl'];
+                        }
+                    }
+                }
+                $avg_per_cpl = $total_bobot_cpl / count($data_cpl);
+                array_push($label_cpl_json, $d->kode_cpl);
+                array_push($bobot_cpl_json, $avg_per_cpl);
+            }
+
+            return response()->json(['cpl' => $label_cpl_json, 'bobot' => $bobot_cpl_json, 'max_bobot' => max($bobot_cpl_json)]);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
 }
