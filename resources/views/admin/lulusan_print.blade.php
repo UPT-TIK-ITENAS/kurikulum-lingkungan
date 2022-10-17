@@ -129,6 +129,8 @@
     .page:after {
         content: counter(page);
     }
+
+    .cap   { text-transform: capitalize; }
 </style>
 
 <body>
@@ -188,9 +190,9 @@
                 <td style="vertical-align:middle;width:150px;font-size: 16px;">Fakultas-Program Studi/<i>Faculty - Study
                         Program</i></td>
                 <td style="vertical-align:middle;">:</td>
-                <td align="justify" style="font-size: 16px;vertical-align:top;"> {{ $data->nama_fakultas }} -
+                <td align="justify" style="font-size: 16px;vertical-align:top;">{{ $data->nama_fakultas }} -
                     {{ $data->nama_prodi }} <br><i
-                        style="font-size: 12px;vertical-align:top;">({{ $data->nama_fakultas_en }} -
+                        style="font-size: 12px;vertical-align:top;text-transform: capitalize;" >({{ $data->nama_fakultas_en }} -
                         {{ $data->nama_prodi_eng }})</i></td>
             </tr>
         </table>
@@ -228,8 +230,8 @@
     <div class="isi">
         <center>
             <br>
-            <p style="font-size: 18px;"> <b>Keterangan Capaian</b></p>
-            <p style="font-size: 16px;margin-top:-15px"> <i>Explanation of Achievement</i></p>
+            <p style="font-size: 16px;"> <b>Keterangan Capaian</b></p>
+            <p style="font-size: 14px;margin-top:-15px"> <i>Explanation of Achievement</i></p>
         </center>
 
         <table class="table1" border="1">
@@ -254,8 +256,8 @@
 
         <center>
             <br>
-            <p style="font-size: 18px;padding: 5px;"> <b>Capaian Lulusan</b></p>
-            <p style="font-size: 16px;margin-top:-15px;padding: 5px;"> <i>Achievment of Graduate</i></p>
+            <p style="font-size: 16px;"> <b>Capaian Lulusan</b></p>
+            <p style="font-size: 14px;margin-top:-15px;"> <i>Achievment of Graduate</i></p>
         </center>
 
         <table class="table1" border="1">
@@ -267,7 +269,7 @@
             <tbody>
                 @foreach ($datacpl['cpl'] as $c)
                     <tr>
-                        <td style="font-size: 16px; padding: 5px;">
+                        <td style="font-size: 16px; padding: 2px;">
                             <p align="justify"><b>{{ $c->kode_cpl }}</b> -
                                 {{ $c->nama_cpl }}</p>
                         </td>
