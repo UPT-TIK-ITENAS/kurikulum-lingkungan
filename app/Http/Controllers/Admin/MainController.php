@@ -448,7 +448,7 @@ class MainController extends Controller
             "data": {
                 "labels": [' . implode(',', $label) . '],
                 "datasets": [{
-                    "label": "Grafik Capaian Pembelajaran Lulusan ' . $nim . '",
+                    "label": "CPL",
                     "data": [' . implode(',', $data_json) . '],
                     "fill": true,
                     "backgroundColor": "rgba(242, 145, 0, 0.2)",
@@ -456,7 +456,7 @@ class MainController extends Controller
                 }]
             }
         }';
-        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=500&height=300&devicePixelRatio=1.0&format=png&version=2.9.3';
+        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=550&height=350&devicePixelRatio=1.0&format=png';
 
         // dd($chartUrl);
 

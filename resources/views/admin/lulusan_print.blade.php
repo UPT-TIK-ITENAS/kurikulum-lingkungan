@@ -174,7 +174,7 @@
         </p>
         <table class="table">
             <tr>
-                <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan/<i>Name</i></td>
+                <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan<i>Name</i></td>
                 <td>:</td>
                 <td style="font-size: 16px;"> {{ $data->nama_mhs }}</td>
             </tr>
@@ -185,11 +185,11 @@
                 <td style="font-size: 16px;"> {{ $data->nim }}</td>
             </tr>
             <tr>
-                <td style="vertical-align:top;width:150px;font-size: 16px;">Fakultas-Program Studi/<i>Faculty - Study
+                <td style="vertical-align:middle;width:150px;font-size: 16px;">Fakultas-Program Studi/<i>Faculty - Study
                         Program</i></td>
-                <td style="vertical-align:top;">:</td>
+                <td style="vertical-align:middle;">:</td>
                 <td align="justify" style="font-size: 16px;vertical-align:top;"> {{ $data->nama_fakultas }} -
-                    {{ $data->nama_prodi }} <i
+                    {{ $data->nama_prodi }} <br><i
                         style="font-size: 12px;vertical-align:top;">({{ $data->nama_fakultas_en }} -
                         {{ $data->nama_prodi_eng }})</i></td>
             </tr>
@@ -260,7 +260,7 @@
 
         <table class="table1" border="1">
             <thead>
-                <td style="font-size: 16px;text-align: center;">Capaian Pembelajaran Lulusan <i>(Student Achiebement
+                <td style="font-size: 16px;text-align: center;">Capaian Pembelajaran Lulusan <i>(Student Achievement
                         Intervals)</i></td>
                 <td style="font-size: 16px;text-align: center;">Level Capaian <i>(Achievement Level)</i></td>
             </thead>
@@ -279,9 +279,47 @@
         </table>
         <br>
         <div id="ChartCPL">
+            <p align="center" style="font-size: 14px"><b>Grafik Capaian Pembelajaran Lulusan</b><br><i>Graduate Learning
+                    Outcomes
+                    Achievement Chart</i><br><b>{{ $data->nim . ' - ' . $data->nama_mhs }}</b></p>
             <p align="center">
                 <img src="{{ $chartUrl }}" alt="" id="ImgChart">
             </p>
+        </div>
+        <div id="tabelTTD">
+            <table width="100%" style="padding-top:1cm">
+                <tr>
+                    <td></td>
+                    <td align="center">
+                        Bandung,
+                        {{ \Carbon\Carbon::parse(date('Y-m-d'))->isoFormat('D MMMM Y') }}
+                    </td>
+                </tr>
+                <tr style="vertical-align: top;">
+                    <td width="50%">
+                        <p align="center" style="font-size:14px;">DEKAN {{ $data->nama_fakultas }} <br> <i>DEAN
+                                {{ $data->nama_fakultas_en }}</i>
+                        </p>
+                        <br>
+                    </td>
+                    <td width="50%">
+                        <p align="center" style="font-size:14px;">
+                            Ketua {{ $data->nama_prodi }} <br>
+                            <i>Chair of {{ $data->nama_prodi_eng }}</i>
+                        </p>
+                        <br>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p align="center">{{ $data->nama_dekan }}</p>
+                    </td>
+                    <td>
+                        <p align="center">{{ $data->nama_kaprodi }}</p>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     </footer>
