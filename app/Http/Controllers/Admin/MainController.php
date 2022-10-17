@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Lulusan;
 use App\Models\Matakuliah;
+use App\Models\CPL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Session;
@@ -349,7 +350,7 @@ class MainController extends Controller
                                 <a role='button' class='btn btn-icon btn-success' href='$cpl_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
                                 CPL
                                 </a>
-                                <a role='button' class='btn btn-icon btn-light' href='$print' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
+                                <a role='button' class='btn btn-icon btn-light' href='$print' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Print SKPI'>
                                 <span class='tf-icons fa-solid fa-print'></span>
                                 </a>
                                 <a role='button' class='btn btn-icon btn-danger del-btn' href='$delete_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-danger' data-nama='$row->nim' title='Hapus Lulusan'>
@@ -406,8 +407,9 @@ class MainController extends Controller
 
     public function printskpi($nim)
     {
-        $data = Lulusan::where('nim', $nim)->first();
-        $pdf = PDF::loadview('admin.lulusan_print', compact('data'))->setPaper('A4','potrait');
+        $data = Lulusan::join('prodi','lulusan.idprodi','=','prodi.id')->join('fakultas','prodi.id_fakultas','=','fakultas.id')->where('nim', $nim)->first();
+        $cpl = CPL::orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
+        $pdf = PDF::loadview('admin.lulusan_print', compact('data','cpl'))->setPaper('A4','potrait');
         return $pdf->stream();
     }
 }
