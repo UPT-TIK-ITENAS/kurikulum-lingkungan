@@ -409,7 +409,29 @@ class MainController extends Controller
     {
         $data = Lulusan::join('prodi','lulusan.idprodi','=','prodi.id')->join('fakultas','prodi.id_fakultas','=','fakultas.id')->where('nim', $nim)->first();
         $cpl = CPL::orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
-        $pdf = PDF::loadview('admin.lulusan_print', compact('data','cpl'))->setPaper('A4','potrait');
+        $appdata = [
+            'title' => 'Data Lulusan',
+            'sesi'  => Session::get('data')
+        ];
+
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
+            'APIKEY'    => config('app.APIKEY'),
+            'nrp'       => $nim,
+        ]);
+        $json = $res->json();
+        $nilaimhs = $json['data'];
+
+        $datacpl = [
+            'mhs'   => $nim,
+            'cpl'   => CPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'], 
+                'idfakultas' => $appdata['sesi']['idfakultas']
+            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get(),
+        ];
+
+        // dd($datacpl['cpl']);
+
+        $pdf = PDF::loadview('admin.lulusan_print', compact('data','cpl','datacpl'))->setPaper('A4','potrait');
         return $pdf->stream();
     }
 }
