@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,20 +29,20 @@
         vertical-align: bottom;
     }
 
-    .table{
+    .table {
         position: relative;
         width: 90%;
         max: width 100%;
         margin: auto;
     }
 
-    .table1{
+    .table1 {
         position: relative;
         width: 100%;
         max: width 100%;
         margin: auto;
         border: 1px solid black;
-         border-collapse: collapse;
+        border-collapse: collapse;
     }
 
 
@@ -116,10 +115,11 @@
     }
 
     .ttd3 {
-        position:absolute;
-        left:12%;
-        margin-left:-120px; /* (300/2) */
-        }
+        position: absolute;
+        left: 12%;
+        margin-left: -120px;
+        /* (300/2) */
+    }
 
     .paddingttd {
 
@@ -129,7 +129,6 @@
     .page:after {
         content: counter(page);
     }
-
 </style>
 
 <body>
@@ -160,40 +159,50 @@
         </center>
 
         <p align="justify" style="font-size: 16px">
-            Surat Keterangan Pendamping Ijazah (SKPI) ini mengacu pada Kerangka Kualifikasi Nasional Indonesia (KKNI) dan Standar Nasional Pendidikan Tinggi Indonesia 
-            tentang pengakuan studi, ijazah dan gelar pendidikan tinggi. Tujuan dari SKPI ini adalah menjadi dokumen yang menyatakan capaian pembelajaran lulusan 
+            Surat Keterangan Pendamping Ijazah (SKPI) ini mengacu pada Kerangka Kualifikasi Nasional Indonesia (KKNI)
+            dan Standar Nasional Pendidikan Tinggi Indonesia
+            tentang pengakuan studi, ijazah dan gelar pendidikan tinggi. Tujuan dari SKPI ini adalah menjadi dokumen
+            yang menyatakan capaian pembelajaran lulusan
             yang terdiri atas unsur sika, keterampilan umum, keterampilan Khusus, dan pengetahuan pemegangnya.</p>
-            
-            <p align="justify" style="font-size: 14px">
-            <i> This Diploma Supplement refers to the Indonesian National Qualification Framework and Indonesian National Standard for Higher Education on the Recognition of Studies,
-                Diplomas and Degrees in Higher Education. The purpose of SKPI is to be a formal document that states learning outcomes consist of attitude, 
-                general skills, specific skills, and knowledge of the holder.</i> </p>
-            <table class="table">
-                <tr>
-                    <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan/<i>Name</i></td>
-                    <td>:</td>
-                    <td style="font-size: 16px;"> {{ $data->nama_mhs }}</td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:middle;width:150px;font-size: 16px;">Nomor Induk Mahasiswa/<i>Regisration Number</i></td>
-                    <td>:</td>
-                    <td style="font-size: 16px;"> {{ $data->nim }}</td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:middle;width:150px;font-size: 16px;">Fakultas-Program Studi/<i>Fakulty - Study Program</i></td>
-                    <td>:</td>
-                    <td align="justify" style="font-size: 16px;"> {{ $data->nama_fakultas }} - {{ $data->nama_prodi }} <i style="font-size: 12px">({{ $data->nama_fakultas_en }} - {{ $data->nama_prodi_eng }})</i></td>
-                </tr>
-            </table>
+
+        <p align="justify" style="font-size: 14px">
+            <i> This Diploma Supplement refers to the Indonesian National Qualification Framework and Indonesian
+                National Standard for Higher Education on the Recognition of Studies,
+                Diplomas and Degrees in Higher Education. The purpose of SKPI is to be a formal document that states
+                learning outcomes consist of attitude,
+                general skills, specific skills, and knowledge of the holder.</i>
+        </p>
+        <table class="table">
+            <tr>
+                <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan/<i>Name</i></td>
+                <td>:</td>
+                <td style="font-size: 16px;"> {{ $data->nama_mhs }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align:middle;width:150px;font-size: 16px;">Nomor Induk Mahasiswa/<i>Regisration
+                        Number</i></td>
+                <td>:</td>
+                <td style="font-size: 16px;"> {{ $data->nim }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align:top;width:150px;font-size: 16px;">Fakultas-Program Studi/<i>Faculty - Study
+                        Program</i></td>
+                <td style="vertical-align:top;">:</td>
+                <td align="justify" style="font-size: 16px;vertical-align:top;"> {{ $data->nama_fakultas }} -
+                    {{ $data->nama_prodi }} <i
+                        style="font-size: 12px;vertical-align:top;">({{ $data->nama_fakultas_en }} -
+                        {{ $data->nama_prodi_eng }})</i></td>
+            </tr>
+        </table>
     </div>
     <div class="isi2">
-       
+
     </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div class="isi">
         <center>
             <br>
@@ -202,10 +211,13 @@
         </center>
 
         @foreach ($cpl as $key => $c)
-            @if($key > 8 )
-            <p  align="justify" style="font-size: 16px;page-break-after: avoid;"> {{ $c->kode_cpl }}. {{ $c->nama_cpl }} <i> ({{ $c->nama_cpleng }})</i></p>
+            @if ($key > 8)
+                <p align="justify" style="font-size: 16px;page-break-after: avoid;"> {{ $c->kode_cpl }}.
+                    {{ $c->nama_cpl }} <i> ({{ $c->nama_cpleng }})</i></p>
             @else
-            <p  align="justify" style="font-size: 16px;"> {{ $c->kode_cpl }}. {{ $c->nama_cpl }} <i> ({{ $c->nama_cpleng }})</i></p>
+                <p align="justify" style="font-size: 16px;"> {{ $c->kode_cpl }}. {{ $c->nama_cpl }} <i>
+                        ({{ $c->nama_cpleng }})
+                    </i></p>
             @endif
         @endforeach
     </div>
@@ -222,14 +234,17 @@
 
         <table class="table1" border="1">
             <tr>
-                <td style="vertical-align:top;width:150px;font-size: 16px;">Rentang Capaian Pembelajaran <i>(Student Achievement Intervals)</i></td>
+                <td style="vertical-align:top;width:150px;font-size: 16px;padding: 5px;">Rentang Capaian Pembelajaran
+                    <i>(Student
+                        Achievement Intervals)</i>
+                </td>
                 <td style="font-size: 16px;text-align: center; ">3.01 - 4.00</td>
                 <td style="font-size: 16px;text-align: center; ">2.01 - 3.00</td>
                 <td style="font-size: 16px;text-align: center; ">1.01 - 2.00</td>
                 <td style="font-size: 16px;text-align: center; ">0.00 - 1.00</td>
             </tr>
             <tr>
-                <td style="vertical-align:middle;width:150px;font-size: 16px;">Makna <i>(Meaning)</i></td>
+                <td style="vertical-align:middle;width:150px;font-size: 16px;padding: 5px;">Makna <i>(Meaning)</i></td>
                 <td style="font-size: 16px;text-align: center; ">Lebih dari cukup <i>(Exemplary)</i></td>
                 <td style="font-size: 16px;text-align: center; ">Mahir <i>(Proficient)</i></td>
                 <td style="font-size: 16px;text-align: center; ">Berkembang <i>(Apprentince)</i></td>
@@ -239,33 +254,37 @@
 
         <center>
             <br>
-            <p style="font-size: 18px;"> <b>Capaian Lulusan</b></p>
-            <p style="font-size: 16px;margin-top:-15px"> <i>Achievment of Graduate</i></p>
+            <p style="font-size: 18px;padding: 5px;"> <b>Capaian Lulusan</b></p>
+            <p style="font-size: 16px;margin-top:-15px;padding: 5px;"> <i>Achievment of Graduate</i></p>
         </center>
 
         <table class="table1" border="1">
             <thead>
-                <td style="font-size: 16px;text-align: center;">Capaian Pembelajaran Lulusan <i>(Student Achiebement Intervals)</i></td>
+                <td style="font-size: 16px;text-align: center;">Capaian Pembelajaran Lulusan <i>(Student Achiebement
+                        Intervals)</i></td>
                 <td style="font-size: 16px;text-align: center;">Level Capaian <i>(Achievement Level)</i></td>
             </thead>
             <tbody>
                 @foreach ($datacpl['cpl'] as $c)
                     <tr>
-                        <td style="font-size: 16px;"> <b>{{ $c->kode_cpl }}</b> - {{ $c->nama_cpl }}</td>
+                        <td style="font-size: 16px; padding: 5px;">
+                            <p align="justify"><b>{{ $c->kode_cpl }}</b> -
+                                {{ $c->nama_cpl }}</p>
+                        </td>
                         {{-- <td style="font-size: 16px;">{{ $c->nama_cpl }}</td> --}}
                         <td style="font-size: 16px;text-align: center;">{{ getNilaiCPL($c->id, $datacpl['mhs']) }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <br>
+        <div id="ChartCPL">
+            <p align="center">
+                <img src="{{ $chartUrl }}" alt="" id="ImgChart">
+            </p>
+        </div>
     </div>
-
-    
-        
-
     </footer>
-    <br>
-
 </body>
 
 </html>

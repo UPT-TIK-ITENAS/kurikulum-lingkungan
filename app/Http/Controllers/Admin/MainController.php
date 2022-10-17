@@ -407,7 +407,7 @@ class MainController extends Controller
 
     public function printskpi($nim)
     {
-        $data = Lulusan::join('prodi','lulusan.idprodi','=','prodi.id')->join('fakultas','prodi.id_fakultas','=','fakultas.id')->where('nim', $nim)->first();
+        $data = Lulusan::join('prodi', 'lulusan.idprodi', '=', 'prodi.id')->join('fakultas', 'prodi.id_fakultas', '=', 'fakultas.id')->where('nim', $nim)->first();
         $cpl = CPL::orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
         $appdata = [
             'title' => 'Data Lulusan',
@@ -424,14 +424,43 @@ class MainController extends Controller
         $datacpl = [
             'mhs'   => $nim,
             'cpl'   => CPL::where([
-                'idprodi' => $appdata['sesi']['idprodi'], 
+                'idprodi' => $appdata['sesi']['idprodi'],
                 'idfakultas' => $appdata['sesi']['idfakultas']
             ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get(),
         ];
 
-        // dd($datacpl['cpl']);
+        $datacpl_all = CPL::where([
+            'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+        ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+        $data_json = [];
+        $label = [];
+        $persen = [];
+        foreach ($datacpl_all as $c) {
+            $bobotCPL = getNilaiCPL($c->id, $nim);
+            $persenCPL = round((getNilaiCPL($c->id, $nim) / 4) * 100);
+            array_push($data_json, $bobotCPL);
+            array_push($label, '"' . $c->kode_cpl . '"');
+            array_push($persen, $persenCPL);
+        }
+        // dd(implode(',', $label));
+        $chartConfig = '{
+            "type": "radar",
+            "data": {
+                "labels": [' . implode(',', $label) . '],
+                "datasets": [{
+                    "label": "Grafik Capaian Pembelajaran Lulusan ' . $nim . '",
+                    "data": [' . implode(',', $data_json) . '],
+                    "fill": true,
+                    "backgroundColor": "rgba(242, 145, 0, 0.2)",
+                    "borderColor":"rgb(242, 145, 0)",
+                }]
+            }
+        }';
+        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=500&height=300&devicePixelRatio=1.0&format=png&version=2.9.3';
 
-        $pdf = PDF::loadview('admin.lulusan_print', compact('data','cpl','datacpl'))->setPaper('A4','potrait');
+        // dd($chartUrl);
+
+        $pdf = PDF::loadview('admin.lulusan_print', compact('data', 'cpl', 'datacpl', 'chartUrl'))->setPaper('A4', 'potrait')->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         return $pdf->stream();
     }
 }
