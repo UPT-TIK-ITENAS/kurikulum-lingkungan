@@ -85,7 +85,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Nama CPL (Eng)</label>
-                                <textarea class="form-control" id="nama_cpleng" name="nama_cpleng" required>{{ $c->nama_cpleng }}</textarea>
+                                <textarea class="form-control" id="nama_cpleng" name="nama_cpleng" required></textarea>
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
                         </div>
