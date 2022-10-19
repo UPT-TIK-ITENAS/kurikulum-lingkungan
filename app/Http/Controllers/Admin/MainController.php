@@ -454,6 +454,17 @@ class MainController extends Controller
                     "backgroundColor": "rgba(242, 145, 0, 0.2)",
                     "borderColor":"rgb(242, 145, 0)",
                 }]
+            },
+            "option": {
+                "scale":
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 4
+                    }
+                }
             }
         }';
         $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=550&height=350&devicePixelRatio=1.0&format=png';

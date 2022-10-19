@@ -261,43 +261,15 @@
                             animation: {
                                 duration: 500
                             },
-                            // scales: {
-                            //     r: {
-                            //         ticks: {
-                            //             maxTicksLimit: 1,
-                            //             display: !1,
-                            //             color: d
-                            //         },
-                            //         grid: {
-                            //             color: a
-                            //         },
-                            //         angleLines: {
-                            //             color: a
-                            //         },
-                            //         pointLabels: {
-                            //             color: config.colors.black
-                            //         }
-                            //     }
-                            // },
-
-                            // plugins: {
-                            //     legend: {
-                            //         rtl: isRtl,
-                            //         position: "top",
-                            //         labels: {
-                            //             padding: 25,
-                            //             color: config.colors.black
-                            //         }
-                            //     },
-                            //     tooltip: {
-                            //         rtl: isRtl,
-                            //         backgroundColor: config.colors.white,
-                            //         titleColor: config.colors.black,
-                            //         bodyColor: config.colors.black,
-                            //         borderWidth: 1,
-                            //         borderColor: a
-                            //     },
-                            // }
+                            scale: {
+                                r: {
+                                    angleLines: {
+                                        display: true
+                                    },
+                                    suggestedMin: 0,
+                                    suggestedMax: 4
+                                }
+                            }
                         }
                     })
                 },

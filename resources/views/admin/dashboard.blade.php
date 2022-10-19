@@ -197,6 +197,15 @@
                     maintainAspectRatio: !1,
                     animation: {
                         duration: 500
+                    },
+                    scale: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 4
+                        }
                     }
                 }
             });
@@ -283,8 +292,18 @@
                     maintainAspectRatio: !1,
                     animation: {
                         duration: 500
+                    },
+                    scale: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 4
+                        }
                     }
-                }
+                },
+
             });
 
             $('#select2semester').select2().on("change", function(e) {
