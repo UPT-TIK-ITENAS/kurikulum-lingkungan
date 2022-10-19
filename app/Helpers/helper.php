@@ -26,6 +26,31 @@ if (!function_exists('getBobot')) {
     }
 }
 
+if (!function_exists('getBobotCpl')) {
+    function getBobotCpl($mk, $cpl,$tipe)
+    {
+        $cek_matriks = CE::where([
+            // 'id'        => $ce,
+            'idmatakuliah'  => $mk,
+            'idcpl'     => $cpl
+        ])->groupby('idcpl')->sum('bobot_cpmk');
+        // return $cek_matriks;
+        if ($tipe == 'totalbobot') {
+            $bobot = CE::where('idmatakuliah', $mk)->sum('bobot_cpmk');
+            return round($bobot,0) . " %";
+        } elseif ($tipe == 'bobot') {
+            
+            if (empty($cek_matriks)) {
+                $td = "";
+            } else {
+                $td = round($cek_matriks,0) . " %";
+            }
+            return $td;
+        }
+    }
+}
+
+
 if (!function_exists('getNilaiCPL')) {
     function getNilaiCPL($cpl, $nim)
     {

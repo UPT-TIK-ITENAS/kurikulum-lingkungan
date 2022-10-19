@@ -83,11 +83,18 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-item @if (request()->routeIs('admin.ce.matrikscpl')) active @endif">
+            <a href="{{ route('admin.ce.matrikscpl') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div>Matriks CPL-Matakuliah</div>
+            </a>
+        </li>
         <li class="menu-item @if (request()->routeIs('admin.ce.matriks')) active @endif">
             <a href="{{ route('admin.ce.matriks') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div>Matriks CPL-CPMK</div>
             </a>
         </li>
+        
     </ul>
 </aside>

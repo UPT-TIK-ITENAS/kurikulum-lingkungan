@@ -45,6 +45,38 @@ class CEController extends Controller
         }
     }
 
+
+    public function matriks()
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Matriks Course Evaluation',
+                'sesi'  => Session::get('data')
+            ];
+            $data    = [
+                'cpl'   =>  CPL::where(
+                    [
+                        'idprodi' => $appdata['sesi']['idprodi'],
+                        'idfakultas' => $appdata['sesi']['idfakultas']
+                    ]
+                )->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
+
+                'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
+                    [
+                        'idprodi' => $appdata['sesi']['idprodi'],
+                        'idfakultas' => $appdata['sesi']['idfakultas']
+                    ]
+                )->orderBy('cpmk.idmatakuliah', 'asc')
+                ->groupby('cpmk.idmatakuliah')
+                ->get()
+            ];
+            // dd($data);
+            return view('admin.matriks_cpl', compact('appdata', 'data'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
