@@ -455,19 +455,19 @@ class MainController extends Controller
                     "borderColor":"rgb(242, 145, 0)",
                 }]
             },
-            "option": {
-                "scale":
-                r: {
-                    angleLines: {
-                        display: true
+            "options": {
+                "scale":{
+                "r": {
+                    "angleLines": {
+                        "display": true
                     },
-                    suggestedMin: 0,
-                    suggestedMax: 4
+                    "suggestedMin": 0,
+                    "suggestedMax": 4
                     }
                 }
             }
         }';
-        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=550&height=350&devicePixelRatio=1.0&format=png';
+        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=550&height=350&devicePixelRatio=1.0&format=png&version=3.9.1';
 
         // dd($chartUrl);
 
