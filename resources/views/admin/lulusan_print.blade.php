@@ -2,8 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {{-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> --}}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SKPI</title>
     <link rel="icon" type="image/png" href="{{ url('templates/img/logo.png') }}">
@@ -176,7 +178,7 @@
         </p>
         <table class="table">
             <tr>
-                <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan<i>Name</i></td>
+                <td style="vertical-align:middle;width:270px;font-size: 16px;">Nama Lulusan/<i>Name</i></td>
                 <td>:</td>
                 <td style="font-size: 16px;"> {{ $data->nama_mhs }}</td>
             </tr>
@@ -240,17 +242,18 @@
                     <i>(Student
                         Achievement Intervals)</i>
                 </td>
-                <td style="font-size: 16px;text-align: center; ">3.01 - 4.00</td>
-                <td style="font-size: 16px;text-align: center; ">2.01 - 3.00</td>
-                <td style="font-size: 16px;text-align: center; ">1.01 - 2.00</td>
-                <td style="font-size: 16px;text-align: center; ">0.00 - 1.00</td>
+                <td style="font-size: 16px;text-align: center; "> >3,5 </td>
+                <td style="font-size: 16px;text-align: center; "> 3,5 >= x > 3 </td>
+                <td style="font-size: 16px;text-align: center; "> 3 >= x > 2,75 </td>
+                <td style="font-size: 16px;text-align: center; "> 2,75 >= x >= 2 </td>
+                
             </tr>
             <tr>
                 <td style="vertical-align:middle;width:150px;font-size: 16px;padding: 5px;">Makna <i>(Meaning)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Lebih dari cukup <i>(Exemplary)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Mahir <i>(Proficient)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Berkembang <i>(Apprentince)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Belum Berkembang <i>(Novice)</i></td>
+                <td style="font-size: 16px;text-align: center;">Sangat Baik <i><br>(Very good)</i></td>
+                <td style="font-size: 16px;text-align: center;width:100px; ">Baik <i>(Good)</i></td>
+                <td style="font-size: 16px;text-align: center; ">Cukup Baik <i>(Passably)</i></td>
+                <td style="font-size: 16px;text-align: center; ">Kurang Baik<i><br>(Not good)</i></td>
             </tr>
         </table>
 
