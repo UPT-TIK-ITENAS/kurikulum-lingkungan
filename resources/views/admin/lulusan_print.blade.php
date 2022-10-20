@@ -246,14 +246,15 @@
                 <td style="font-size: 16px;text-align: center; "> 3,5 >= x > 3 </td>
                 <td style="font-size: 16px;text-align: center; "> 3 >= x > 2,75 </td>
                 <td style="font-size: 16px;text-align: center; "> 2,75 >= x >= 2 </td>
-                
+                <td style="font-size: 16px;text-align: center; "> 2 > x > 0 </td>
             </tr>
             <tr>
                 <td style="vertical-align:middle;width:150px;font-size: 16px;padding: 5px;">Makna <i>(Meaning)</i></td>
                 <td style="font-size: 16px;text-align: center;">Sangat Baik <i><br>(Very good)</i></td>
                 <td style="font-size: 16px;text-align: center;width:100px; ">Baik <i>(Good)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Cukup Baik <i>(Passably)</i></td>
-                <td style="font-size: 16px;text-align: center; ">Kurang Baik<i><br>(Not good)</i></td>
+                <td style="font-size: 16px;text-align: center; ">Cukup Baik <i>(Well enough)</i></td>
+                <td style="font-size: 16px;text-align: center; ">Kurang Baik<i><br>(Lack of good)</i></td>
+                <td style="font-size: 16px;text-align: center; ">Tidak Baik<i><br>(Not good)</i></td>
             </tr>
         </table>
 
