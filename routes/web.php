@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\CEController;
 use App\Http\Controllers\Admin\CPLController;
 use App\Http\Controllers\Admin\CPMKController;
+use App\Http\Controllers\Admin\IKController;
 use App\Http\Controllers\Admin\MainController;
+use App\Http\Controllers\Admin\SubCPMKController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -32,9 +34,18 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/cpl/store', [CPLController::class, 'store'])->name('admin.cpl.store');
         Route::post('/admin/cpl/update/{id}', [CPLController::class, 'update'])->name('admin.cpl.update');
         Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
+        Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
+
+        //IK
+        Route::get('/admin/cpl/ik/{id}', [IKController::class, 'index'])->name('admin.cpl.ik');
+        Route::post('/admin/cpl/ik/store', [IKController::class, 'store'])->name('admin.cpl.ik.store');
+        Route::post('/admin/cpl/ik/update/{id}', [IKController::class, 'update'])->name('admin.cpl.ik.update');
+        Route::get('/admin/cpl/ik/delete/{id}', [IKController::class, 'delete'])->name('admin.cpl.ik.delete');
+
+
+        //CPMK
         Route::get('/admin/cpmk/index', [CPMKController::class, 'index'])->name('admin.cpmk.index');
         Route::get('/admin/cpmk/listmatakuliah', [CPMKController::class, 'listmatakuliah'])->name('admin.cpmk.listmatakuliah');
-
         Route::get('/admin/cpmk/kelola/{id}', [CPMKController::class, 'kelola'])->name('admin.cpmk.kelola');
         Route::post('/admin/cpmk/store', [CPMKController::class, 'store'])->name('admin.cpmk.store');
         Route::post('/admin/cpmk/update/{id}', [CPMKController::class, 'update'])->name('admin.cpmk.update');
@@ -43,6 +54,13 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/cpmk/store_cpmk_cpl', [CPMKController::class, 'store_cpmk_cpl'])->name('admin.cpmk.store_cpmk_cpl');
         Route::post('/admin/cpmk/update_cpmk_cpl/{id}', [CPMKController::class, 'update_cpmk_cpl'])->name('admin.cpmk.update_cpmk_cpl');
         Route::get('/admin/cpmk/delete_cpmk_cpl/{id}', [CPMKController::class, 'delete_cpmk_cpl'])->name('admin.cpmk.delete_cpmk_cpl');
+
+
+        //SubCPMK
+        Route::get('/admin/cpmk/subcpmk/{id}', [SubCPMKController::class, 'index'])->name('admin.cpmk.subcpmk');
+        Route::post('/admin/cpmk/subcpmk/store', [SubCPMKController::class, 'store'])->name('admin.cpmk.subcpmk.store');
+        Route::post('/admin/cpmk/subcpmk/update/{id}', [SubCPMKController::class, 'update'])->name('admin.cpmk.subcpmk.update');
+        Route::get('/admin/cpmk/subcpmk/delete/{id}', [SubCPMKController::class, 'delete'])->name('admin.cpmk.subcpmk.delete');
 
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');
         Route::get('/admin/ce/matrikscpl', [CEController::class, 'matriks'])->name('admin.ce.matrikscpl');
@@ -58,6 +76,7 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/data-charts/labelCPL/{data}', [CPLController::class, 'getLabelCPLChart'])->name('admin.cpl.getLabelCPLChart');
         Route::post('/admin/data-charts/labelCPLBySemester', [CPLController::class, 'getLabelCPLChartBySemester'])->name('admin.cpl.getLabelCPLChartBySemester');
         Route::post('/admin/data-charts/labelCPLMhsBySemester', [CPLController::class, 'getLabelCPLChartMhsBySemester'])->name('admin.cpl.getLabelCPLChartMhsBySemester');
+
 
         // Lulusan
         Route::get('/admin/data-master/lulusan', [MainController::class, 'index_lulusan'])->name('admin.lulusan.index');

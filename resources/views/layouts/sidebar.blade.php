@@ -30,10 +30,10 @@
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Master</span></li>
 
         <li class="menu-item @if (request()->routeIs('admin.matkul.index') ||
-            request()->routeIs('admin.mahasiswa.index') ||
-            request()->routeIs('admin.mahasiswa.nilai') ||
-            request()->routeIs('admin.mahasiswa.cpl') ||
-            request()->routeIs('admin.lulusan.index')) open @endif">
+                request()->routeIs('admin.mahasiswa.index') ||
+                request()->routeIs('admin.mahasiswa.nilai') ||
+                request()->routeIs('admin.mahasiswa.cpl') ||
+                request()->routeIs('admin.lulusan.index')) open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div>Data Master</div>
@@ -41,8 +41,8 @@
 
             <ul class="menu-sub">
                 <li class="menu-item @if (request()->routeIs('admin.mahasiswa.index') ||
-                    request()->routeIs('admin.mahasiswa.nilai') ||
-                    request()->routeIs('admin.mahasiswa.cpl')) active @endif">
+                        request()->routeIs('admin.mahasiswa.nilai') ||
+                        request()->routeIs('admin.mahasiswa.cpl')) active @endif">
                     <a href="{{ route('admin.mahasiswa.index') }}" class="menu-link">
                         <div>Mahasiswa</div>
                     </a>
@@ -60,23 +60,20 @@
             </ul>
         </li>
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Course Evaluation</span></li>
-        <li class="menu-item @if (request()->routeIs('admin.cpl.index') ||
-            request()->routeIs('admin.cpmk.index') ||
-            request()->routeIs('admin.cpmk.kelola') ||
-            request()->routeIs('admin.cpmk.cpl')) open @endif">
+        <li class="menu-item @if (request()->routeIs('admin.cpl.*') || request()->routeIs('admin.cpmk.*')) open @endif">
             <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div>CPL - CPMK</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if (request()->routeIs('admin.cpl.index')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.cpl.*')) active @endif">
                     <a href="{{ route('admin.cpl.index') }}" class="menu-link">
                         <div>Data CPL</div>
                     </a>
                 </li>
-                <li class="menu-item @if (request()->routeIs('admin.cpmk.index') ||
-                    request()->routeIs('admin.cpmk.kelola') ||
-                    request()->routeIs('admin.cpmk.cpl')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.cpmk.*') ||
+                        request()->routeIs('admin.cpmk.kelola') ||
+                        request()->routeIs('admin.cpmk.cpl')) active @endif">
                     <a href="{{ route('admin.cpmk.index') }}" class="menu-link">
                         <div>Data CPMK</div>
                     </a>
@@ -95,6 +92,6 @@
                 <div>Matriks CPL-CPMK</div>
             </a>
         </li>
-        
+
     </ul>
 </aside>
