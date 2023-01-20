@@ -28,7 +28,7 @@ class CEController extends Controller
                         'idprodi' => $appdata['sesi']['idprodi'],
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
-                )->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
+                )->get(),
 
                 'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
@@ -59,7 +59,7 @@ class CEController extends Controller
                         'idprodi' => $appdata['sesi']['idprodi'],
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
-                )->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
+                )->get(),
 
                 'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
@@ -67,8 +67,8 @@ class CEController extends Controller
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
                 )->orderBy('cpmk.idmatakuliah', 'asc')
-                ->groupby('cpmk.idmatakuliah')
-                ->get()
+                    ->groupby('cpmk.idmatakuliah')
+                    ->get()
             ];
             // dd($data);
             return view('admin.matriks_cpl', compact('appdata', 'data'));

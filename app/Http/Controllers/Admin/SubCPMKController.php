@@ -27,7 +27,7 @@ class SubCPMKController extends Controller
                 'subcpmk_id_prodi'    => $appdata['sesi']['idprodi'],
                 'subcpmk_id_fakultas' => $appdata['sesi']['idfakultas'],
                 'subcpmk_id_cpmk'      => $idcpmk
-            ])->orderByRaw('CAST(SUBSTRING(subcpmk_kode,9,3) AS INT)', 'asc')->get();
+            ])->get();
             $data['cpmk'] = CPMK::where('id', $idcpmk)->first();
             return view('admin.subcpmk_index', compact('appdata', 'data'));
         } else {

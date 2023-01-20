@@ -24,7 +24,7 @@ class CPLController extends Controller
                 'title' => 'CPL',
                 'sesi'  => Session::get('data')
             ];
-            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
+            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->get();
 
             return view('admin.cpl_index', compact('appdata', 'cpl'));
         } else {
@@ -118,7 +118,7 @@ class CPLController extends Controller
                 'en_mhs' => $datamhs,
                 'cpl'   => CPL::where([
                     'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-                ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get(),
+                ])->get(),
                 'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
                         'idprodi' => $appdata['sesi']['idprodi'],
@@ -144,7 +144,7 @@ class CPLController extends Controller
             ];
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+            ])->get();
             $data_json = [];
             $label = [];
             $persen = [];
@@ -170,7 +170,7 @@ class CPLController extends Controller
         ];
         $data = CPL::where([
             'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-        ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+        ])->get();
         $data_cpl = [];
         foreach ($data as $c) {
             $bobotCPL = getNilaiCPLBySemester($c->id, $nim, $semester);
@@ -195,7 +195,7 @@ class CPLController extends Controller
             ];
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+            ])->get();
 
             // $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
             //     'APIKEY'    => config('app.APIKEY'),
@@ -249,7 +249,7 @@ class CPLController extends Controller
             ];
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
+            ])->get();
 
             $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
                 'APIKEY'    => config('app.APIKEY'),

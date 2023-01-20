@@ -27,7 +27,7 @@ class IKController extends Controller
                 'ik_id_prodi'   => $appdata['sesi']['idprodi'],
                 'ik_id_fakultas' => $appdata['sesi']['idfakultas'],
                 'ik_id_cpl'     => $idcpl
-            ])->orderByRaw('CAST(SUBSTRING(ik_kode,4,3) AS INT)', 'asc')->get();
+            ])->get();
             $data['cpl'] = CPL::where('id', $idcpl)->first();
             // dd($data[0]->cpl->nama_cpl);
             return view('admin.ik_index', compact('appdata', 'data'));

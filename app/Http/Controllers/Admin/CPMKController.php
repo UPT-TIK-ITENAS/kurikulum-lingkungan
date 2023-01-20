@@ -92,7 +92,7 @@ class CPMKController extends Controller
             $data = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0]
-            ])->orderByRaw('CAST(SUBSTRING(kode_cpmk,6,2) AS INT)', 'asc')->get();
+            ])->get();
             return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -182,7 +182,7 @@ class CPMKController extends Controller
                 'cpl'   => CPL::where([
                     'idprodi'      => $sesi['idprodi'],
                     'idfakultas'   => $sesi['idfakultas']
-                ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get()
+                ])->get()
             ];
             // dd($data);
             $appdata = [
