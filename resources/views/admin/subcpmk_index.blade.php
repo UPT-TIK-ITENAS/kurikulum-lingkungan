@@ -90,7 +90,7 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nameLarge" class="form-label">Nama IK (Eng)</label>
+                                <label for="nameLarge" class="form-label">Nama SubCPMK (Eng)</label>
                                 <textarea class="form-control" id="subcpmk_nama_en" name="subcpmk_nama_en" required></textarea>
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
