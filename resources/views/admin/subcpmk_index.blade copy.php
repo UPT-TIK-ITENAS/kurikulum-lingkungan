@@ -1,14 +1,16 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK / Sub CPMK / </span> Kelola Sub CPMK {{ $datamk[0] }}
+    <span class="text-muted fw-light">CPL - CPMK / CPMK / Kelola CPMK {{ $data['cpmk']->idmatakuliah }} / </span> Kelola
+    SubCPMK
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
     <div class="row">
         <div class="col-12">
+            <div class="alert alert-secondary"><b>{{ $data['cpmk']->kode_cpmk }}</b> {{ $data['cpmk']->nama_cpmk }}</div>
             <div class="card">
                 <div class="card-header">
-                    <b>Sub CPMK : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
+                    <b>Sub Capaian Pembelajaran Mata Kuliah</b>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#addSubCPMK" class="btn btn-primary float-end"><i
                             class='fas fa-plus mr-2'></i>
                         Tambah SubCPMK</a>
@@ -18,20 +20,20 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Kode Sub CPMK</th>
-                                <th>Sub Capaian Pembelajaran Mata Kuliah (Id)</th>
-                                <th>Sub Capaian Pembelajaran Mata Kuliah (En)</th>
+                                <th>Kode SubCPMK</th>
+                                <th>Sub CPMK</th>
+                                <th>Bobot</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $no => $c)
+                            @foreach ($data['subcpmk'] as $no => $c)
                                 <tr>
                                     <td width="5%" align="center">{{ $no + 1 }}</td>
-                                    <td align="center">{{ $c->subcpmk_kode }}</td>
-                                    <td>{{ $c->subcpmk_nama_id }}</td>
-                                    <td>{{ $c->subcpmk_nama_en }}</td>
-                                    <td align="center">
+                                    <td align="center" width="15%">{{ $c->subcpmk_kode }}</td>
+                                    <td>{{ $c->subcpmk_nama_id }} <i> ({{ $c->subcpmk_nama_en }})</i></td>
+                                    <td align="center" width="5%">{{ $c->subcpmk_bobot }}</td>
+                                    <td align="center" width="15%">
                                         <div class='btn-group' role='group' aria-label='Action'>
                                             <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
@@ -40,9 +42,9 @@
                                                 <span class='tf-icons fa-solid fa-edit'></span>
                                             </a>
                                             <a role='button' class='btn btn-icon btn-danger del-btn'
-                                                href='{{ route('admin.subcpmk.delete', $c->subcpmk_id) }}'
-                                                data-nama="{{ $c->subcpmk_nama_id }}" data-id="{{ $c->subcpmk_kode }}"
-                                                data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top'
+                                                href='{{ route('admin.cpmk.subcpmk.delete', $c->subcpmk_id) }}'
+                                                data-nama="{{ $c->subcpmk_nama_id }}" data-bs-tooltip='tooltip'
+                                                data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-danger' title='Hapus SubCPMK'>
                                                 <span class='tf-icons fa-solid fa-trash'></span>
                                             </a>
@@ -63,9 +65,10 @@
                     <h5 class="modal-title" id="exampleModalLabel3">Tambah Sub CPMK</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.subcpmk.store') }}" method="post" class="needs-validation">
+                <form action="{{ route('admin.cpmk.subcpmk.store') }}" method="post" class="needs-validation">
                     @csrf
                     <div class="modal-body">
+                        <input type="hidden" name="datacpmk" id="datacpmk" value="{{ encrypt($data['cpmk']) }}">
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Kode Sub CPMK</label>
@@ -92,10 +95,15 @@
                                 <div class="invalid-feedback">Wajib Diisi !</div>
                             </div>
                         </div>
-                        <input type="hidden" name="idmatakuliah" id="idmatakuliah" value="{{ $datamk[0] }}">
-                        <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
-                        <input type="hidden" name="nama_matkul_en" id="nama_matkul_en" value="{{ $datamk[2] }}">
-                        <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nameLarge" class="form-label">Bobot SubCPMK terhadap CPMK</label>
+                                <input type="text" class="form-control angka" id="subcpmk_bobot" name="subcpmk_bobot"
+                                    required></input>
+                                <div class="invalid-feedback">Wajib Diisi !</div>
+                            </div>
+                        </div>
+                        <small>*) angka koma dipisahkan dengan titik</small>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -105,7 +113,7 @@
             </div>
         </div>
     </div>
-    @foreach ($data as $no => $c)
+    @foreach ($data['subcpmk'] as $no => $c)
         <div class="modal fade" id="editSubCPMK{{ $c->subcpmk_id }}" tabindex="-1" style="display: none;"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -114,7 +122,7 @@
                         <h5 class="modal-title" id="exampleModalLabel3">Edit Indikator Kinerja</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('admin.subcpmk.update', $c->subcpmk_id) }}" method="post"
+                    <form action="{{ route('admin.cpmk.subcpmk.update', $c->subcpmk_id) }}" method="post"
                         class="needs-validation">
                         @csrf
                         <div class="modal-body">
@@ -144,6 +152,15 @@
                                     <div class="invalid-feedback">Wajib Diisi !</div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameLarge" class="form-label">Bobot SubCPMK terhadap CPMK</label>
+                                    <input type="text" class="form-control angka" id="subcpmk_bobot"
+                                        name="subcpmk_bobot" required value="{{ $c->subcpmk_bobot }}">
+                                    <div class="invalid-feedback">Wajib Diisi !</div>
+                                </div>
+                            </div>
+                            <small>*) angka koma dipisahkan dengan titik</small>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -178,7 +195,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
-                    text: `Anda akan menghapus ${$(this).data('id')}`,
+                    text: `Anda akan menghapus SubCPMK - ${$(this).data('nama')}`,
                     icon: 'question',
                     showConfirmButton: true,
                     showCancelButton: true,

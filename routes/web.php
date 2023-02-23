@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\SubCPMKController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\BobotController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,10 +59,13 @@ Route::middleware(['isLogin'])->group(function () {
 
 
         //SubCPMK
-        Route::get('/admin/cpmk/subcpmk/{id}', [SubCPMKController::class, 'index'])->name('admin.cpmk.subcpmk');
-        Route::post('/admin/cpmk/subcpmk/store', [SubCPMKController::class, 'store'])->name('admin.cpmk.subcpmk.store');
-        Route::post('/admin/cpmk/subcpmk/update/{id}', [SubCPMKController::class, 'update'])->name('admin.cpmk.subcpmk.update');
-        Route::get('/admin/cpmk/subcpmk/delete/{id}', [SubCPMKController::class, 'delete'])->name('admin.cpmk.subcpmk.delete');
+        Route::get('/admin/subcpmk/index/{id}', [SubCPMKController::class, 'index'])->name('admin.subcpmk.index');
+        Route::post('/admin/subcpmk/store', [SubCPMKController::class, 'store'])->name('admin.subcpmk.store');
+        Route::post('/admin/subcpmk/update/{id}', [SubCPMKController::class, 'update'])->name('admin.subcpmk.update');
+        Route::get('/admin/subcpmk/delete/{id}', [SubCPMKController::class, 'delete'])->name('admin.subcpmk.delete');
+
+        Route::get('/admin/bobot/{id}', [BobotController::class, 'bobot'])->name('admin.bobot');
+        Route::post('/admin/bobot/store', [BobotController::class, 'store'])->name('admin.bobot.store');
 
         Route::get('/admin/ce/matriks', [CEController::class, 'index'])->name('admin.ce.matriks');
         Route::get('/admin/ce/matrikscpl', [CEController::class, 'matriks'])->name('admin.ce.matrikscpl');

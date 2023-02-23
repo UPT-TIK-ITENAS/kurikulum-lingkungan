@@ -15,21 +15,40 @@ class SubCPMKController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($idcpmk)
+    // public function index($idcpmk)
+    // {
+    //     if (Session::has('data')) {
+    //         $idcpmk = decrypt($idcpmk);
+    //         $appdata = [
+    //             'title' => 'Data IK',
+    //             'sesi'  => Session::get('data')
+    //         ];
+    //         $data['subcpmk'] = SubCPMK::where([
+    //             'subcpmk_id_prodi'    => $appdata['sesi']['idprodi'],
+    //             'subcpmk_id_fakultas' => $appdata['sesi']['idfakultas'],
+    //             'subcpmk_id_cpmk'      => $idcpmk
+    //         ])->get();
+    //         $data['cpmk'] = CPMK::where('id', $idcpmk)->first();
+    //         return view('admin.subcpmk_index', compact('appdata', 'data'));
+    //     } else {
+    //         return redirect()->route('login')->with('error', 'You are not authenticated');
+    //     }
+    // }
+
+    public function index($datamk)
     {
+        $datamk = explode('|', decrypt($datamk));
+        // dd($datamk);
         if (Session::has('data')) {
-            $idcpmk = decrypt($idcpmk);
             $appdata = [
-                'title' => 'Data IK',
-                'sesi'  => Session::get('data')
+                'title' => 'Kelola Sub CPMK',
+                'sesi'  => Session::get('data'),
             ];
-            $data['subcpmk'] = SubCPMK::where([
-                'subcpmk_id_prodi'    => $appdata['sesi']['idprodi'],
-                'subcpmk_id_fakultas' => $appdata['sesi']['idfakultas'],
-                'subcpmk_id_cpmk'      => $idcpmk
+            $data = SubCPMK::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $datamk[0]
             ])->get();
-            $data['cpmk'] = CPMK::where('id', $idcpmk)->first();
-            return view('admin.subcpmk_index', compact('appdata', 'data'));
+            return view('admin.subcpmk_index', compact('appdata', 'data', 'datamk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -45,19 +64,16 @@ class SubCPMKController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
-            $datacpmk = decrypt($request->datacpmk);
             $data = [
                 'subcpmk_kode'  => 'SubCPMK-' . $request->subcpmk_kode,
                 'subcpmk_nama_id'  => $request->subcpmk_nama_id,
                 'subcpmk_nama_en'  => $request->subcpmk_nama_en,
-                'subcpmk_bobot'  => $request->subcpmk_bobot,
-                'subcpmk_id_cpmk'  => $datacpmk->id,
-                'subcpmk_id_matkul'  => $datacpmk->idmatakuliah,
-                'subcpmk_nama_matkul'  => $datacpmk->nama_matkul,
-                'subcpmk_nama_matkul_en'  => $datacpmk->nama_matkul_en,
-                'subcpmk_sks_matkul'  => $datacpmk->sks,
-                'subcpmk_id_prodi'   => $sesi['idprodi'],
-                'subcpmk_id_fakultas' => $sesi['idfakultas']
+                'idmatakuliah'  => $request->idmatakuliah,
+                'nama_matkul'  => $request->nama_matkul,
+                'nama_matkul_en'  => $request->nama_matkul_en,
+                'sks'  => $request->sks,
+                'idprodi'   => $sesi['idprodi'],
+                'idfakultas' => $sesi['idfakultas']
             ];
             $query = SubCPMK::insert($data);
             if ($query) {
@@ -85,9 +101,8 @@ class SubCPMKController extends Controller
                 'subcpmk_kode'  => 'SubCPMK-' . $request->subcpmk_kode,
                 'subcpmk_nama_id'  => $request->subcpmk_nama_id,
                 'subcpmk_nama_en'  => $request->subcpmk_nama_en,
-                'subcpmk_bobot'  => $request->subcpmk_bobot,
-                'subcpmk_id_prodi'   => $sesi['idprodi'],
-                'subcpmk_id_fakultas' => $sesi['idfakultas']
+                'idprodi'   => $sesi['idprodi'],
+                'idfakultas' => $sesi['idfakultas']
             ];
             $query = SubCPMK::where('subcpmk_id', $id)->update($data);
             if ($query) {

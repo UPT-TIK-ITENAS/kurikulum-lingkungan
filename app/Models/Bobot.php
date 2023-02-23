@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubCPMK extends Model
+class Bobot extends Model
 {
-    use HasFactory;
-    protected $table = 'sub_cpmk_v2';
+    protected $table = 'bobot';
     protected $guarded = [];
 }

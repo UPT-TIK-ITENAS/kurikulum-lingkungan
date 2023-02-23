@@ -61,10 +61,17 @@ class CPMKController extends Controller
                 ->addColumn('action', function ($row) {
                     $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
                     $edit_url = route('admin.cpmk.kelola', $data);
+                    $url_subcpmk = route('admin.subcpmk.index', $data);
+                    $url_bobot = route('admin.bobot', $data);
                     $actionBtn =
                         "<div class='btn-group' role='group' aria-label='Action'>
-                                <a role='button' class='btn btn-icon btn-warning' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Kelola CPMK'>
-                                    <span class='tf-icons fa-solid fa-edit'></span>
+                                <a role='button' class='btn btn-icon btn-warning' style='padding: 15px 25px;' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Kelola CPMK'>
+                                    CPMK
+                                </a>
+                                <a role='button' class='btn btn-icon btn-success' style='padding: 15px 32px;' href='$url_subcpmk' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Kelola Sub CPMK'>
+                                Sub CPMK
+                                </a>
+                                <a role='button' class='btn btn-icon btn-primary' style='padding: 15px 25px;' href='$url_bobot' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Kelola Bobot'> Bobot</a>
                                 </a>
                             </div>";
                     return $actionBtn;
@@ -247,6 +254,31 @@ class CPMKController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');
             }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function bobot($datamk)
+    {
+        $datamk = explode('|', decrypt($datamk));
+        // dd($datamk);
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Kelola Bobot',
+                'sesi'  => Session::get('data'),
+            ];
+            $data['subcpmk'] = SubCPMK::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $datamk[0]
+            ])->get();
+
+            $data['cpmk'] = CPMK::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $datamk[0]
+            ])->get();
+
+            return view('admin.bobot', compact('appdata', 'data', 'datamk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
