@@ -45,6 +45,14 @@ class BobotController extends Controller
                 'idmatakuliah' => $datamk[0]
             ])->first();
 
+            $data['sumbobot'] = Bobot::selectRaw('id_cpmk,sum(bobot) as totalbobot')->where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $datamk[0],
+                'id_cpmk' => $data['bobot']->id_cpmk ?? 0,
+            ])->groupby('id_cpmk')->get();
+
+            // dd($data['sumbobot']);
+
             return view('admin.bobot', compact('appdata', 'data', 'datamk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');

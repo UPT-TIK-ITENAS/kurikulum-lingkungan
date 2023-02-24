@@ -31,13 +31,7 @@
                                     <td>{{ $c->nama_cpmk }}</td>
                                     <td align="center">
                                         <div class='btn-group' role='group' aria-label='Action'>
-                                            <a role='button' class='btn btn-icon btn-success'
-                                                href='{{ route('admin.cpmk.subcpmk', encrypt($c->id)) }}'
-                                                data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-success' title='Input Sub CPMK'>
-                                                Sub
-                                            </a>
+
                                             <a role='button' class='btn btn-icon btn-primary'
                                                 href='{{ route('admin.cpmk.cpl', encrypt($c->id)) }}'
                                                 data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'

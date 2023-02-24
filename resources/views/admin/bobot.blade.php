@@ -11,11 +11,15 @@
                     <b>Mata Kuliah : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
                 </div>
                 <div class="card-body">
-                    <div class="col">
-                        <a class='btn btn-icon btn-primary ' style='padding: 15px 35px;' href='#' id="saveBtn">
-                            Simpan
-                        </a>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
+                                id="saveBtn">
+                                <i class="fa fa-save me-1"></i> Simpan
+                            </a>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                        </div>
                     </div>
                     <table id="table-bobot" class="table table-bordered">
                         <thead class="text-center">
@@ -36,15 +40,21 @@
                                         <td>
                                             <div class="input_bobot" data-id="{{ $cpmk->id }}_{{ $sub->subcpmk_id }}">
                                                 <input type="number" name="bobot" class="form-control bot"
+                                                    style="text-align: center"
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ $data['bobot']->id_cpmk == $cpmk->id || $data['bobot']->id_subcpmk == $sub->subcpmk_id ? $data['bobot']->bobot : 0 }}">
+                                                    value="{{ $data['bobot']?->id_cpmk == $cpmk->id || $data['bobot']?->id_subcpmk == $sub->subcpmk_id ? $data['bobot']->bobot : 0 }}">
                                             </div>
                                         </td>
                                     @endforeach
-                                    <td><input type="text" class="form-control total" data-id="{{ $cpmk->id }}">
-                                    </td>
+                                    @foreach ($data['sumbobot'] as $summ)
+                                        <td><input type="text" class="form-control total" style="text-align: center"
+                                                data-id="{{ $cpmk->id }}"
+                                                value="{{ $cpmk->id == $summ->id_cpmk ? $summ->totalbobot : '' }}">
+                                        </td>
+                                    @endforeach
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -130,16 +140,14 @@
             });
 
             $(document).on("change", ".bot", function(e) {
-                console.log(e)
-                var sum = 0;
-                var id = $(this).data('id');
-                console.log(id);
-                $(".bot").each(function() {
-                    sum += +$(this).val();
-                    console.log(sum);
+                let row = $(this).closest('tr');
+                let total = 0;
+                row.find('.bot').each(function() {
+                    total += parseInt($(this).val());
                 });
-                $(".total").val(sum);
+                row.find('.total').val(total);
             });
+
 
         });
     </script>
