@@ -44,7 +44,7 @@
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ $data['bobot'][$idx]->bobot }}">
+                                                    value="{{ $bobot[$cpmk->id][$sub->subcpmk_id] }}">
                                             </div>
                                         </td>
                                     @endforeach

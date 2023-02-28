@@ -45,9 +45,11 @@ class BobotController extends Controller
                 'idmatakuliah' => $datamk[0]
             ])->get();
 
-            // dd($data['bobot']);
-
-            return view('admin.bobot', compact('appdata', 'data', 'datamk'));
+            $bobot = array();
+            foreach ($data['bobot'] as $b) {
+                $bobot[$b->id_cpmk][$b->id_subcpmk] = $b->bobot;
+            }
+            return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
