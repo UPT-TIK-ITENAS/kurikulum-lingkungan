@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Bobot;
 use App\Models\CE;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('getBobot')) {
     function getBobot($ce, $cpmk, $cpl, $tipe)
@@ -27,7 +29,7 @@ if (!function_exists('getBobot')) {
 }
 
 if (!function_exists('getBobotCpl')) {
-    function getBobotCpl($mk, $cpl,$tipe)
+    function getBobotCpl($mk, $cpl, $tipe)
     {
         $cek_matriks = CE::where([
             // 'id'        => $ce,
@@ -37,13 +39,13 @@ if (!function_exists('getBobotCpl')) {
         // return $cek_matriks;
         if ($tipe == 'totalbobot') {
             $bobot = CE::where('idmatakuliah', $mk)->sum('bobot_cpmk');
-            return round($bobot,0) . " %";
+            return round($bobot, 0) . " %";
         } elseif ($tipe == 'bobot') {
-            
+
             if (empty($cek_matriks)) {
                 $td = "";
             } else {
-                $td = round($cek_matriks,0) . " %";
+                $td = round($cek_matriks, 0) . " %";
             }
             return $td;
         }
@@ -106,5 +108,20 @@ if (!function_exists('getNilaiCPLBySemester')) {
         }
 
         return $total_nilai;
+    }
+}
+if (!function_exists('totalCPMK')) {
+    function totalCPMK($cpmk)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'id_cpmk' => $cpmk
+        ])->groupby('id_cpmk')->get();
+
+        return $total_nilai[0]->totalbobot;
     }
 }

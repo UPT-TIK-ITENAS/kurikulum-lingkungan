@@ -43,15 +43,9 @@ class BobotController extends Controller
             $data['bobot'] = Bobot::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0]
-            ])->first();
+            ])->get();
 
-            $data['sumbobot'] = Bobot::selectRaw('id_cpmk,sum(bobot) as totalbobot')->where([
-                'idprodi' => $appdata['sesi']['idprodi'],
-                'idmatakuliah' => $datamk[0],
-                'id_cpmk' => $data['bobot']->id_cpmk ?? 0,
-            ])->groupby('id_cpmk')->get();
-
-            // dd($data['sumbobot']);
+            // dd($data['bobot']);
 
             return view('admin.bobot', compact('appdata', 'data', 'datamk'));
         } else {

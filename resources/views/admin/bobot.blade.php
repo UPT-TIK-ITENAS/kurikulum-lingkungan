@@ -36,7 +36,7 @@
                             @foreach ($data['cpmk'] as $cpmk)
                                 <tr>
                                     <td>{{ $cpmk->kode_cpmk }}</td>
-                                    @foreach ($data['subcpmk'] as $sub)
+                                    @foreach ($data['subcpmk'] as $idx => $sub)
                                         <td>
                                             <div class="input_bobot" data-id="{{ $cpmk->id }}_{{ $sub->subcpmk_id }}">
                                                 <input type="number" name="bobot" class="form-control bot"
@@ -44,16 +44,19 @@
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ $data['bobot']?->id_cpmk == $cpmk->id || $data['bobot']?->id_subcpmk == $sub->subcpmk_id ? $data['bobot']->bobot : 0 }}">
+                                                    value="{{ $data['bobot'][$idx]->bobot }}">
                                             </div>
                                         </td>
                                     @endforeach
-                                    @foreach ($data['sumbobot'] as $summ)
+                                    <td><input type="text" class="form-control total" style="text-align: center"
+                                            id="total_{{ $cpmk->id }}" value="{{ totalCPMK($cpmk->id) }}" readonly>
+                                    </td>
+                                    {{-- @foreach ($data['sumbobot'] as $summ)
                                         <td><input type="text" class="form-control total" style="text-align: center"
                                                 data-id="{{ $cpmk->id }}"
                                                 value="{{ $cpmk->id == $summ->id_cpmk ? $summ->totalbobot : '' }}">
                                         </td>
-                                    @endforeach
+                                    @endforeach --}}
 
                                 </tr>
                             @endforeach
@@ -69,6 +72,14 @@
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $(document).on("change", ".bot", function(e) {
+                let row = $(this).closest('tr');
+                let total = 0;
+                row.find('.bot').each(function() {
+                    total += parseInt($(this).val());
+                });
+                row.find('.total').val(total);
+            });
             $('#table-bobot').DataTable({
                 "paging": true,
                 "lengthChange": true,
@@ -106,7 +117,7 @@
                         'id_cpmk': split[0],
                         'id_subcpmk': split[1],
                     });
-                    console.log(data);
+                    // console.log(data);
                 });
                 $.ajax({
                     type: 'POST',
@@ -139,14 +150,7 @@
                 });
             });
 
-            $(document).on("change", ".bot", function(e) {
-                let row = $(this).closest('tr');
-                let total = 0;
-                row.find('.bot').each(function() {
-                    total += parseInt($(this).val());
-                });
-                row.find('.total').val(total);
-            });
+
 
 
         });
