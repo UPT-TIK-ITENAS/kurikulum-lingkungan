@@ -51,13 +51,41 @@
                                     <td><input type="text" class="form-control total" style="text-align: center"
                                             id="total_{{ $cpmk->id }}" value="{{ totalCPMK($cpmk->id) }}" readonly>
                                     </td>
-                                    {{-- @foreach ($data['sumbobot'] as $summ)
-                                        <td><input type="text" class="form-control total" style="text-align: center"
-                                                data-id="{{ $cpmk->id }}"
-                                                value="{{ $cpmk->id == $summ->id_cpmk ? $summ->totalbobot : '' }}">
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <b>Matriks CPMK - SubCPMK : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
+                </div>
+                <div class="card-body">
+                    <table id="table-bobot" class="table table-bordered">
+                        <thead class="text-center">
+                            <tr>
+                                <th></th>
+                                @foreach ($data['subcpmk'] as $sub)
+                                    <th>{{ $sub->subcpmk_kode }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data['cpmk'] as $cpmk)
+                                <tr>
+                                    <td>{{ $cpmk->kode_cpmk }}</td>
+                                    @foreach ($data['subcpmk'] as $idx => $sub)
+                                        <td align="center">
+                                            <div>
+                                                <span>{{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔️' : '' }}</span>
+                                            </div>
                                         </td>
-                                    @endforeach --}}
-
+                                    @endforeach
                                 </tr>
                             @endforeach
                         </tbody>

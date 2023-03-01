@@ -38,7 +38,7 @@ class BobotController extends Controller
             $data['cpmk'] = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0]
-            ])->get();
+            ])->orderBy('id', 'desc')->get();
 
             $data['bobot'] = Bobot::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
