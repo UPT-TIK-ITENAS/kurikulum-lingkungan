@@ -122,6 +122,7 @@ if (!function_exists('totalCPMK')) {
             'id_cpmk' => $cpmk
         ])->groupby('id_cpmk')->get();
 
-        return $total_nilai[0]->totalbobot;
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }

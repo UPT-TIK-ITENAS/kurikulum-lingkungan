@@ -63,7 +63,7 @@
         <li class="menu-item @if (request()->routeIs('admin.cpl.*') || request()->routeIs('admin.cpmk.*')) open @endif">
             <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div>CPL - CPMK</div>
+                <div>CPL - CPMK - Sub CPMK</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item @if (request()->routeIs('admin.cpl.*')) active @endif">
@@ -75,7 +75,7 @@
                         request()->routeIs('admin.cpmk.kelola') ||
                         request()->routeIs('admin.cpmk.cpl')) active @endif">
                     <a href="{{ route('admin.cpmk.index') }}" class="menu-link">
-                        <div>Data CPMK</div>
+                        <div>Data CPMK - Sub CPMK</div>
                     </a>
                 </li>
             </ul>
