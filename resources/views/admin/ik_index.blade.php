@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK / CPL /</span> IK
+    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK/ CPL /</span> IK
     <br>
 @endsection
 @section('content')

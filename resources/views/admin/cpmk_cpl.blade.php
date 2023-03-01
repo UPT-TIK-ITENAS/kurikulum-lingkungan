@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK / CPMK / </span> Relasi CPL - CPMK
+    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK/ CPMK / </span> Relasi CPL - CPMK
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
