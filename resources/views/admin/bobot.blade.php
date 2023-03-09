@@ -82,7 +82,10 @@
                                     @foreach ($data['subcpmk'] as $idx => $sub)
                                         <td align="center">
                                             <div>
-                                                <span>{{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔️' : '' }}</span>
+                                                @if (!empty($bobot))
+                                                    {{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔' : '' }}
+                                                @endif
+                                                {{-- <span>{{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔️' : '' }}</span> --}}
                                             </div>
                                         </td>
                                     @endforeach
