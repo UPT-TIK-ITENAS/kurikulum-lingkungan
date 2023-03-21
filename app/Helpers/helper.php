@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Bobot;
+use App\Models\BobotCPL;
+use App\Models\BobotCPLPadu;
+use App\Models\BobotMK;
 use App\Models\CE;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -121,6 +124,54 @@ if (!function_exists('totalCPMK')) {
             'idprodi' => $appdata['sesi']['idprodi'],
             'id_cpmk' => $cpmk
         ])->groupby('id_cpmk')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
+
+if (!function_exists('totalBobotCPLPaduPerMK')) {
+    function totalBobotCPLPaduPerMK($mk, $tipe)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+
+        if ($tipe == 'cpl_padu') {
+            $total_nilai = BobotCPLPadu::selectRaw('sum(bobot) as totalbobot')->where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $mk,
+            ])->groupby('idmatakuliah')->get();
+        } elseif ($tipe == 'mk') {
+            $total_nilai = BobotMK::selectRaw('sum(bobot_mk) as totalbobot')->where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $mk,
+            ])->groupby('idmatakuliah')->get();
+        } elseif ($tipe == 'cpl') {
+            $total_nilai = BobotCPL::selectRaw('sum(bobot_cpl) as totalbobot')->where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $mk,
+            ])->groupby('idmatakuliah')->get();
+        }
+
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
+
+if (!function_exists('totalBobotCPLPaduPerCPL')) {
+    function totalBobotCPLPaduPerCPL($cpl)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = BobotCPLPadu::selectRaw('sum(bobot) as totalbobot')->where([
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'id_cpl' => $cpl
+        ])->groupby('id_cpl')->get();
 
 
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;

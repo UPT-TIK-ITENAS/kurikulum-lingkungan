@@ -38,6 +38,16 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
         Route::get('/admin/cpl/delete/{id}', [CPLController::class, 'delete'])->name('admin.cpl.delete');
 
+        //Bobot CPL Padu
+        Route::get('/admin/cpl/getBobotCPLPadu/', [CPLController::class, 'getBobotCPLPadu'])->name('admin.cpl.getBobotCPLPadu');
+        Route::post('/admin/cpl/storeBobotCPLPadu', [CPLController::class, 'storeBobotCPLPadu'])->name('admin.cpl.storeBobotCPLPadu');
+
+        //Bobot CPL MK 
+        Route::get('/admin/cpl/matriksCPLMK/', [CPLController::class, 'matriksCPLMK'])->name('admin.cpl.matriksCPLMK');
+
+        //Bobot CPL 
+        Route::get('/admin/cpl/matriksCPL/', [CPLController::class, 'matriksCPL'])->name('admin.cpl.matriksCPL');
+
         //IK
         Route::get('/admin/cpl/ik/{id}', [IKController::class, 'index'])->name('admin.cpl.ik');
         Route::post('/admin/cpl/ik/store', [IKController::class, 'store'])->name('admin.cpl.ik.store');

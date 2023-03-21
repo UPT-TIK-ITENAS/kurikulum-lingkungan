@@ -71,6 +71,11 @@
                         <div>Data CPL</div>
                     </a>
                 </li>
+                <li class="menu-item @if (request()->routeIs('admin.cpl.getBobotCPLPadu.*')) active @endif">
+                    <a href="{{ route('admin.cpl.getBobotCPLPadu') }}" class="menu-link">
+                        <div>Data Bobot CPL Padu</div>
+                    </a>
+                </li>
                 <li class="menu-item @if (request()->routeIs('admin.cpmk.*') ||
                         request()->routeIs('admin.cpmk.kelola') ||
                         request()->routeIs('admin.cpmk.cpl')) active @endif">
@@ -92,6 +97,17 @@
                 <div>Matriks CPL-CPMK</div>
             </a>
         </li>
-
+        <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPLMK')) active @endif">
+            <a href="{{ route('admin.cpl.matriksCPLMK') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div>Matriks CPL-MK</div>
+            </a>
+        </li>
+        <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPL')) active @endif">
+            <a href="{{ route('admin.cpl.matriksCPL') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div>Matriks CPL-MK</div>
+            </a>
+        </li>
     </ul>
 </aside>

@@ -49,6 +49,7 @@ class BobotController extends Controller
             foreach ($data['bobot'] as $b) {
                 $bobot[$b->id_cpmk][$b->id_subcpmk] = $b->bobot;
             }
+            // dd($bobot);
             return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');

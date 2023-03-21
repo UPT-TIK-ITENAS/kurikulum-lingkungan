@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BobotCPLPadu;
+use App\Models\BobotCPL;
+use App\Models\BobotMK;
 use App\Models\CE;
 use App\Models\CPL;
 use App\Models\Lulusan;
@@ -285,6 +288,187 @@ class CPLController extends Controller
             }
 
             return response()->json(['cpl' => $label_cpl_json, 'bobot' => $bobot_cpl_json, 'max_bobot' => max($bobot_cpl_json)]);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function getBobotCPLPadu()
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Bobot CPL Padu',
+                'sesi'  => Session::get('data')
+            ];
+            $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
+
+            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+                'APIKEY'    => config('app.APIKEY'),
+                'tahun'     => config('app.tahun_kurikulum'),
+                'prodi'     => Session::get('data')['idprodi'],
+            ]);
+            $json = $res->json();
+            $dataMatkul = $json['data'];
+
+            $bobotcpl = BobotCPLPadu::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+            ])->get();
+
+            $bobot = array();
+            foreach ($bobotcpl as $b) {
+                $bobot[$b->idmatakuliah][$b->id_cpl] = $b->bobot;
+            }
+
+            $total_nilai = BobotCPLPadu::selectRaw('sum(bobot) as totalbobot')->where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+            ])->groupby('idprodi')->first();
+            // dd($total_nilai);
+            return view('admin.cpl_bobot_padu', compact('appdata', 'cpl', 'dataMatkul', 'bobotcpl', 'bobot', 'total_nilai'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function storeBobotCPLPadu(Request $request)
+    {
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            // dd($sesi);
+            foreach ($request->data as $key) {
+
+                // dd($request->data);
+                $data['idmatakuliah'] = $key['idmatakuliah'];
+                $data['idprodi'] = $sesi['idprodi'];
+                $data['idfakultas'] = $sesi['idfakultas'];
+                $data['id_cpl'] = $key['id_cpl'];
+                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
+                $data['bobot'] = $key['bobot'] ?? 0;
+                $data['bobot_cpl'] = ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
+
+                if (BobotCPLPadu::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
+                    BobotCPLPadu::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
+                        'bobot' =>  $data['bobot'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                } else {
+                    BobotCPLPadu::create([
+                        'bobot' =>  $data['bobot'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                }
+
+                if (BobotMK::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
+                    BobotMK::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
+                        'bobot_mk' =>  $data['bobot_mk'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                } else {
+                    BobotMK::create([
+                        'bobot_mk' =>  $data['bobot_mk'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                }
+
+                if (BobotCPL::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
+                    BobotCPL::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
+                        'bobot_cpl' =>  $data['bobot_cpl'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                } else {
+                    BobotCPL::create([
+                        'bobot_cpl' =>  $data['bobot_cpl'],
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                    ]);
+                }
+            }
+
+
+
+            return response()->json(['success' => 'Berhasil']);
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+
+    public function matriksCPLMK()
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Bobot CPL Mata Kuliah',
+                'sesi'  => Session::get('data')
+            ];
+            $cpl_mk = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
+
+            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+                'APIKEY'    => config('app.APIKEY'),
+                'tahun'     => config('app.tahun_kurikulum'),
+                'prodi'     => Session::get('data')['idprodi'],
+            ]);
+            $json = $res->json();
+            $dataMatkul = $json['data'];
+            $bobotmk = BobotMK::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+            ])->get();
+
+            $bobot = array();
+            foreach ($bobotmk as $b) {
+                $bobot[$b->idmatakuliah][$b->id_cpl] = $b->bobot_mk;
+            }
+
+            return view('admin.matriks_cpl_mk', compact('appdata', 'cpl_mk', 'dataMatkul', 'bobot', 'bobotmk'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function matriksCPL()
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Bobot CPL Mata Kuliah',
+                'sesi'  => Session::get('data')
+            ];
+            $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
+
+            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+                'APIKEY'    => config('app.APIKEY'),
+                'tahun'     => config('app.tahun_kurikulum'),
+                'prodi'     => Session::get('data')['idprodi'],
+            ]);
+            $json = $res->json();
+            $dataMatkul = $json['data'];
+
+            $bobotcpl = BobotCPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+            ])->get();
+
+            $bobot = array();
+            foreach ($bobotcpl as $b) {
+                $bobot[$b->idmatakuliah][$b->id_cpl] = $b->bobot_cpl;
+            }
+
+            // dd($bobot);
+
+            return view('admin.matriks_cpl2', compact('appdata', 'cpl', 'dataMatkul', 'bobot', 'bobotcpl'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
