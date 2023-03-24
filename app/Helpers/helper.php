@@ -177,3 +177,37 @@ if (!function_exists('totalBobotCPLPaduPerCPL')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+
+if (!function_exists('totalBobotPerCPL')) {
+    function totalBobotPerCPL($cpl)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = BobotCPL::selectRaw('sum(bobot_cpl) as totalbobot')->where([
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'id_cpl' => $cpl
+        ])->groupby('id_cpl')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
+
+if (!function_exists('totalBobotPerMK')) {
+    function totalBobotPerMK($id_matakuliah)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = BobotMK::selectRaw('sum(bobot_mk) as totalbobot')->where([
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'idmatakuliah' => $id_matakuliah
+        ])->groupby('idmatakuliah')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}

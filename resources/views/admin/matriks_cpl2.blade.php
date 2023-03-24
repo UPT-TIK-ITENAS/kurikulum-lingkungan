@@ -41,7 +41,7 @@
                                     <th>
                                         <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control"
                                             style="text-align: center;font-size: 90%;"
-                                            value="{{ totalBobotCPLPaduPerCPL($c->kode_cpl) }}" readonly>
+                                            value="{{ totalBobotPerCPL($c->kode_cpl) }}" readonly>
                                     </th>
                                 @endforeach
                             </tr>

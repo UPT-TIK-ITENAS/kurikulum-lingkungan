@@ -85,7 +85,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item @if (request()->routeIs('admin.ce.matrikscpl')) active @endif">
+        {{-- <li class="menu-item @if (request()->routeIs('admin.ce.matrikscpl')) active @endif">
             <a href="{{ route('admin.ce.matrikscpl') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div>Matriks CPL-Matakuliah</div>
@@ -96,7 +96,7 @@
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div>Matriks CPL-CPMK</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPLMK')) active @endif">
             <a href="{{ route('admin.cpl.matriksCPLMK') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
@@ -106,7 +106,7 @@
         <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPL')) active @endif">
             <a href="{{ route('admin.cpl.matriksCPL') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                <div>Matriks CPL-MK</div>
+                <div>Matriks CPL</div>
             </a>
         </li>
     </ul>

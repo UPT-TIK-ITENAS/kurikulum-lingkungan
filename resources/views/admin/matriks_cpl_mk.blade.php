@@ -19,7 +19,7 @@
                                 @foreach ($cpl_mk as $c)
                                     <th>{{ $c->kode_cpl }}</th>
                                 @endforeach
-                                <th style="font-size: 70%">Total</th>
+                                <th>Total</th>
                             </tr>
 
                         </thead>
@@ -32,12 +32,27 @@
                                         <td>{{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] : '0' }}
                                         </td>
                                     @endforeach
-                                    <td>{{ totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'mk') }}
+                                    </td>
+                                    <td><input type="text" class="form-control total"
+                                            style="text-align: center;font-size: 70%;" name="bobot_mk" id="bobot_mk"
+                                            value="{{ totalBobotPerMK($data['kdkmktbkmk']) }}" readonly>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
+                        {{-- <tfoot>
+                            <tr align="center">
+                                <th colspan="1">Total</th>
+                                @foreach ($cpl_mk as $c)
+                                    <th>
+                                        <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control"
+                                            style="text-align: center;font-size: 90%;"
+                                            value="{{ totalBobotPerMK($c->kode_cpl) }}" readonly>
+                                    </th>
+                                @endforeach
+                            </tr>
 
+                        </tfoot> --}}
                     </table>
                 </div>
             </div>
