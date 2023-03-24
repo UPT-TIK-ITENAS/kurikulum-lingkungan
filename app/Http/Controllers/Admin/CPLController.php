@@ -301,7 +301,8 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
-
+            $totalcpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->count();
+            // dd($totalcpl);
             $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
                 'APIKEY'    => config('app.APIKEY'),
                 'tahun'     => config('app.tahun_kurikulum'),
@@ -323,7 +324,7 @@ class CPLController extends Controller
                 'idprodi' => $appdata['sesi']['idprodi'],
             ])->groupby('idprodi')->first();
             // dd($total_nilai);
-            return view('admin.cpl_bobot_padu', compact('appdata', 'cpl', 'dataMatkul', 'bobotcpl', 'bobot', 'total_nilai'));
+            return view('admin.cpl_bobot_padu', compact('appdata', 'cpl', 'dataMatkul', 'bobotcpl', 'bobot', 'total_nilai', 'totalcpl'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -341,63 +342,29 @@ class CPLController extends Controller
                 $data['idprodi'] = $sesi['idprodi'];
                 $data['idfakultas'] = $sesi['idfakultas'];
                 $data['id_cpl'] = $key['id_cpl'];
-                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
                 $data['bobot'] = $key['bobot'] ?? 0;
+                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
                 $data['bobot_cpl'] = ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
 
-                if (BobotCPLPadu::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
-                    BobotCPLPadu::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
+                BobotCPLPadu::updateOrCreate(
+                    [
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
                         'bobot' =>  $data['bobot'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                } else {
-                    BobotCPLPadu::create([
-                        'bobot' =>  $data['bobot'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                }
+                    ],
+                );
 
-                if (BobotMK::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
-                    BobotMK::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
+                BobotMK::updateOrCreate(
+                    [
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
                         'bobot_mk' =>  $data['bobot_mk'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                } else {
-                    BobotMK::create([
-                        'bobot_mk' =>  $data['bobot_mk'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                }
-
-                if (BobotCPL::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->first()) {
-                    BobotCPL::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $sesi['idprodi'])->where('idfakultas', $sesi['idfakultas'])->where('id_cpl',  $key['id_cpl'])->update([
-                        'bobot_cpl' =>  $data['bobot_cpl'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                } else {
-                    BobotCPL::create([
-                        'bobot_cpl' =>  $data['bobot_cpl'],
-                        'idmatakuliah' =>  $data['idmatakuliah'],
-                        'idprodi' => $data['idprodi'],
-                        'idfakultas' => $data['idfakultas'],
-                        'id_cpl' => $data['id_cpl'],
-                    ]);
-                }
+                    ],
+                );
             }
 
 

@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                             @foreach ($dataMatkul as $data)
-                                <tr>
+                                <tr class="a">
                                     <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} | {{ trim($data['nakmktbkmk']) }}
                                     </td>
                                     @foreach ($cpl as $c)
@@ -61,7 +61,7 @@
                                 <th colspan="1">Total</th>
                                 @foreach ($cpl as $c)
                                     <th>
-                                        <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control"
+                                        <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control totalCPL"
                                             style="text-align: center;font-size: 90%;"
                                             value="{{ totalBobotCPLPaduPerCPL($c->kode_cpl) }}" readonly>
                                     </th>
@@ -87,11 +87,15 @@
         $(document).ready(function() {
             $(document).on("change", ".bot", function(e) {
                 let row = $(this).closest('tr');
+                let row1 = $(this).closest('td');
+                console.log(row, row1)
                 let total = 0;
-                row.find('.bot').each(function() {
+                row.find('.bot ').each(function() {
                     total += Number($(this).val());
                 });
                 row.find('.total').val(total);
+                row.find('.totalCPL').val(total);
+
                 const totalElements = document.getElementsByClassName('total');
                 let grandTotal = 0;
                 totalElements.forEach(function(item) {
@@ -127,7 +131,7 @@
                     var cpl = $('#bobot_' + id).data('cpl');
                     var idmatakuliah = $('#bobot_' + id).data('mk');
                     var bobot_mk = $('#bobot_mk').val();
-                    var bobot_cpl = $('#bobot_cpl').val();
+                    // var bobot_cpl = $('#bobot_cpl').val();
 
                     console.log(bobot_cpl);
                     data.push({
@@ -135,7 +139,7 @@
                         'id_cpl': cpl,
                         'idmatakuliah': idmatakuliah,
                         'bobot_mk': bobot_mk,
-                        'bobot_cpl': bobot_cpl,
+                        // 'bobot_cpl': bobot_cpl,
                     });
                     // console.log(data);
                 });
