@@ -85,16 +85,15 @@
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
         $(document).ready(function() {
+            const table = document.getElementById("table-bobot");
             $(document).on("change", ".bot", function(e) {
                 let row = $(this).closest('tr');
-                let row1 = $(this).closest('td');
-                console.log(row, row1)
+
                 let total = 0;
                 row.find('.bot ').each(function() {
                     total += Number($(this).val());
                 });
                 row.find('.total').val(total);
-                row.find('.totalCPL').val(total);
 
                 const totalElements = document.getElementsByClassName('total');
                 let grandTotal = 0;
@@ -102,8 +101,40 @@
                     grandTotal += Number(item.value);
                 })
                 $('.grandTotal').val(grandTotal);
+
+                subTotal(table);
+
             });
 
+            const subTotal = (table) => {
+                const rows = table.rows;
+                const numCols = rows[0].cells.length - 1;
+                const totals = new Array(numCols).fill(0);
+                for (let i = 1; i < rows.length; i++) {
+                    for (let j = 1; j < numCols; j++) {
+                        // totals[j] += parseFloat(rows[i].cells[j]);
+                        let element = rows[i].cells[j];
+
+                        // check if element is td
+                        if (element.tagName === "TD") {
+                            // get the input element
+                            let input = element.querySelector('input[name="bobot"]');
+                            totals[j] += parseFloat(input.value);
+                        }
+                    }
+                }
+
+                const total = totals.slice(1);
+
+                // mapping total to tfoot input
+                const tfoot = document.getElementsByTagName("tfoot")[0];
+                const inputs = tfoot.querySelectorAll(".totalCPL");
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].value = total[i];
+                }
+            };
+
+            subTotal(table);
 
             // $('#table-bobot').DataTable({
             //     "paging": true,
@@ -131,7 +162,7 @@
                     var cpl = $('#bobot_' + id).data('cpl');
                     var idmatakuliah = $('#bobot_' + id).data('mk');
                     var bobot_mk = $('#bobot_mk').val();
-                    // var bobot_cpl = $('#bobot_cpl').val();
+                    var bobot_cpl = $('#bobot_cpl').val();
 
                     console.log(bobot_cpl);
                     data.push({
@@ -139,7 +170,7 @@
                         'id_cpl': cpl,
                         'idmatakuliah': idmatakuliah,
                         'bobot_mk': bobot_mk,
-                        // 'bobot_cpl': bobot_cpl,
+                        'bobot_cpl': bobot_cpl,
                     });
                     // console.log(data);
                 });

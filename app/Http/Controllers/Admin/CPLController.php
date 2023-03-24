@@ -365,6 +365,16 @@ class CPLController extends Controller
                         'bobot_mk' =>  $data['bobot_mk'],
                     ],
                 );
+
+                BobotCPL::updateOrCreate(
+                    [
+                        'idmatakuliah' =>  $data['idmatakuliah'],
+                        'idprodi' => $data['idprodi'],
+                        'idfakultas' => $data['idfakultas'],
+                        'id_cpl' => $data['id_cpl'],
+                        'bobot_cpl' =>  $data['bobot_cpl'],
+                    ],
+                );
             }
 
 
