@@ -343,8 +343,10 @@ class CPLController extends Controller
                 $data['idfakultas'] = $sesi['idfakultas'];
                 $data['id_cpl'] = $key['id_cpl'];
                 $data['bobot'] = $key['bobot'] ?? 0;
-                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
-                $data['bobot_cpl'] = ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
+                $data['bobot_mk'] = number_format(($key['bobot'] / $key['bobot_mk']) * 100, 1) ?? 0;
+                $data['bobot_cpl'] = number_format(($key['bobot'] / $key['bobot_cpl']) * 100, 1) ?? 0;
+
+                // dd($data['bobot_cpl']);
 
                 BobotCPLPadu::updateOrCreate(
                     [
