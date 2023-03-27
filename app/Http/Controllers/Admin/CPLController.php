@@ -303,14 +303,14 @@ class CPLController extends Controller
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
             $totalcpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->count();
             // dd($totalcpl);
-            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-                'APIKEY'    => config('app.APIKEY'),
-                'tahun'     => config('app.tahun_kurikulum'),
-                'prodi'     => Session::get('data')['idprodi'],
-            ]);
-            $json = $res->json();
-            $dataMatkul = $json['data'];
-
+            // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'tahun'     => config('app.tahun_kurikulum'),
+            //     'prodi'     => Session::get('data')['idprodi'],
+            // ]);
+            // $json = $res->json();
+            // $dataMatkul = $json['data'];
+            $dataMatkul = getMK();
             $bobotcpl = BobotCPLPadu::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
             ])->get();
@@ -398,13 +398,16 @@ class CPLController extends Controller
             ];
             $cpl_mk = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
 
-            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-                'APIKEY'    => config('app.APIKEY'),
-                'tahun'     => config('app.tahun_kurikulum'),
-                'prodi'     => Session::get('data')['idprodi'],
-            ]);
-            $json = $res->json();
-            $dataMatkul = $json['data'];
+            // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'tahun'     => config('app.tahun_kurikulum'),
+            //     'prodi'     => Session::get('data')['idprodi'],
+            // ]);
+            // $json = $res->json();
+            // $dataMatkul = $json['data'];
+
+            $dataMatkul = getMK();
+
             $bobotmk = BobotMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
             ])->get();
@@ -429,14 +432,14 @@ class CPLController extends Controller
             ];
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
 
-            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-                'APIKEY'    => config('app.APIKEY'),
-                'tahun'     => config('app.tahun_kurikulum'),
-                'prodi'     => Session::get('data')['idprodi'],
-            ]);
-            $json = $res->json();
-            $dataMatkul = $json['data'];
-
+            // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'tahun'     => config('app.tahun_kurikulum'),
+            //     'prodi'     => Session::get('data')['idprodi'],
+            // ]);
+            // $json = $res->json();
+            // $dataMatkul = $json['data'];
+            $dataMatkul = getMK();
             $bobotcpl = BobotCPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
             ])->get();

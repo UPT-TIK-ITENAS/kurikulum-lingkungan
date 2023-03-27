@@ -8,6 +8,25 @@ use App\Models\CE;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+
+if (!function_exists('getMK')) {
+    function getMK()
+    {
+        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            'APIKEY'    => config('app.APIKEY'),
+            'tahun'     => config('app.tahun_kurikulum'),
+            'prodi'     => Session::get('data')['idprodi'],
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+        $data1 = collect($data)->filter(function ($item) {
+            return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
+        });
+
+        return $data1;
+    }
+}
+
 if (!function_exists('getBobot')) {
     function getBobot($ce, $cpmk, $cpl, $tipe)
     {

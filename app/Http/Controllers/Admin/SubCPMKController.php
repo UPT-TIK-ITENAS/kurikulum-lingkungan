@@ -28,7 +28,7 @@ class SubCPMKController extends Controller
     //             'subcpmk_id_fakultas' => $appdata['sesi']['idfakultas'],
     //             'subcpmk_id_cpmk'      => $idcpmk
     //         ])->get();
-    //         $data['cpmk'] = CPMK::where('id', $idcpmk)->first();
+    //         $data['cpmk'] = CPMK::('id', $idcpmk)->first();
     //         return view('admin.subcpmk_index', compact('appdata', 'data'));
     //     } else {
     //         return redirect()->route('login')->with('error', 'You are not authenticated');

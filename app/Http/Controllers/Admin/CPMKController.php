@@ -33,13 +33,14 @@ class CPMKController extends Controller
 
     public function listmatakuliah(Request $request)
     {
-        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-            'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => config('app.tahun_kurikulum'),
-            'prodi'     => Session::get('data')['idprodi'],
-        ]);
-        $json = $res->json();
-        $data = $json['data'];
+        // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+        //     'APIKEY'    => config('app.APIKEY'),
+        //     'tahun'     => config('app.tahun_kurikulum'),
+        //     'prodi'     => Session::get('data')['idprodi'],
+        // ]);
+        // $json = $res->json();
+        // $data = $json['data'];
+        $data = getMK();
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()

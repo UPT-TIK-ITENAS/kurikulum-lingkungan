@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Session;
 use PDF;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
@@ -33,6 +34,7 @@ class MainController extends Controller
                 ])->groupBy('semester_lulus')->get('semester_lulus')
             ];
             // dd($appdata);
+
             return view('admin.dashboard', compact('appdata', 'data'));
         } else {
             return redirect()->route('login')->with('error', 'Sesi anda telah habis');
@@ -46,13 +48,14 @@ class MainController extends Controller
      */
     public function listmatakuliah(Request $request)
     {
-        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-            'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => config('app.tahun_kurikulum'),
-            'prodi'     => Session::get('data')['idprodi'],
-        ]);
-        $json = $res->json();
-        $data = $json['data'];
+        // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+        //     'APIKEY'    => config('app.APIKEY'),
+        //     'tahun'     => config('app.tahun_kurikulum'),
+        //     'prodi'     => Session::get('data')['idprodi'],
+        // ]);
+        // $json = $res->json();
+        // $data = $json['data'];
+        $data = getMK();
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
