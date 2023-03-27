@@ -11,37 +11,38 @@
                     <b>Bobot CPL Padu Yang Dibebankan Pada Mata Kuliah</b>
                 </div>
                 <div class="card-body">
-
-                    <table id="table-bobot" class="table table-bordered">
-                        <thead class="text-center">
-                            <tr>
-                                <th style="font-size: 70%">Mata Kuliah</th>
-                                @foreach ($cpl_mk as $c)
-                                    <th>{{ $c->kode_cpl }}</th>
-                                @endforeach
-                                <th>Total</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            @foreach ($dataMatkul as $data)
+                    <div class="table-responsive">
+                        <table id="table-bobot" class="table table-bordered">
+                            <thead class="text-center">
                                 <tr>
-                                    <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} | {{ trim($data['nakmktbkmk']) }}
-                                    </td>
+                                    <th style="font-size: 70%">Mata Kuliah</th>
                                     @foreach ($cpl_mk as $c)
-                                        <td style="font-size: 80%;">
-                                            {{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] : '0' }}
-                                        </td>
+                                        <th>{{ $c->kode_cpl }}</th>
                                     @endforeach
-                                    </td>
-                                    <td><input type="text" class="form-control total"
-                                            style="text-align: center;font-size: 70%;" name="bobot_mk" id="bobot_mk"
-                                            value="{{ totalBobotPerMK($data['kdkmktbkmk']) }}" readonly>
-                                    </td>
+                                    <th>Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        {{-- <tfoot>
+
+                            </thead>
+                            <tbody>
+                                @foreach ($dataMatkul as $data)
+                                    <tr>
+                                        <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} |
+                                            {{ trim($data['nakmktbkmk']) }}
+                                        </td>
+                                        @foreach ($cpl_mk as $c)
+                                            <td style="font-size: 80%;">
+                                                {{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] : '0' }}
+                                            </td>
+                                        @endforeach
+                                        </td>
+                                        <td><input type="text" class="form-control total"
+                                                style="text-align: center;font-size: 70%;" name="bobot_mk" id="bobot_mk"
+                                                value="{{ totalBobotPerMK($data['kdkmktbkmk']) }}" readonly>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            {{-- <tfoot>
                             <tr align="center">
                                 <th colspan="1">Total</th>
                                 @foreach ($cpl_mk as $c)
@@ -54,7 +55,8 @@
                             </tr>
 
                         </tfoot> --}}
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

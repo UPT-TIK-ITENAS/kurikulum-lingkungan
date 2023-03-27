@@ -14,6 +14,25 @@
                         Tambah CPMK</a>
                 </div>
                 <div class="card-body">
+                    <b>Memiliki CPL :</b>
+                    <table cellpadding="10" class="table table-bordered">
+                        <thead>
+                            <tr style="background-color: rgb(228, 228, 228)">
+                                <th class="text-center">No</th>
+                                <th class="text-center">Capaian Pembelajaran Lulusan</th>
+                                <th class="text-center">Bobot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cpl_mk as $no => $c)
+                                <tr>
+                                    <td class="text-center">{{ $no + 1 }}</td>
+                                    <td>{{ $c->id_cpl }} | {{ $c->cpl->nama_cpl }}</td>
+                                    <td>{{ $c->bobot }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     <table id="table-cpmk" class="table table-bordered">
                         <thead class="text-center">
                             <tr>
@@ -32,13 +51,13 @@
                                     <td align="center">
                                         <div class='btn-group' role='group' aria-label='Action'>
 
-                                            <a role='button' class='btn btn-icon btn-primary'
+                                            {{-- <a role='button' class='btn btn-icon btn-primary'
                                                 href='{{ route('admin.cpmk.cpl', encrypt($c->id)) }}'
                                                 data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-success' title='Input relasi dengan CPL'>
                                                 CPL
-                                            </a>
+                                            </a> --}}
                                             <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-warning' title='Edit CPL' href="#"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BobotCPLPadu;
 use App\Models\CE;
 use App\Models\CPL;
 use App\Models\CPMK;
@@ -101,7 +102,12 @@ class CPMKController extends Controller
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0]
             ])->get();
-            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk'));
+
+            $cpl_mk = BobotCPLPadu::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
+                ->where('bobot', '!=', '0')->get();
+            // dd($cpl_mk);
+
+            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
