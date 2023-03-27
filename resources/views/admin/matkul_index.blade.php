@@ -20,7 +20,7 @@
                                 <th>Nama MK (Inggris)</th>
                                 <th>Jumlah SKS</th>
                                 <th>Wajib / Pilihan</th>
-                                <th>Capain CPL Terhadap Matakuliah</th>
+                                <th>Capaian CPL Terhadap Matakuliah</th>
                                 <th>Capaian CPL Terhadap Mahasiswa</th>
                             </tr>
                         </thead>
@@ -37,25 +37,29 @@
                     <h5 class="modal-title" id="exampleModalLabel3">Edit CPL terhadap Mata Kuliah</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.matkul.storemk') }}" method="post" id="data" enctype="multipart/form-data" class="needs-validation">
+                <form action="{{ route('admin.matkul.storemk') }}" method="post" id="data"
+                    enctype="multipart/form-data" class="needs-validation">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Kode Mata Kuliah</label>
-                                <input type="text" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="kdmk" name="kdmk" readonly>
+                                <input type="text" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="kdmk" name="kdmk" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Nama Mata Kuliah</label>
-                                <input type="text" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="nmmk" name="nmmk" readonly>
+                                <input type="text" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="nmmk" name="nmmk" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">CPl terhadap Mata Kuliah</label>
-                                <input type="file" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="file" name="file" required>
+                                <input type="file" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="file" name="file" required>
                             </div>
                         </div>
                     </div>
@@ -87,7 +91,7 @@
         </div>
     </div>
 
-    
+
     <div class="modal fade" id="editcplMhs" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -95,25 +99,30 @@
                     <h5 class="modal-title" id="exampleModalLabel3">Edit CPL terhadap Mahasiswa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.matkul.storemhs') }}" method="post"  id="datamhs" enctype="multipart/form-data" class="needs-validation">
+                <form action="{{ route('admin.matkul.storemhs') }}" method="post" id="datamhs"
+                    enctype="multipart/form-data" class="needs-validation">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Kode Mata Kuliah</label>
-                                <input type="text" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="kdmkk" name="kdmkk" readonly>
+                                <input type="text" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="kdmkk" name="kdmkk" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">Nama Mata Kuliah</label>
-                                <input type="text" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="nmmkk" name="nmmkk" readonly>
+                                <input type="text" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="nmmkk" name="nmmkk" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nameLarge" class="form-label">CPl terhadap Mahasiswa</label>
-                                <input type="file" class="form-control" aria-label="Kode CPL" aria-describedby="basic-addon11" id="file" name="file" data-allowed-file-extensions="jpg png jpeg svg" required>
+                                <input type="file" class="form-control" aria-label="Kode CPL"
+                                    aria-describedby="basic-addon11" id="file" name="file"
+                                    data-allowed-file-extensions="jpg png jpeg svg" required>
                             </div>
                         </div>
                     </div>
@@ -144,7 +153,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @push('scripts')
     <script src="{{ asset('js/form-layouts.js') }}"></script>
@@ -213,8 +221,8 @@
                 maxFiles: 1
             });
         });
-        
-        
+
+
         function showedit(elem) {
             var kdmk = $(elem).data('kdmk');
             var nmmk = $(elem).data('nmmk');

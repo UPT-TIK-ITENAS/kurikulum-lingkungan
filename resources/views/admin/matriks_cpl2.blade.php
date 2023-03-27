@@ -28,7 +28,8 @@
                                     <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} | {{ trim($data['nakmktbkmk']) }}
                                     </td>
                                     @foreach ($cpl as $c)
-                                        <td>{{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] : '0' }}
+                                        <td style="font-size: 80%;">
+                                            {{ !empty($bobot) ? round($bobot[$data['kdkmktbkmk']][$c->kode_cpl]) : '0' }}
                                         </td>
                                     @endforeach
                                 </tr>
@@ -40,8 +41,8 @@
                                 @foreach ($cpl as $c)
                                     <th>
                                         <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control"
-                                            style="text-align: center;font-size: 90%;"
-                                            value="{{ totalBobotPerCPL($c->kode_cpl) }}" readonly>
+                                            style="text-align: center;font-size: 80%;"
+                                            value="{{ round(totalBobotPerCPL($c->kode_cpl)) }}" readonly>
                                     </th>
                                 @endforeach
                             </tr>

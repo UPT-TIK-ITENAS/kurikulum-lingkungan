@@ -343,10 +343,8 @@ class CPLController extends Controller
                 $data['idfakultas'] = $sesi['idfakultas'];
                 $data['id_cpl'] = $key['id_cpl'];
                 $data['bobot'] = $key['bobot'] ?? 0;
-                $data['bobot_mk'] = round(($key['bobot'] / $key['bobot_mk']) * 100) ?? 0;
-                $data['bobot_cpl'] = round(($key['bobot'] / $key['bobot_cpl']) * 100) ?? 0;
-
-                // dd($data['bobot_cpl']);
+                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
+                $data['bobot_cpl'] = ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
 
                 BobotCPLPadu::updateOrCreate(
                     [
@@ -354,8 +352,10 @@ class CPLController extends Controller
                         'idprodi' => $data['idprodi'],
                         'idfakultas' => $data['idfakultas'],
                         'id_cpl' => $data['id_cpl'],
-                        'bobot' =>  $data['bobot'],
                     ],
+                    [
+                        'bobot' =>  $data['bobot'],
+                    ]
                 );
 
                 BobotMK::updateOrCreate(
@@ -364,8 +364,10 @@ class CPLController extends Controller
                         'idprodi' => $data['idprodi'],
                         'idfakultas' => $data['idfakultas'],
                         'id_cpl' => $data['id_cpl'],
-                        'bobot_mk' =>  $data['bobot_mk'],
                     ],
+                    [
+                        'bobot_mk' =>  $data['bobot_mk'],
+                    ]
                 );
 
                 BobotCPL::updateOrCreate(
@@ -374,13 +376,12 @@ class CPLController extends Controller
                         'idprodi' => $data['idprodi'],
                         'idfakultas' => $data['idfakultas'],
                         'id_cpl' => $data['id_cpl'],
-                        'bobot_cpl' =>  $data['bobot_cpl'],
                     ],
+                    [
+                        'bobot_cpl' =>  $data['bobot_cpl'],
+                    ]
                 );
             }
-
-
-
             return response()->json(['success' => 'Berhasil']);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
