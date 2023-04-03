@@ -50,7 +50,8 @@
                                         </td>
                                     @endforeach
                                     <td><input type="text" class="form-control total"
-                                            style="text-align: center;font-size: 70%;" name="bobot_mk" id="bobot_mk"
+                                            style="text-align: center;font-size: 70%;" name="bobot_mk"
+                                            id="bobot_mk_{{ $data['kdkmktbkmk'] }}"
                                             value="{{ totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'cpl_padu') }}" readonly>
                                     </td>
                                 </tr>
@@ -61,8 +62,8 @@
                                 <th colspan="1">Total</th>
                                 @foreach ($cpl as $c)
                                     <th>
-                                        <input type="text" name="bobot_cpl" id="bobot_cpl" class="form-control totalCPL"
-                                            style="text-align: center;font-size: 90%;"
+                                        <input type="text" name="bobot_cpl" id="bobot_cpl_{{ $c->kode_cpl }}"
+                                            class="form-control totalCPL" style="text-align: center;font-size: 90%;"
                                             value="{{ totalBobotCPLPaduPerCPL($c->kode_cpl) }}" readonly>
                                     </th>
                                 @endforeach
@@ -161,10 +162,10 @@
                     var bobot = $('#bobot_' + id).val() == undefined ? 0 : $('#bobot_' + id).val();
                     var cpl = $('#bobot_' + id).data('cpl');
                     var idmatakuliah = $('#bobot_' + id).data('mk');
-                    var bobot_mk = $('#bobot_mk').val();
-                    var bobot_cpl = $('#bobot_cpl').val();
+                    var bobot_mk = $('#bobot_mk_' + idmatakuliah).val();
+                    var bobot_cpl = $('#bobot_cpl_' + cpl).val();
 
-                    console.log(bobot_cpl);
+                    console.log(bobot_mk);
                     data.push({
                         'bobot': bobot,
                         'id_cpl': cpl,

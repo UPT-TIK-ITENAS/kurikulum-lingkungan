@@ -334,17 +334,15 @@ class CPLController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
-            // dd($sesi);
             foreach ($request->data as $key) {
 
-                // dd($request->data);
                 $data['idmatakuliah'] = $key['idmatakuliah'];
                 $data['idprodi'] = $sesi['idprodi'];
                 $data['idfakultas'] = $sesi['idfakultas'];
                 $data['id_cpl'] = $key['id_cpl'];
                 $data['bobot'] = $key['bobot'] ?? 0;
-                $data['bobot_mk'] = ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
-                $data['bobot_cpl'] = ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
+                $data['bobot_mk'] = $key['bobot_mk'] == 0 ? 0 : ($key['bobot'] / $key['bobot_mk']) * 100 ?? 0;
+                $data['bobot_cpl'] = $key['bobot_cpl'] == 0 ? 0 : ($key['bobot'] / $key['bobot_cpl']) * 100 ?? 0;
 
                 BobotCPLPadu::updateOrCreate(
                     [
