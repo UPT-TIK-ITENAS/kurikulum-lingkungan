@@ -364,7 +364,7 @@ class CPLController extends Controller
                         'id_cpl' => $data['id_cpl'],
                     ],
                     [
-                        'bobot_mk' =>  round($data['bobot_mk']),
+                        'bobot_mk' =>  $data['bobot_mk'],
                     ]
                 );
 
