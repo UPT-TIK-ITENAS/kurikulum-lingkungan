@@ -193,7 +193,7 @@ if (!function_exists('totalBobotCPLPaduPerCPL')) {
         ])->groupby('id_cpl')->get();
 
 
-        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+        return !empty($total_nilai[0]) ? round($total_nilai[0]->totalbobot) : 0;
     }
 }
 
