@@ -52,8 +52,7 @@
                                     <td><input type="text" class="form-control total"
                                             style="text-align: center;font-size: 70%;" name="bobot_mk"
                                             id="bobot_mk_{{ $data['kdkmktbkmk'] }}"
-                                            value="{{ round(totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'cpl_padu')) }}"
-                                            readonly>
+                                            value="{{ totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'cpl_padu') }}" readonly>
                                     </td>
                                 </tr>
                             @endforeach
