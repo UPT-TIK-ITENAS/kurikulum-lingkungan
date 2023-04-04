@@ -52,7 +52,8 @@
                                     <td><input type="text" class="form-control total"
                                             style="text-align: center;font-size: 70%;" name="bobot_mk"
                                             id="bobot_mk_{{ $data['kdkmktbkmk'] }}"
-                                            value="{{ totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'cpl_padu') }}" readonly>
+                                            value="{{ round(totalBobotCPLPaduPerMK($data['kdkmktbkmk'], 'cpl_padu')) }}"
+                                            readonly>
                                     </td>
                                 </tr>
                             @endforeach
@@ -64,13 +65,14 @@
                                     <th>
                                         <input type="text" name="bobot_cpl" id="bobot_cpl_{{ $c->kode_cpl }}"
                                             class="form-control totalCPL" style="text-align: center;font-size: 90%;"
-                                            value="{{ totalBobotCPLPaduPerCPL($c->kode_cpl) }}" readonly>
+                                            value="{{ round(totalBobotCPLPaduPerCPL($c->kode_cpl)) }}" readonly>
                                     </th>
                                 @endforeach
                                 <th>
                                     <input type="text" name="bobot" class="form-control grandTotal"
                                         style="text-align: center;font-size: 90%;"
-                                        value="{{ !empty($total_nilai) ? $total_nilai['totalbobot'] : '0' }}" readonly>
+                                        value="{{ !empty($total_nilai) ? round($total_nilai['totalbobot']) : '0' }}"
+                                        readonly>
                                 </th>
                             </tr>
 
