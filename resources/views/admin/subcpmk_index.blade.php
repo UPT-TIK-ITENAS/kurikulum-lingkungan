@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK / Sub CPMK / </span> Kelola Sub CPMK {{ $datamk[0] }}
+    <span class="text-muted fw-light">Data CPMK - Sub CPMK / Sub CPMK / </span> Kelola Sub CPMK {{ $datamk[0] }}
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->

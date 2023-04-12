@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK/ </span> CPL Bobot
+    <span class="text-muted fw-light">CPL / </span> Data Bobot CPL Padu
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -20,6 +20,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         </div>
                     </div>
+                    <br><br>
                     <table id="table-bobot" class="table table-bordered">
                         <thead class="text-center">
                             <tr>
@@ -34,8 +35,15 @@
                         <tbody>
                             @foreach ($dataMatkul as $data)
                                 <tr class="a">
-                                    <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} | {{ trim($data['nakmktbkmk']) }}
-                                    </td>
+                                    @if ($data['wbpiltbkur'] == 'P')
+                                        <td style="font-size: 80%">
+                                            {{ trim($data['nakmktbkmk']) }}
+                                        </td>
+                                    @else
+                                        <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} |
+                                            {{ trim($data['nakmktbkmk']) }}
+                                        </td>
+                                    @endif
                                     @foreach ($cpl as $c)
                                         <td>
                                             <div class="input_bobot"

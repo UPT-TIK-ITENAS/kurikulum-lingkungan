@@ -5,7 +5,8 @@
                 <img src="{{ asset('img/logo-white.png') }}" class="h-100" alt=""
                     data-app-light-img="logo-white.png" data-app-dark-img="logo.png">
             </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">Course Evaluation</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">Implementasi Kurikulum
+            </span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -27,7 +28,7 @@
             </a>
         </li>
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Master</span></li>
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Hasil Pengukuran CPL</span></li>
 
         <li class="menu-item @if (request()->routeIs('admin.matkul.index') ||
                 request()->routeIs('admin.mahasiswa.index') ||
@@ -36,7 +37,7 @@
                 request()->routeIs('admin.lulusan.index')) open @endif">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
-                <div>Data Master</div>
+                <div>Hasil Pengukuran CPL</div>
             </a>
 
             <ul class="menu-sub">
@@ -59,28 +60,31 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Course Evaluation</span></li>
-        <li class="menu-item @if (request()->routeIs('admin.cpl.*') || request()->routeIs('admin.cpmk.*')) open @endif">
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Rencana Pembelajaran </span></li>
+        <li class="menu-item @if (request()->routeIs('admin.cpl.*')) open @endif">
             <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div>CPL - CPMK - Sub CPMK</div>
+                <div>CPL</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item @if (request()->routeIs('admin.cpl.*')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.cpl.index')) active @endif">
                     <a href="{{ route('admin.cpl.index') }}" class="menu-link">
-                        <div>Data CPL</div>
+                        <div>CPL Padu</div>
                     </a>
                 </li>
-                <li class="menu-item @if (request()->routeIs('admin.cpl.getBobotCPLPadu.*')) active @endif">
+                <li class="menu-item @if (request()->routeIs('admin.cpl.getBobotCPLPadu')) active @endif">
                     <a href="{{ route('admin.cpl.getBobotCPLPadu') }}" class="menu-link">
                         <div>Data Bobot CPL Padu</div>
                     </a>
                 </li>
-                <li class="menu-item @if (request()->routeIs('admin.cpmk.*') ||
-                        request()->routeIs('admin.cpmk.kelola') ||
-                        request()->routeIs('admin.cpmk.cpl')) active @endif">
-                    <a href="{{ route('admin.cpmk.index') }}" class="menu-link">
-                        <div>Data CPMK - Sub CPMK</div>
+                <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPLMK')) active @endif">
+                    <a href="{{ route('admin.cpl.matriksCPLMK') }}" class="menu-link">
+                        <div>Matriks Bobot CPL Padu setiap MK</div>
+                    </a>
+                </li>
+                <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPL')) active @endif">
+                    <a href="{{ route('admin.cpl.matriksCPL') }}" class="menu-link">
+                        <div>Matriks Bobot setiap CPL</div>
                     </a>
                 </li>
             </ul>
@@ -97,16 +101,11 @@
                 <div>Matriks CPL-CPMK</div>
             </a>
         </li> --}}
-        <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPLMK')) active @endif">
-            <a href="{{ route('admin.cpl.matriksCPLMK') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                <div>Matriks CPL-MK</div>
-            </a>
-        </li>
-        <li class="menu-item @if (request()->routeIs('admin.cpl.matriksCPL')) active @endif">
-            <a href="{{ route('admin.cpl.matriksCPL') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                <div>Matriks CPL</div>
+
+        <li class="menu-item @if (request()->routeIs('admin.cpmk.*') || request()->routeIs('admin.subcpmk.*') || request()->routeIs('admin.bobot')) active @endif">
+            <a href="{{ route('admin.cpmk.index') }}" class="menu-link"> <i
+                    class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div>Data CPMK - Sub CPMK</div>
             </a>
         </li>
     </ul>

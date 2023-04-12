@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK/ </span> CPMK
+    <span class="text-muted fw-light">Data CPMK - Sub CPMK / </span> Daftar Mata Kuliah
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->

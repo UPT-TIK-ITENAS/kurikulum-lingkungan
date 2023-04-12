@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html class="loading" lang="en" class="light-style layout-navbar-fixed layout-menu-fixed " dir="ltr"
-    data-theme="theme-semi-dark" data-assets-path="{{ url('') }}/" data-template="vertical-menu-template-semi-dark">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed " dir="ltr" data-theme="theme-semi-dark"
+    data-assets-path="{{ url('') }}/" data-template="vertical-menu-template-semi-dark">
 <!-- BEGIN: Head-->
 
 <head>
@@ -8,9 +8,11 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ $appdata['title'] . ' - ' }} Course Evaluation</title>
+    <title>{{ $appdata['title'] . ' - ' }} Implementasi Kurikulum </title>
 
     <meta name="description" content="" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('img/icons/logo.png') }}" />

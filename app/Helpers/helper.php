@@ -22,7 +22,39 @@ if (!function_exists('getMK')) {
         $data1 = collect($data)->filter(function ($item) {
             return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
         });
+        $counter = 1;
+        $counter1 = 1;
+        $data1 = $data1->map(function ($item) use (&$counter, &$counter1) {
 
+
+            if ($item['wbpiltbkur'] == 'P') {
+                return [
+                    'kdkmktbkmk' => 'MKP-' . '' . $counter1++,
+                    'nakmktbkmk' => 'Mata Kuliah Pilihan' . ' ' . $counter++,
+                    'nakmitbkmk' => 'Mata Kuliah Pilihan',
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur']
+                ];
+            } else {
+                return [
+                    'kdkmktbkmk' => $item['kdkmktbkmk'],
+                    'nakmktbkmk' => $item['nakmktbkmk'],
+                    'nakmitbkmk' => $item['nakmitbkmk'],
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur']
+                ];
+            }
+            // end foreach
+
+
+        });
+        // dd($data1);
         return $data1;
     }
 }

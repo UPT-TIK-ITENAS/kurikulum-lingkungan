@@ -425,7 +425,7 @@ class CPLController extends Controller
     {
         if (Session::has('data')) {
             $appdata = [
-                'title' => 'Bobot CPL Mata Kuliah',
+                'title' => 'Bobot Setiap CPL',
                 'sesi'  => Session::get('data')
             ];
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();

@@ -20,8 +20,8 @@
                                 <th>Nama MK (Inggris)</th>
                                 <th>Jumlah SKS</th>
                                 <th>Wajib / Pilihan</th>
-                                <th>Capaian CPL Terhadap Matakuliah</th>
-                                <th>Capaian CPL Terhadap Mahasiswa</th>
+                                {{-- <th>Capaian CPL Terhadap Matakuliah</th>
+                                <th>Capaian CPL Terhadap Mahasiswa</th> --}}
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -197,16 +197,16 @@
                         name: 'wbpiltbkur',
                         className: 'text-center'
                     },
-                    {
-                        data: 'cpl_mk',
-                        name: 'cpl_mk',
-                        className: 'text-center'
-                    },
-                    {
-                        data: 'cpl_mhs',
-                        name: 'cpl_mhs',
-                        className: 'text-center'
-                    },
+                    // {
+                    //     data: 'cpl_mk',
+                    //     name: 'cpl_mk',
+                    //     className: 'text-center'
+                    // },
+                    // {
+                    //     data: 'cpl_mhs',
+                    //     name: 'cpl_mhs',
+                    //     className: 'text-center'
+                    // },
                 ],
             });
             $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">CPL - CPMK - Sub CPMK/ </span> CPL Bobot
+    <span class="text-muted fw-light">CPL / </span> Matriks bobot Setiap CPL
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <b>Bobot CPL Padu Yang Dibebankan Pada Mata Kuliah</b>
+                    <b>Bobot CPL Padu setiap Mata Kuliah</b>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -25,9 +25,15 @@
                             <tbody>
                                 @foreach ($dataMatkul as $data)
                                     <tr>
-                                        <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} |
-                                            {{ trim($data['nakmktbkmk']) }}
-                                        </td>
+                                        @if ($data['wbpiltbkur'] == 'P')
+                                            <td style="font-size: 80%">
+                                                {{ trim($data['nakmktbkmk']) }}
+                                            </td>
+                                        @else
+                                            <td style="font-size: 80%">{{ $data['kdkmktbkmk'] }} |
+                                                {{ trim($data['nakmktbkmk']) }}
+                                            </td>
+                                        @endif
                                         @foreach ($cpl as $c)
                                             <td style="font-size: 80%;">
                                                 {{ !empty($bobot) ? round($bobot[$data['kdkmktbkmk']][$c->kode_cpl]) : '0' }}
