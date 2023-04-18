@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
-    <span class="text-muted fw-light">Mata Kuliah Pilihan / </span> Daftar Mata Kuliah
+    <span class="text-muted fw-light">Pengakategorian Mata Kuliah Pilihan / </span> Daftar Mata Kuliah
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <b>Mata Kuliah Pilihan</b>
+                    <b> Pengakategorian Mata Kuliah Pilihan</b>
                 </div>
                 <div class="card-body">
                     <div class="row mb-2">
@@ -23,7 +23,6 @@
                     <table id="table-mkp" class="table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <th>No</th>
                                 <th>Kode MK</th>
                                 <th>Nama MK</th>
                                 <th>Kategori</th>
@@ -32,7 +31,6 @@
                         <tbody>
                             @foreach ($data as $no => $ce)
                                 <tr>
-                                    <td>{{ $no + 1 }}</td>
                                     <td>{{ $ce['kdkmktbkmk'] }}</td>
                                     <td>{{ $ce['nakmktbkmk'] }}</td>
                                     <td>
@@ -42,7 +40,7 @@
                                                 <option value="" disabled selected>Pilih Kategori</option>
                                                 @foreach ($mkpilihan as $mk)
                                                     <option value="{{ $mk['kdkmktbkmk'] }}"
-                                                        @if ($pilihan[$ce['kdkmktbkmk']]) selected @endif required>
+                                                        @if ($pilihan[$ce['kdkmktbkmk']] == $mk['kdkmktbkmk']) selected @endif required>
                                                         {{ $mk['nakmktbkmk'] }}
                                                     </option>
                                                 @endforeach

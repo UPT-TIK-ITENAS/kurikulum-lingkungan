@@ -112,7 +112,7 @@
         <li class="menu-item @if (request()->routeIs('admin.mkp.*')) active @endif">
             <a href="{{ route('admin.mkp.index') }}" class="menu-link"> <i
                     class="menu-icon tf-icons bx bx-book-alt"></i>
-                <div>Data Mata Kuliah Pilihan</div>
+                <div>Pengkategorian Mata Kuliah Pilihan</div>
             </a>
         </li>
     </ul>
