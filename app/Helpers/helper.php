@@ -36,7 +36,9 @@ if (!function_exists('getMK')) {
                     'wbpiltbkur' => $item['wbpiltbkur'],
                     'prodi' => $item['prodi'],
                     'kdfaktbkur' => $item['kdfaktbkur'],
-                    'kdjurtbkur' => $item['kdjurtbkur']
+                    'kdjurtbkur' => $item['kdjurtbkur'],
+                    'kodemkasli' => $item['kdkmktbkmk'],
+                    'namamkasli' => $item['nakmktbkmk'],
                 ];
             } else {
                 return [

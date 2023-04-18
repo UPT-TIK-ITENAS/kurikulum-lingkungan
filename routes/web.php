@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\SubCPMKController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\BobotController;
-
+use App\Http\Controllers\Admin\MKPilihanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +48,9 @@ Route::middleware(['isLogin'])->group(function () {
         //Bobot CPL 
         Route::get('/admin/cpl/matriksCPL/', [CPLController::class, 'matriksCPL'])->name('admin.cpl.matriksCPL');
 
+        //MK Pilihan 
+        Route::get('/admin/mkp/index/', [MKPilihanController::class, 'index'])->name('admin.mkp.index');
+        Route::post('/admin/mkp/store', [MKPilihanController::class, 'store'])->name('admin.mkp.store');
         //IK
         Route::get('/admin/cpl/ik/{id}', [IKController::class, 'index'])->name('admin.cpl.ik');
         Route::post('/admin/cpl/ik/store', [IKController::class, 'store'])->name('admin.cpl.ik.store');

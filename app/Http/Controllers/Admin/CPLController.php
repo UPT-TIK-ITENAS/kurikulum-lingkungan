@@ -323,7 +323,7 @@ class CPLController extends Controller
             $total_nilai = BobotCPLPadu::selectRaw('sum(bobot) as totalbobot')->where([
                 'idprodi' => $appdata['sesi']['idprodi'],
             ])->groupby('idprodi')->first();
-            // dd($total_nilai);
+            // dd($bobot);
             return view('admin.cpl_bobot_padu', compact('appdata', 'cpl', 'dataMatkul', 'bobotcpl', 'bobot', 'total_nilai', 'totalcpl'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -414,6 +414,8 @@ class CPLController extends Controller
             foreach ($bobotmk as $b) {
                 $bobot[$b->idmatakuliah][$b->id_cpl] = $b->bobot_mk;
             }
+
+            // dd($bobot);
 
             return view('admin.matriks_cpl_mk', compact('appdata', 'cpl_mk', 'dataMatkul', 'bobot', 'bobotmk'));
         } else {
