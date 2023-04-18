@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $no => $ce)
-                                <tr>
+                                <tr style="text-align: center;font-size: 14px;">
                                     <td>{{ $ce['kdkmktbkmk'] }}</td>
                                     <td>{{ $ce['nakmktbkmk'] }}</td>
                                     <td>
@@ -66,7 +66,7 @@
                 "paging": true,
                 "lengthChange": true,
                 "searching": false,
-                "ordering": true,
+                "ordering": false,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,

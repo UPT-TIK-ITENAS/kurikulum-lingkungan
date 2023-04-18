@@ -146,20 +146,15 @@
 
             subTotal(table);
 
-            // $('#table-bobot').DataTable({
-            //     "paging": true,
-            //     "lengthChange": true,
-            //     "searching": true,
-            //     "ordering": true,
-            //     "info": true,
-            //     "autoWidth": false,
-            //     "responsive": true,
-            //     "lengthMenu": [
-            //         [10, 25, 50, -1],
-            //         [10, 25, 50, "All"]
-            //     ],
-            //     "pageLength": 25,
-            // });
+            $('#table-bobot').DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+            });
 
             var saveButton = document.getElementById("saveBtn");
             saveButton.addEventListener("click", function(event) {

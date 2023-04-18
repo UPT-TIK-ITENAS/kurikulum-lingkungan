@@ -65,5 +65,17 @@
 @push('scripts')
     <!-- Page JS -->
     <script src="{{ asset('js/form-layouts.js') }}"></script>
-    <script></script>
+    <script>
+        $(document).ready(function() {
+            $('#table-bobot').DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        })
+    </script>
 @endpush
