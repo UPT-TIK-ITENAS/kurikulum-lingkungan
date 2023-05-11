@@ -8,6 +8,7 @@ use App\Models\CPL;
 use App\Models\CPMK;
 use App\Models\SubCPMK;
 use App\Models\Bobot;
+use App\Models\BobotMK;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -49,8 +50,17 @@ class BobotController extends Controller
             foreach ($data['bobot'] as $b) {
                 $bobot[$b->id_cpmk][$b->id_subcpmk] = $b->bobot;
             }
+            $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot,count(DISTINCT subcpmk_kode) as totalsub')->where([
+                'idprodi' => $appdata['sesi']['idprodi'], 'idmatakuliah' => $datamk[0]
+            ])->groupby('idprodi')->first();
+            // dd($bobotsubcpmk);
+
+            $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
+                ->where('bobot_mk', '!=', '0')->get();
+            // dd($cpl_mk);
+            
             // dd($bobot);
-            return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot'));
+            return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot','bobotsubcpmk','cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

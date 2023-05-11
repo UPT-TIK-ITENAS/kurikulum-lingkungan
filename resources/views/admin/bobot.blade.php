@@ -54,6 +54,17 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr align="center">
+                                <th colspan="{{ $bobotsubcpmk->totalsub + 1 }}">Total</th>
+                                <th>
+                                    <input type="text" name="bobot" class="form-control grandTotal"
+                                        style="text-align: center;"
+                                        value="{{ !empty($bobotsubcpmk) ? $bobotsubcpmk->totalbobot : '0' }} " readonly>
+                                </th>
+                            </tr>
+
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -110,6 +121,19 @@
                     total += parseInt($(this).val());
                 });
                 row.find('.total').val(total);
+
+                const totalElements = document.getElementsByClassName('total');
+                let grandTotal = 0;
+                totalElements.forEach(function(item) {
+                    grandTotal += Number(item.value);
+                })
+                $('.grandTotal').val(grandTotal);
+                if (grandTotal > 100) {
+                    $('#lebih').css('display', 'block');
+                } else {
+                    $('#lebih').css('display', 'none');
+                }
+
             });
             $('#table-bobot').DataTable({
                 "paging": true,
