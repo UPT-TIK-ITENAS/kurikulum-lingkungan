@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CPMK;
 use App\Models\SubCPMK;
+use App\Models\BobotMK;
 use Session;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,12 @@ class SubCPMKController extends Controller
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0]
             ])->get();
-            return view('admin.subcpmk_index', compact('appdata', 'data', 'datamk'));
+
+            $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
+                ->where('bobot_mk', '!=', '0')->get();
+            // dd($cpl_mk);
+
+            return view('admin.subcpmk_index', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

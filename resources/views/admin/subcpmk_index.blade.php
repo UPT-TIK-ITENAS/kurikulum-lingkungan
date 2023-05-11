@@ -14,6 +14,25 @@
                         Tambah SubCPMK</a>
                 </div>
                 <div class="card-body">
+                    <b>Memiliki CPL :</b>
+                    <table cellpadding="10" class="table table-bordered">
+                        <thead>
+                            <tr style="background-color: rgb(228, 228, 228)">
+                                <th class="text-center">No</th>
+                                <th class="text-center">Capaian Pembelajaran Lulusan</th>
+                                <th class="text-center">Bobot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cpl_mk as $no => $c)
+                                <tr>
+                                    <td class="text-center">{{ $no + 1 }}</td>
+                                    <td>{{ $c->id_cpl }} | {{ $c->cpl->nama_cpl }}</td>
+                                    <td>{{ round($c->bobot_mk) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     <table id="table-cpl" class="table table-bordered">
                         <thead class="text-center">
                             <tr>

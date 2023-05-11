@@ -11,6 +11,26 @@
                     <b>Mata Kuliah : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
                 </div>
                 <div class="card-body">
+                    <b>Memiliki CPL :</b>
+                    <table cellpadding="10" class="table table-bordered">
+                        <thead>
+                            <tr style="background-color: rgb(228, 228, 228)">
+                                <th class="text-center">No</th>
+                                <th class="text-center">Capaian Pembelajaran Lulusan</th>
+                                <th class="text-center">Bobot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cpl_mk as $no => $c)
+                                <tr>
+                                    <td class="text-center">{{ $no + 1 }}</td>
+                                    <td>{{ $c->id_cpl }} | {{ $c->cpl->nama_cpl }}</td>
+                                    <td>{{ round($c->bobot_mk) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <br>
                     <div class="row mb-2">
                         <div class="col">
                             <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
@@ -33,6 +53,9 @@
 
                         </thead>
                         <tbody>
+                            <div class="alert alert-danger" id="lebih" style="display: none;">
+                                ⚠️ Total bobot melebihi ketentuan! Periksa kembali total bobot
+                            </div>
                             @foreach ($data['cpmk'] as $cpmk)
                                 <tr>
                                     <td>{{ $cpmk->kode_cpmk }}</td>
