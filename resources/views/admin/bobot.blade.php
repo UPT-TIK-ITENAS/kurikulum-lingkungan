@@ -79,7 +79,8 @@
                         </tbody>
                         <tfoot>
                             <tr align="center">
-                                <th colspan="{{ $bobotsubcpmk->totalsub + 1 }}">Total</th>
+                                <th colspan="{{ $data['subcpmk']->count() + 1 }}">
+                                    Total</th>
                                 <th>
                                     <input type="text" name="bobot" class="form-control grandTotal"
                                         style="text-align: center;"

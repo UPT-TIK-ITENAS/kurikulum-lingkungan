@@ -127,7 +127,7 @@ class CPLController extends Controller
                         'idprodi' => $appdata['sesi']['idprodi'],
                         'idfakultas' => $appdata['sesi']['idfakultas']
                     ]
-                )->orderBy('cpmk.idmatakuliah', 'asc')->orderByRaw('CAST(SUBSTRING(cpmk.kode_cpmk,6,2) AS INT)', 'asc')
+                )->orderBy('cpmk.idmatakuliah', 'asc')
                     ->get(),
                 'nilai' => $nilaimhs
             ];
@@ -456,4 +456,7 @@ class CPLController extends Controller
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
+
+    
+    
 }

@@ -49,7 +49,9 @@
     <link rel="stylesheet" href="{{ asset('vendor/libs/sweetalert2/sweetalert2.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/libs/formvalidation/dist/css/formValidation.min.css') }}">
     <!-- Page CSS -->
-
+    <script>
+        window.baseurl = "{{ url('/') }}"
+    </script>
     <!-- Helpers -->
     <script src="{{ asset('vendor/js/helpers.js') }}"></script>
 

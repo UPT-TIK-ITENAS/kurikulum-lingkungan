@@ -25,7 +25,6 @@ class BobotController extends Controller
     public function bobot($datamk)
     {
         $datamk = explode('|', decrypt($datamk));
-        // dd($datamk);
         if (Session::has('data')) {
             $appdata = [
                 'title' => 'Kelola Bobot',
@@ -50,7 +49,8 @@ class BobotController extends Controller
             foreach ($data['bobot'] as $b) {
                 $bobot[$b->id_cpmk][$b->id_subcpmk] = $b->bobot;
             }
-            $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot,count(DISTINCT subcpmk_kode) as totalsub')->where([
+
+            $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idmatakuliah' => $datamk[0]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
@@ -59,6 +59,8 @@ class BobotController extends Controller
                 ->where('bobot_mk', '!=', '0')->get();
             // dd($cpl_mk);
             
+            $bobotnya = getNilaiBobotSC($datamk[0]);
+            // dd($bobotnya);
             // dd($bobot);
             return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot','bobotsubcpmk','cpl_mk'));
         } else {

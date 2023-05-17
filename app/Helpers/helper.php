@@ -264,3 +264,62 @@ if (!function_exists('totalBobotPerMK')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+
+if (!function_exists('getNilaiBobotSC')) {
+    function getNilaiBobotSC($mk, $nrp)
+    {
+        $getSC = Bobot::where([
+            'idmatakuliah'     => $mk
+        ])->get();
+
+        $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+            'APIKEY'    => config('app.APIKEY'),
+            'nrp'       => $nrp,
+        ]);
+        $json = $res->json();
+        $nilaimhs = $json['data'];
+        $nilaimhs = collect($nilaimhs);
+        $nilaimhs = $nilaimhs->map(function($item) use ($mk) {
+            
+            $data_sc = DB::table('bobot')->where('idmatakuliah', '=',  $mk)->get();
+            // sum bobot by subcpmk_kode
+            $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+            // $item = $item->sum('bobot') ;
+                return $item->sum('bobot')/100;
+            });
+            
+            return [
+                'nimhsMSMHS' => $item['nimhsMSMHS'],
+                'nmmhsMSMHS' => $item['nmmhsMSMHS'],
+                'kdkmkMSAKM' => $item['kdkmkMSAKM'],
+                'nakmktbkmk' => $item['nakmktbkmk'],
+                'seksiMSAKM' => $item['seksiMSAKM'],
+                'JumlahPengganti' => $item['JumlahPengganti'],
+                'JumlahReguler' => $item['JumlahReguler'],
+                'subcpmk_kode' => [
+                    'SC1' => $item['SC1']  * $data_sc['SC1'],
+                    'SC2' => $item['SC2']  * $data_sc['SC2'],
+                    'SC3' => $item['SC3']  * $data_sc['SC3'],
+                    'SC4' => $item['SC4']  * $data_sc['SC4'],
+                    'SC5' => $item['SC5']  * $data_sc['SC5'],
+                    ]
+                ];
+        });
+
+        // $total_nilai = 0;
+        // $array_nilai = [];
+        // for ($i = 0; $i < count($getSC); $i++) {
+        //     for ($j = 0; $j < count($nilaimhs); $j++) {
+        //         if ($getSC[$i]['idmatakuliah'] == $nilaimhs[$j]['kdkmkMSAKM']) {
+        //             if($getSC[$i]['subcpmk_kode'] == $nilaimhs[$j]['subcpmk_kode']){
+        //                 $nilaimhs[$j]['subcpmk_kode'] * $getSC[$i]['subcpmk_kode'];
+        //                 $total_nilai += $bobot;
+        //                 array_push($array_nilai, $bobot);
+        //             }
+        //         }
+        //     }
+        // }
+
+        return $nilaimhs[0];
+    }
+}

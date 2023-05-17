@@ -90,6 +90,9 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/admin/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('admin.matkul.listmatakuliah');
         Route::post('/admin/data-master/matkul', [MainController::class, 'storemk'])->name('admin.matkul.storemk');
         Route::post('/admin/data-master', [MainController::class, 'storemhs'])->name('admin.matkul.storemhs');
+
+        
+        Route::get('/admin/data-master/mahasiswa/subCPMK/{nim}', [SubCPMKController::class, 'sc_mahasiswa'])->name('admin.mahasiswa.sc');
         // for chart 
         Route::get('/admin/data-charts/labelCPL/{data}', [CPLController::class, 'getLabelCPLChart'])->name('admin.cpl.getLabelCPLChart');
         Route::post('/admin/data-charts/labelCPLBySemester', [CPLController::class, 'getLabelCPLChartBySemester'])->name('admin.cpl.getLabelCPLChartBySemester');
