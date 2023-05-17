@@ -159,44 +159,62 @@ class SubCPMKController extends Controller
             ]);
             $json = $res->json();
             $nilaimhs = $json['data'];
-            $nilai = collect($nilaimhs);
-            // dd($nilaimhs);
+
             $data = [
                 'mhs'   => $datamhs_dec,
                 'en_mhs' => $datamhs,
-                // 'subcpmk' =>  $getSC = Bobot::where([
-                //     'idmatakuliah'     => $mk
-                // ])->get(), 
-                // 'datasubcpmk' =>  
-                // $nilai= $nilai->map(function($item) use ($nilaimhs) {
-                    
-                //     $data_sc = DB::table('bobot')->where('idmatakuliah', '=',  $nilaimhs[0])->get();
-                //     // sum bobot by subcpmk_kode
-                //     $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
-                //     // $item = $item->sum('bobot') ;
-                //         return $item->sum('bobot')/100;
-                //     });
-                    
-                //     return [
-                //         'nimhsMSMHS' => $item['nimhsMSMHS'],
-                //         'nmmhsMSMHS' => $item['nmmhsMSMHS'],
-                //         'kdkmkMSAKM' => $item['kdkmkMSAKM'],
-                //         'nakmktbkmk' => $item['nakmktbkmk'],
-                //         'seksiMSAKM' => $item['seksiMSAKM'],
-                //         'JumlahPengganti' => $item['JumlahPengganti'],
-                //         'JumlahReguler' => $item['JumlahReguler'],
-                //         'subcpmk_kode' => [
-                //             'SC1' => $item['SC1']  * $data_sc['SC1'],
-                //             'SC2' => $item['SC2']  * $data_sc['SC2'],
-                //             'SC3' => $item['SC3']  * $data_sc['SC3'],
-                //             'SC4' => $item['SC4']  * $data_sc['SC4'],
-                //             'SC5' => $item['SC5']  * $data_sc['SC5'],
-                //             ]
-                //         ];
-                // }),              
                 'datamhs' => $nilaimhs
             ];
             return view('admin.mahasiswa_sc', compact('data', 'appdata'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function sc_mahasiswadetail($mk)
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Matriks Course Evaluation',
+                'sesi'  => Session::get('data')
+            ];
+            $datamhs_dec = explode('|', decrypt($mk));
+            $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+                'APIKEY'    => config('app.APIKEY'),
+                'nrp'       => $datamhs_dec[1],
+            ]);
+            $json = $res->json();
+            $nilaimhs = $json['data'];
+            $nilai = collect($nilaimhs);
+            // dd($nilai);
+
+            $nilai = $nilai->map(function ($item) use ($nilaimhs, $datamhs_dec) {
+
+                $data_sc = DB::table('bobot')->where('idmatakuliah', '=', $datamhs_dec[0])->get();
+                // sum bobot by subcpmk_kode
+                $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+                    // $item = $item->sum('bobot') ;
+                    return $item->sum('bobot') / 100;
+                });
+
+                return [
+                    'nimhsMSMHS' => $item['nimhsMSMHS'],
+                    'nmmhsMSMHS' => $item['nmmhsMSMHS'],
+                    'kdkmkMSAKM' => $item['kdkmkMSAKM'],
+                    'nakmktbkmk' => $item['nakmktbkmk'],
+                    'seksiMSAKM' => $item['seksiMSAKM'],
+                    'JumlahPengganti' => $item['JumlahPengganti'],
+                    'JumlahReguler' => $item['JumlahReguler'],
+                    'subcpmk_kode' => [
+                        'SC1' => $item['SC1']  * $data_sc['SC1'],
+                        'SC2' => $item['SC2']  * $data_sc['SC2'],
+                        'SC3' => $item['SC3']  * $data_sc['SC3'],
+                        'SC4' => $item['SC4']  * $data_sc['SC4'],
+                        'SC5' => $item['SC5']  * $data_sc['SC5'],
+                    ]
+                ];
+            });
+            return response()->json($nilai);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

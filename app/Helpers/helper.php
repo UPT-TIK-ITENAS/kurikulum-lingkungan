@@ -279,15 +279,15 @@ if (!function_exists('getNilaiBobotSC')) {
         $json = $res->json();
         $nilaimhs = $json['data'];
         $nilaimhs = collect($nilaimhs);
-        $nilaimhs = $nilaimhs->map(function($item) use ($mk) {
-            
+        $nilaimhs = $nilaimhs->map(function ($item) use ($mk) {
+
             $data_sc = DB::table('bobot')->where('idmatakuliah', '=',  $mk)->get();
             // sum bobot by subcpmk_kode
             $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
-            // $item = $item->sum('bobot') ;
-                return $item->sum('bobot')/100;
+                // $item = $item->sum('bobot') ;
+                return $item->sum('bobot') / 100;
             });
-            
+
             return [
                 'nimhsMSMHS' => $item['nimhsMSMHS'],
                 'nmmhsMSMHS' => $item['nmmhsMSMHS'],
@@ -302,8 +302,8 @@ if (!function_exists('getNilaiBobotSC')) {
                     'SC3' => $item['SC3']  * $data_sc['SC3'],
                     'SC4' => $item['SC4']  * $data_sc['SC4'],
                     'SC5' => $item['SC5']  * $data_sc['SC5'],
-                    ]
-                ];
+                ]
+            ];
         });
 
         // $total_nilai = 0;

@@ -456,7 +456,4 @@ class CPLController extends Controller
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
-
-    
-    
 }

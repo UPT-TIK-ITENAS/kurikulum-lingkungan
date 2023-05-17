@@ -61,7 +61,9 @@
                                     <td>{{ $c['kdkmkMSAKM'] }}</td>
                                     <td>{{ $c['nakmktbkmk'] }}</td>
                                     <td> <a href="#" class="btn btn-success show" data-bs-target="#showSC"
-                                            data-bs-toggle="modal" data-id="{{ $c['kdkmkMSAKM'] }}">Lihat</a></td>
+                                            data-bs-toggle="modal"
+                                            data-id="{{ encrypt($c['kdkmkMSAKM'] . '|' . $c['nimhsMSMHS']) }}">Lihat</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -112,12 +114,11 @@
     <script>
         $('body').on('click', '.show', function() {
             var id = $(this).data('id');
-            console.log(`${window.baseurl}/admin/data-master/mahasiswa/subCPMK/${id}`);
-            $.get(`${window.baseurl}/admin/data-master/mahasiswa/subCPMK/${id}`, function(data) {
+            console.log(`${window.baseurl}/admin/data-master/mahasiswa/SubCPMK/Detail/${id}`);
+            $.get(`${window.baseurl}/admin/data-master/mahasiswa/SubCPMK/Detail/${id}`, function(data) {
                 $('#ModalTitle').html('Shift');
                 $('#edit-shift').modal('show');
                 $('#id').val(data.id);
-                $('#id').val(data.);
                 console.log(data);
             })
         });
