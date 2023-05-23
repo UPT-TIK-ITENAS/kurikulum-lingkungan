@@ -86,21 +86,14 @@
                 <form autocomplete="off" class="needs-validation" novalidate="" action="" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <table id="table-cpl-mhs" class="table table-bordered">
+                        <table id="table-cpl-mhs-detail" class="table table-bordered">
                             <thead>
                                 <th>No</th>
-                                <th>Kode Mata Kuliah</th>
-                                <th>Nama Mata Kuliah</th>
-                                <th>Aksi</th>
+                                <th>SC</th>
+                                <th>Nilai</th>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($data['datasubcpmk'] as $no => $c)
-                                    <tr>
-                                        <td>{{ $no + 1 }}</td>
-                                        <td>{{ $c['kdkmkMSAKM'] }}</td>
-                                        <td>{{ $c['nakmktbkmk'] }}</td>
-                                    </tr>
-                                @endforeach --}}
+
                             </tbody>
                         </table>
 
@@ -113,6 +106,7 @@
     <script src="{{ asset('vendor/libs/chartjs/chartjs.js') }}"></script>
     <script>
         $('body').on('click', '.show', function() {
+            $('#table-cpl-mhs-detail tbody').html('');
             var id = $(this).data('id');
             console.log(`${window.baseurl}/admin/data-master/mahasiswa/SubCPMK/Detail/${id}`);
             $.get(`${window.baseurl}/admin/data-master/mahasiswa/SubCPMK/Detail/${id}`, function(data) {
@@ -120,6 +114,19 @@
                 $('#edit-shift').modal('show');
                 $('#id').val(data.id);
                 console.log(data);
+
+                // add data to table
+                var html = '';
+                var no = 1;
+                for (const [key, value] of Object.entries(data.subcpmk_kode)) {
+                    html += `<tr>
+                            <td>${no}</td>
+                            <td>${key}</td>
+                            <td>${value}</td>
+                        </tr>`;
+                    no++;
+                }
+                $('#table-cpl-mhs-detail tbody').html(html);
             })
         });
     </script>
