@@ -7,6 +7,7 @@ use App\Models\CPMK;
 use App\Models\SubCPMK;
 use App\Models\Bobot;
 use App\Models\BobotMK;
+use App\Models\MKPilihan;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -186,35 +187,61 @@ class SubCPMKController extends Controller
             $json = $res->json();
             $nilaimhs = $json['data'];
             $nilai = collect($nilaimhs);
-            // dd($nilai);
+            $mkp = MKPilihan::where('kode_mk', $datamhs_dec[0])->first();
 
-            $nilai = $nilai->map(function ($item) use ($nilaimhs, $datamhs_dec) {
-
-                $data_sc = DB::table('bobot')->where('idmatakuliah', '=', $datamhs_dec[0])->get();
+            if ($mkp) {
+                $bobot_mk = DB::table('bobot_mk')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->first();
+                $filter_nilai = $nilai->where('kdkmkMSAKM', $datamhs_dec[0])->first();
+                $data_sc = DB::table('bobot')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
                 // sum bobot by subcpmk_kode
                 $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
                     // $item = $item->sum('bobot') ;
                     return $item->sum('bobot') / 100;
                 });
-
-                return [
-                    'nimhsMSMHS' => $item['nimhsMSMHS'],
-                    'nmmhsMSMHS' => $item['nmmhsMSMHS'],
-                    'kdkmkMSAKM' => $item['kdkmkMSAKM'],
-                    'nakmktbkmk' => $item['nakmktbkmk'],
-                    'seksiMSAKM' => $item['seksiMSAKM'],
-                    'JumlahPengganti' => $item['JumlahPengganti'],
-                    'JumlahReguler' => $item['JumlahReguler'],
+                $response = [
+                    'nimhsMSMHS' => $filter_nilai['nimhsMSMHS'],
+                    'nmmhsMSMHS' => $filter_nilai['nmmhsMSMHS'],
+                    'kdkmkMSAKM' => $filter_nilai['kdkmkMSAKM'],
+                    'nakmktbkmk' => $filter_nilai['nakmktbkmk'],
+                    'seksiMSAKM' => $filter_nilai['seksiMSAKM'],
+                    'JumlahPengganti' => $filter_nilai['JumlahPengganti'],
+                    'JumlahReguler' => $filter_nilai['JumlahReguler'],
                     'subcpmk_kode' => [
-                        'SC1' => $item['SC1']  * $data_sc['SC1'],
-                        'SC2' => $item['SC2']  * $data_sc['SC2'],
-                        'SC3' => $item['SC3']  * $data_sc['SC3'],
-                        'SC4' => $item['SC4']  * $data_sc['SC4'],
-                        'SC5' => $item['SC5']  * $data_sc['SC5'],
+                        'SC1' => $filter_nilai['SC1']  * $data_sc['SC1'],
+                        'SC2' => $filter_nilai['SC2']  * $data_sc['SC2'],
+                        'SC3' => $filter_nilai['SC3']  * $data_sc['SC3'],
+                        'SC4' => $filter_nilai['SC4']  * $data_sc['SC4'],
+                        'SC5' => $filter_nilai['SC5']  * $data_sc['SC5'],
                     ]
                 ];
+                return response()->json($response);
+            }
+
+            $filter_nilai = $nilai->where('kdkmkMSAKM', $datamhs_dec[0])->first();
+
+            $data_sc = DB::table('bobot')->where('idmatakuliah', '=', $datamhs_dec[0])->get();
+            // sum bobot by subcpmk_kode
+            $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+                // $item = $item->sum('bobot') ;
+                return $item->sum('bobot') / 100;
             });
-            return response()->json($nilai);
+            $response = [
+                'nimhsMSMHS' => $filter_nilai['nimhsMSMHS'],
+                'nmmhsMSMHS' => $filter_nilai['nmmhsMSMHS'],
+                'kdkmkMSAKM' => $filter_nilai['kdkmkMSAKM'],
+                'nakmktbkmk' => $filter_nilai['nakmktbkmk'],
+                'seksiMSAKM' => $filter_nilai['seksiMSAKM'],
+                'JumlahPengganti' => $filter_nilai['JumlahPengganti'],
+                'JumlahReguler' => $filter_nilai['JumlahReguler'],
+                'subcpmk_kode' => [
+                    'SC1' => $filter_nilai['SC1']  * $data_sc['SC1'],
+                    'SC2' => $filter_nilai['SC2']  * $data_sc['SC2'],
+                    'SC3' => $filter_nilai['SC3']  * $data_sc['SC3'],
+                    'SC4' => $filter_nilai['SC4']  * $data_sc['SC4'],
+                    'SC5' => $filter_nilai['SC5']  * $data_sc['SC5'],
+                ]
+            ];
+            return response()->json($response);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

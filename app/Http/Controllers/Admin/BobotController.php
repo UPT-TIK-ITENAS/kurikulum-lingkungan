@@ -58,11 +58,11 @@ class BobotController extends Controller
             $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
                 ->where('bobot_mk', '!=', '0')->get();
             // dd($cpl_mk);
-            
-            $bobotnya = getNilaiBobotSC($datamk[0]);
+
+            // $bobotnya = getNilaiBobotSC($datamk[0]);
             // dd($bobotnya);
             // dd($bobot);
-            return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot','bobotsubcpmk','cpl_mk'));
+            return view('admin.bobot', compact('appdata', 'data', 'datamk', 'bobot', 'bobotsubcpmk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
