@@ -89,7 +89,7 @@
                         <table id="table-cpl-mhs-detail" class="table table-bordered">
                             <thead>
                                 <th>No</th>
-                                <th>SC</th>
+                                <th>Sub CPMK</th>
                                 <th>Nilai</th>
                             </thead>
                             <tbody>

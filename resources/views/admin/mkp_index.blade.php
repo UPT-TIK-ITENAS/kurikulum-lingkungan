@@ -40,7 +40,8 @@
                                                 <option value="" disabled selected>Pilih Kategori</option>
                                                 @foreach ($mkpilihan as $mk)
                                                     <option value="{{ $mk['kdkmktbkmk'] }}"
-                                                        @if ($pilihan[$ce['kdkmktbkmk']] == $mk['kdkmktbkmk']) selected @endif required>
+                                                        @if ($pilihan[$ce['kdkmktbkmk']] ?? null) @if ($pilihan[$ce['kdkmktbkmk']] == $mk['kdkmktbkmk']) selected @endif
+                                                        @endif required>
                                                         {{ $mk['nakmktbkmk'] }}
                                                     </option>
                                                 @endforeach

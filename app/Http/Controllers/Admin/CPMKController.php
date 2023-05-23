@@ -51,7 +51,13 @@ class CPMKController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('kdkmktbkmk', function ($row) {
-                    return $row['kdkmktbkmk'];
+
+                    if(stristr($row['kdkmktbkmk'],'MKP-')){
+                        $data = '-';
+                    }else{
+                        $data = $row['kdkmktbkmk'];
+                    }
+                    return $data;
                 })
                 ->addColumn('nakmktbkmk', function ($row) {
                     return $row['nakmktbkmk'];
