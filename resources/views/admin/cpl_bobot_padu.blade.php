@@ -53,7 +53,7 @@
                                                     id="bobot_{{ $data['kdkmktbkmk'] }}_{{ $c->kode_cpl }}"
                                                     data-mk="{{ $data['kdkmktbkmk'] }}" data-cpl="{{ $c->kode_cpl }}"
                                                     class="form-control base"
-                                                    value="{{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] : '0' }} ">
+                                                    value="{{ !empty($bobot) ? $bobot[$data['kdkmktbkmk']][$c->kode_cpl] ?? '0' : '0' }} ">
                                             </div>
                                         </td>
                                     @endforeach
