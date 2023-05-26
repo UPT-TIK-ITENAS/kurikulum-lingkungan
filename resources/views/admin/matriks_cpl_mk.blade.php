@@ -37,7 +37,9 @@
                                         @endif
                                         @foreach ($cpl_mk as $c)
                                             <td style="font-size: 80%;">
-                                                {{ !empty($bobot) ? round($bobot[$data['kdkmktbkmk']][$c->kode_cpl]) : '0' }}
+                                                {{ !empty($bobot) ? round($bobot[$data['kdkmktbkmk']][$c->kode_cpl]) ?? '0' : '0' }}
+
+
                                             </td>
                                         @endforeach
                                         </td>
