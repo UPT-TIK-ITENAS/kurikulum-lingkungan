@@ -104,7 +104,7 @@
                     total += Number($(this).val());
                     // Math.round(Number($(this).val()));
                 });
-                row.find('.total').val(Math.round(total));
+                row.find('.total').val((Math.round(total * 100) / 100));
 
                 const totalElements = document.getElementsByClassName('total');
                 let grandTotal = 0;
