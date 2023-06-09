@@ -101,9 +101,10 @@
 
                 let total = 0;
                 row.find('.bot ').each(function() {
-                    total += Math.round(Number($(this).val()));
+                    total += Number($(this).val());
+                    // Math.round(Number($(this).val()));
                 });
-                row.find('.total').val(total);
+                row.find('.total').val(Math.round(total));
 
                 const totalElements = document.getElementsByClassName('total');
                 let grandTotal = 0;
