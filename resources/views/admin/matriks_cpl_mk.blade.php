@@ -37,13 +37,13 @@
                                         @endif
                                         @foreach ($cpl_mk as $c)
                                             <td style="font-size: 80%;">
-                                                {{ !empty($bobot) ? round($bobot[$data['kdkmktbkmk']][$c->kode_cpl]) : '0' }}
+                                                {{ !empty($bobot) ? number_format($bobot[$data['kdkmktbkmk']][$c->kode_cpl] ?? '0', 2) : '0' }}
                                             </td>
                                         @endforeach
                                         </td>
                                         <td><input type="text" class="form-control total"
                                                 style="text-align: center;font-size: 70%;" name="bobot_mk" id="bobot_mk"
-                                                value="{{ round(totalBobotPerMK($data['kdkmktbkmk'])) }}" readonly>
+                                                value="{{ totalBobotPerMK($data['kdkmktbkmk']) }}" readonly>
                                         </td>
                                     </tr>
                                 @endforeach

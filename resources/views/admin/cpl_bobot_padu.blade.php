@@ -102,6 +102,7 @@
                 let total = 0;
                 row.find('.bot ').each(function() {
                     total += Number($(this).val());
+                    // Math.round(Number($(this).val()));
                 });
                 row.find('.total').val(total);
 
