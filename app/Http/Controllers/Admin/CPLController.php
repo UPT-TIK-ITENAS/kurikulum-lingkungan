@@ -100,6 +100,42 @@ class CPLController extends Controller
         }
     }
 
+    // public function cpl_mahasiswa(Request $request, $datamhs)
+    // {
+    //     if (Session::has('data')) {
+    //         $datamhs_dec = explode('|', decrypt($datamhs));
+    //         $appdata = [
+    //             'title' => 'Matriks Course Evaluation',
+    //             'sesi'  => Session::get('data')
+    //         ];
+
+    //         $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
+    //             'APIKEY'    => config('app.APIKEY'),
+    //             'nrp'       => $datamhs_dec[0],
+    //         ]);
+    //         $json = $res->json();
+    //         $nilaimhs = $json['data'];
+
+    //         $data = [
+    //             'mhs'   => $datamhs_dec,
+    //             'en_mhs' => $datamhs,
+    //             'cpl'   => CPL::where([
+    //                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+    //             ])->get(),
+    //             'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
+    //                 [
+    //                     'idprodi' => $appdata['sesi']['idprodi'],
+    //                     'idfakultas' => $appdata['sesi']['idfakultas']
+    //                 ]
+    //             )->orderBy('cpmk.idmatakuliah', 'asc')
+    //                 ->get(),
+    //             'nilai' => $nilaimhs
+    //         ];
+    //         return view('admin.mahasiswa_cpl', compact('data', 'appdata'));
+    //     } else {
+    //         return redirect()->route('login')->with('error', 'You are not authenticated');
+    //     }
+    // }
     public function cpl_mahasiswa(Request $request, $datamhs)
     {
         if (Session::has('data')) {
@@ -356,7 +392,7 @@ class CPLController extends Controller
                     ]
                 );
 
-                BobotMK::updateOrCreate(
+                BobotMK::updateOrCreate(    
                     [
                         'idmatakuliah' =>  $data['idmatakuliah'],
                         'idprodi' => $data['idprodi'],

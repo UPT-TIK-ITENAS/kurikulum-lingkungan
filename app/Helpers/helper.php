@@ -5,6 +5,7 @@ use App\Models\BobotCPL;
 use App\Models\BobotCPLPadu;
 use App\Models\BobotMK;
 use App\Models\CE;
+use App\Models\MKPilihan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
@@ -137,6 +138,7 @@ if (!function_exists('getNilaiCPL')) {
         return $total_nilai;
     }
 }
+
 if (!function_exists('getNilaiCPLBySemester')) {
     function getNilaiCPLBySemester($cpl, $nim, $semester)
     {
@@ -321,5 +323,55 @@ if (!function_exists('getNilaiBobotSC')) {
         // }
 
         return $nilaimhs[0];
+    }
+}
+
+if (!function_exists('totalCPL')) {
+    function totalCPL($nrp)
+    {
+
+        $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+            'APIKEY'    => config('app.APIKEY'),
+            'nrp'       => $nrp,
+        ]);
+        $json = $res->json();
+        $nilaimhs = $json['data'];
+        $nilai = collect($nilaimhs);
+        $mappedNilai = $nilai->map(function ($item) {
+            $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
+            if ($mkp) {
+                $data_sc = DB::table('bobot')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
+            } else {
+                $data_sc = DB::table('bobot')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
+            }
+            // sum bobot by subcpmk_kode
+            $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+                // $item = $item->sum('bobot') ;
+                return $item->sum('bobot') / 100;
+            });
+            $data_sc = $data_sc->map(function ($item2, $key) use ($item) {
+                if (array_key_exists($key, $item)) {
+                    return $item2 * $item[$key];
+                } else {
+                    return 0;
+                }
+            })->sum();
+
+            $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
+            $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
+                $item->hasil = (round($item->bobot_cpl) / 100) * $data_sc;
+                return $item = [
+                    'idcpl' => $item->id_cpl,
+                    'hasil' => $item->hasil,
+                    
+                ];
+            });
+            $item['data_sc'] = $mappedBobotCpl ?? 0;
+            return $item;
+        });
+        
+
+        
+        return $mappedNilai;
     }
 }

@@ -166,6 +166,40 @@ class SubCPMKController extends Controller
                 'en_mhs' => $datamhs,
                 'datamhs' => $nilaimhs
             ];
+            dd(totalCPL($datamhs_dec[0]));
+            // $nilai = collect($nilaimhs);
+            // $mappedNilai = $nilai->map(function ($item) {
+            //     $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
+            //     if ($mkp) {
+            //         $data_sc = DB::table('bobot')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
+            //     } else {
+            //         $data_sc = DB::table('bobot')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
+            //     }
+            //     // sum bobot by subcpmk_kode
+            //     $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+            //         // $item = $item->sum('bobot') ;
+            //         return $item->sum('bobot') / 100;
+            //     });
+            //     $data_sc = $data_sc->map(function ($item2, $key) use ($item) {
+            //         if (array_key_exists($key, $item)) {
+            //             return $item2 * $item[$key];
+            //         } else {
+            //             return 0;
+            //         }
+            //     })->sum();
+            //     $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
+            //     $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
+            //         $item->hasil = (round($item->bobot_cpl) / 100) * $data_sc;
+            //         return $item;
+            //     });
+            //     $item['data_sc'] = $mappedBobotCpl ?? 0;
+            //     return $item;
+            // });
+
+            // // $groupBy = $mappedNilai->map(function ($item) {
+            // //     return $item['data_sc']->groupBy('cpl_kode');
+            // // });
+            // dd($mappedNilai);
             return view('admin.mahasiswa_sc', compact('data', 'appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -209,6 +243,8 @@ class SubCPMKController extends Controller
                 }
             });
 
+           
+            dd($datamhs_dec);
             $response = [
                 'nimhsMSMHS' => $filter_nilai['nimhsMSMHS'],
                 'nmmhsMSMHS' => $filter_nilai['nmmhsMSMHS'],
@@ -219,9 +255,11 @@ class SubCPMKController extends Controller
                 'JumlahReguler' => $filter_nilai['JumlahReguler'],
                 'subcpmk_kode' => $data_sc
             ];
-            return response()->json($response);
+            // return response()->json($response);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
+
+    
 }
