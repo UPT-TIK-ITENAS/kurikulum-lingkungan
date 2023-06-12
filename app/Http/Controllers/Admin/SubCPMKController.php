@@ -166,7 +166,20 @@ class SubCPMKController extends Controller
                 'en_mhs' => $datamhs,
                 'datamhs' => $nilaimhs
             ];
-            dd(totalCPL($datamhs_dec[0]));
+            // dd(totalCPL($datamhs_dec[0]));
+
+            // $totalCPL = totalCPL($datamhs_dec[0]);
+
+            // $groupedData = collect($totalCPL)->flatMap(function ($item) {
+            //     return $item['data_sc'];
+            // })->groupBy('idcpl')->map(function ($group) {
+            //     return [
+            //         'idcpl' => $group[0]['idcpl'],
+            //         'total' => $group->sum('hasil'),
+            //     ];
+            // })->values()->toArray();
+
+            // dd($groupedData);
             // $nilai = collect($nilaimhs);
             // $mappedNilai = $nilai->map(function ($item) {
             //     $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
@@ -243,8 +256,8 @@ class SubCPMKController extends Controller
                 }
             });
 
-           
-            dd($datamhs_dec);
+
+            // dd($data_sc);
             $response = [
                 'nimhsMSMHS' => $filter_nilai['nimhsMSMHS'],
                 'nmmhsMSMHS' => $filter_nilai['nmmhsMSMHS'],
@@ -255,11 +268,9 @@ class SubCPMKController extends Controller
                 'JumlahReguler' => $filter_nilai['JumlahReguler'],
                 'subcpmk_kode' => $data_sc
             ];
-            // return response()->json($response);
+            return response()->json($response);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
-
-    
 }

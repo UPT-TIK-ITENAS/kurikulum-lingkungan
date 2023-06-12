@@ -61,8 +61,18 @@
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $c->kode_cpl }}</td>
                                     <td>{{ $c->nama_cpl }}</td>
-                                    <td>{{ getNilaiCPL($c->id, $data['mhs'][0]) }}</td>
-                                    <td>{{ round((getNilaiCPL($c->id, $data['mhs'][0]) / 4) * 100) }} %</td>
+                                    @foreach ($data['total'] as $cpl)
+                                        @if ($cpl['idcpl'] == $c->kode_cpl)
+                                            <td>{{ round($cpl['total'], 2) }}</td>
+                                        @endif
+                                    @endforeach
+                                    @foreach ($data['total'] as $cpl)
+                                        @if ($cpl['idcpl'] == $c->kode_cpl)
+                                            <td>{{ round($cpl['total'], 2) }}</td>
+                                        @endif
+                                    @endforeach
+                                    {{-- <td>{{ getNilaiCPL($c->id, $data['mhs'][0]) }}</td> --}}
+                                    {{-- <td>{{ round((getNilaiCPL($c->id, $data['mhs'][0]) / 4) * 100) }} %</td> --}}
                                 </tr>
                             @endforeach
                         </tbody>

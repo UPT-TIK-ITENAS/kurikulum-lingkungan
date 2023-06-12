@@ -242,9 +242,6 @@ class MainController extends Controller
                                 <a role='button' class='btn btn-icon btn-success' href='$cpl_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-success' title='CPL'>
                                    CPL
                                 </a>
-                                <a role='button' class='btn btn-icon btn-warning' href='$sc_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Sub CPMK'>
-                                SC
-                             </a>
                             </div>";
                     return $actionBtn;
                 })

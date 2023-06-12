@@ -122,7 +122,7 @@ if (!function_exists('getNilaiCPL')) {
         ]);
         $json = $res->json();
         $nilaimhs = $json['data'];
-
+        // dd($res);
         $total_nilai = 0;
         $array_nilai = [];
         for ($i = 0; $i < count($getCE); $i++) {
@@ -359,19 +359,28 @@ if (!function_exists('totalCPL')) {
 
             $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
             $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
-                $item->hasil = (round($item->bobot_cpl) / 100) * $data_sc;
+                $item->hasil = (($item->bobot_cpl) / 100) * $data_sc;
                 return $item = [
                     'idcpl' => $item->id_cpl,
                     'hasil' => $item->hasil,
-                    
+
                 ];
             });
             $item['data_sc'] = $mappedBobotCpl ?? 0;
+
             return $item;
         });
-        
 
-        
-        return $mappedNilai;
+        $groupedData = collect($mappedNilai)->flatMap(function ($item) {
+            return $item['data_sc'];
+        })->groupBy('idcpl')->map(function ($group) {
+            return [
+                'idcpl' => $group[0]['idcpl'],
+                'total' => $group->sum('hasil'),
+            ];
+        })->values()->toArray();
+
+
+        return $groupedData;
     }
 }

@@ -151,7 +151,7 @@ class CPLController extends Controller
             ]);
             $json = $res->json();
             $nilaimhs = $json['data'];
-
+            // dd(totalCPL($datamhs_dec[0]));
             $data = [
                 'mhs'   => $datamhs_dec,
                 'en_mhs' => $datamhs,
@@ -165,7 +165,8 @@ class CPLController extends Controller
                     ]
                 )->orderBy('cpmk.idmatakuliah', 'asc')
                     ->get(),
-                'nilai' => $nilaimhs
+                'nilai' => $nilaimhs,
+                'total' => totalCPL($datamhs_dec[0]),
             ];
             return view('admin.mahasiswa_cpl', compact('data', 'appdata'));
         } else {
@@ -392,7 +393,7 @@ class CPLController extends Controller
                     ]
                 );
 
-                BobotMK::updateOrCreate(    
+                BobotMK::updateOrCreate(
                     [
                         'idmatakuliah' =>  $data['idmatakuliah'],
                         'idprodi' => $data['idprodi'],
