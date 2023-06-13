@@ -185,15 +185,22 @@ class CPLController extends Controller
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
             ])->get();
+            $percpl = totalCPL($datamhs[0]);
             $data_json = [];
             $label = [];
             $persen = [];
             foreach ($data as $c) {
-                $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
-                $persenCPL = round((getNilaiCPL($c->id, $datamhs[0]) / 4) * 100);
-                array_push($data_json, $bobotCPL);
-                array_push($label, $c->kode_cpl);
-                array_push($persen, $persenCPL);
+                foreach ($percpl as $cpl){
+                    if ($cpl['idcpl'] == $c->kode_cpl){
+                        $bobotCPL = round($cpl['total'], 2);
+                        array_push($data_json, $bobotCPL);
+                        array_push($label, $c->kode_cpl);
+                        array_push($persen, $bobotCPL);
+                    }
+                }
+                // $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
+                // $persenCPL = round((getNilaiCPL($c->id, $datamhs[0]) / 4) * 100);
+              
             }
 
             return response()->json(['cpl' => $label, 'bobot' => $data_json, 'max_bobot' => max($data_json), 'persen' => $persen, 'max_persen' => max($persen)]);
