@@ -141,7 +141,7 @@
                                 <div class="col mb-3">
                                     <label for="nameLarge" class="form-label">Kode Sub CPMK</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon11">SubCPMK-</span>
+                                        <span class="input-group-text" id="basic-addon11">SC-</span>
                                         <input type="number" class="form-control" placeholder="contoh: 1"
                                             aria-label="Kode IK" aria-describedby="basic-addon11" id="subcpmk_kode"
                                             name="subcpmk_kode" value="{{ substr($c->subcpmk_kode, 8) }}" required>
