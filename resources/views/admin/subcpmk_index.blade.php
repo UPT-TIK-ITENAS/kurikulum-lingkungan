@@ -27,7 +27,7 @@
                             @foreach ($cpl_mk as $no => $c)
                                 <tr>
                                     <td class="text-center">{{ $no + 1 }}</td>
-                                    <td>{{ $c->id_cpl }} | {{ $c->cpl->nama_cpl }}</td>
+                                    <td>{{ $c->id_cpl }} | {{ $c->nama_cpl }}</td>
                                     <td>{{ round($c->bobot_mk) }}</td>
                                 </tr>
                             @endforeach
