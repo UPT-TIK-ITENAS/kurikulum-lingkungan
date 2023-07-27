@@ -54,8 +54,10 @@ class SubCPMKController extends Controller
                 'idmatakuliah' => $datamk[0]
             ])->get();
 
-            $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
-                ->where('bobot_mk', '!=', '0')->get();
+            // $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
+            //     ->where('bobot_mk', '!=', '0')->get();
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])->where('bobot_mk', '!=', '0')->get();
+
             // dd($cpl_mk);
 
             return view('admin.subcpmk_index', compact('appdata', 'data', 'datamk', 'cpl_mk'));

@@ -52,9 +52,9 @@ class CPMKController extends Controller
                 ->addIndexColumn()
                 ->addColumn('kdkmktbkmk', function ($row) {
 
-                    if(stristr($row['kdkmktbkmk'],'MKP-')){
+                    if (stristr($row['kdkmktbkmk'], 'MKP-')) {
                         $data = '-';
-                    }else{
+                    } else {
                         $data = $row['kdkmktbkmk'];
                     }
                     return $data;
@@ -114,10 +114,15 @@ class CPMKController extends Controller
                 'idmatakuliah' => $datamk[0]
             ])->get();
 
-            $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
-                ->where('bobot_mk', '!=', '0')->get();
-            // dd($cpl_mk);
+            // $cpl_mk = BobotMK::with(['cpl'])->where([
+            //     'idprodi' => $appdata['sesi']['idprodi'],
+            //     'idfakultas' => $appdata['sesi']['idfakultas'],
+            //     'idmatakuliah' => $datamk[0]
+            // ])->where('bobot_mk', '!=', '0')->get();
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])->where('bobot_mk', '!=', '0')->get();
 
+
+            // dd($cpl_mk);
             return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
