@@ -59,9 +59,7 @@ class BobotController extends Controller
             //     ->where('bobot_mk', '!=', '0')->get();
             // // dd($cpl_mk);
 
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])->where('bobot_mk', '!=', '0')->get();
-
-
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
 
             // $bobotnya = getNilaiBobotSC($datamk[0]);
             // dd($bobotnya);
