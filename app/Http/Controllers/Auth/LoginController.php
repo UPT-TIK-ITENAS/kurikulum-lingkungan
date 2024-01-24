@@ -81,7 +81,7 @@ class LoginController extends Controller
         if ($resdsn['success']) {
             Session::put('data', $resdsn['user']);
             Session::put('login', 'dosen');
-            return redirect()->intended('/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
+            return redirect()->intended('/dosen/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
         } else if (isset($res)) {
             Session::put('data', $res);
             Session::put('login', 'admin');
