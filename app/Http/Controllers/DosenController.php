@@ -35,16 +35,7 @@ class DosenController extends Controller
 
     public function listmatakuliah(Request $request)
     {
-        // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-        //     'APIKEY'    => config('app.APIKEY'),
-        //     'tahun'     => config('app.tahun_kurikulum'),
-        //     'prodi'     => Session::get('data')['idprodi'],
-        // ]);
-        // $json = $res->json();
-        // $data = $json['data'];
-        // $data = collect($data)->filter(function ($item) {
-        //     return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
-        // });
+
         $data = getMK();
         if ($request->ajax()) {
             return DataTables::of($data)
@@ -72,9 +63,9 @@ class DosenController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
-                    $edit_url = route('admin.cpmk.kelola', $data);
-                    $url_subcpmk = route('admin.subcpmk.index', $data);
-                    $url_bobot = route('admin.bobot', $data);
+                    $edit_url = route('dosen.cpmk.kelola', $data);
+                    $url_subcpmk = route('dosen.subcpmk.index', $data);
+                    $url_bobot = route('dosen.bobot', $data);
                     $actionBtn =
                         "<div class='btn-group' role='group' aria-label='Action'>
                                 <a role='button' class='btn btn-icon btn-warning' style='padding: 15px 25px;' href='$edit_url' data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top' data-bs-custom-class='tooltip-warning' title='Kelola CPMK'>
