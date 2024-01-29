@@ -46,6 +46,14 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/dosen/cpmk/update_cpmk_cpl/{id}', [DosenController::class, 'update_cpmk_cpl'])->name('dosen.cpmk.update_cpmk_cpl');
         Route::get('/dosen/cpmk/delete_cpmk_cpl/{id}', [DosenController::class, 'delete_cpmk_cpl'])->name('dosen.cpmk.delete_cpmk_cpl');
 
+        Route::get('/dosen/subcpmk/index/{id}', [SubCPMKController::class, 'index'])->name('dosen.subcpmk.index');
+        Route::post('/dosen/subcpmk/store', [SubCPMKController::class, 'store'])->name('dosen.subcpmk.store');
+        Route::post('/dosen/subcpmk/update/{id}', [SubCPMKController::class, 'update'])->name('dosen.subcpmk.update');
+        Route::get('/dosen/subcpmk/delete/{id}', [SubCPMKController::class, 'delete'])->name('dosen.subcpmk.delete');
+
+        Route::get('/dosen/bobot/{id}', [BobotController::class, 'bobot'])->name('dosen.bobot');
+        Route::post('/dosen/bobot/store', [BobotController::class, 'store'])->name('dosen.bobot.store');
+
         Route::get('/dosen/data-master/matkul', [MainController::class, 'index_matkul'])->name('dosen.matkul.index');
         Route::get('/dosen/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('dosen.mahasiswa.listmahasiswa');
         Route::get('/dosen/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('dosen.matkul.listmatakuliah');

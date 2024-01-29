@@ -14,6 +14,67 @@ use Illuminate\Support\Facades\Session;
 if (!function_exists('getMK')) {
     function getMK()
     {
+        $prodi = Session::get('data')['idprodi'] ?? Session::get('data')['kdfakMSDOS'] . Session::get('data')['kdjurMSDOS'];
+        if (Session::get('login') == 'dosen') {
+            $dataprodi = Prodi::where('id', $prodi)->get('kode');
+
+            $kode = $dataprodi[0]->kode;
+        } else {
+            $kode = Session::get('data')['kode'];
+        }
+
+        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            'APIKEY'    => config('app.APIKEY'),
+            'tahun'  => config('app.tahun_kurikulum'),
+            'prodi'     => $prodi,
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+        $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
+            return stristr($item['kdkmktbkmk'], $kode);
+        });
+
+        $counter = 1;
+        $counter1 = 1;
+        $data1 = $data1->map(function ($item) use (&$counter, &$counter1) {
+
+
+            if ($item['wbpiltbkur'] == 'P') {
+                return [
+                    'kdkmktbkmk' => 'MKP-' . '' . $counter1++,
+                    'nakmktbkmk' => 'Mata Kuliah Pilihan' . ' ' . $counter++,
+                    'nakmitbkmk' => 'Mata Kuliah Pilihan',
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur'],
+                    'kodemkasli' => $item['kdkmktbkmk'],
+                    'namamkasli' => $item['nakmktbkmk'],
+                ];
+            } else {
+                return [
+                    'kdkmktbkmk' => $item['kdkmktbkmk'],
+                    'nakmktbkmk' => $item['nakmktbkmk'],
+                    'nakmitbkmk' => $item['nakmitbkmk'],
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur']
+                ];
+            }
+            // end foreach
+
+
+        });
+        // dd($data1);
+        return $data1;
+    }
+}
+if (!function_exists('getMKDosen')) {
+    function getMKDosen()
+    {
         if (Session::get('login') == 'dosen') {
             $prodi = Session::get('data')['idprodi'] ?? Session::get('data')['kdfakMSDOS'] . Session::get('data')['kdjurMSDOS'];
 
@@ -23,16 +84,18 @@ if (!function_exists('getMK')) {
         } else {
             $kode = Session::get('data')['kode'];
         }
+
         $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
             'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => config('app.tahun_kurikulum'),
+            'semester'  => config('app.tahun_kurikulum'),
             'prodi'     => $prodi,
         ]);
         $json = $res->json();
         $data = $json['data'];
-        $data1 = collect($data)->filter(function ($kode, $item) {
+        $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
             return stristr($item['kdkmktbkmk'], $kode);
         });
+
         $counter = 1;
         $counter1 = 1;
         $data1 = $data1->map(function ($item) use (&$counter, &$counter1) {
