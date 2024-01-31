@@ -149,6 +149,7 @@
     <script src="{{ asset('vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('vendor/libs/dropzone/dropzone.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
 
     {{-- <script src="{{ asset('js/form-validation.js') }}"></script> --}}
     <!-- Main JS -->

@@ -8,7 +8,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <b>Capaian Pembelajaran Mata Kuliah (Daftar Mata kuliah)</b>
+                    <table id="tblsemester">
+                        <tr>
+                            <td><b>Semester : </b></td>
+                            <td><input type="text" class="form-control" name="semester" id="semester"></td>
+                            <td style="padding-left: 0.3cm"> <b><span id="txtsemester"></span></b></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="card-body">
                     <table id="table_cpmk" class="table table-bordered">
@@ -83,6 +89,31 @@
             $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
                 console.log(message);
             };
+
+            var thsms = document.getElementById("semester");
+            $('#semester').inputmask('9999/9');
+            thsms.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    var sms = ($('#semester').val()).replace('/', '');
+                    if (sms.substring(4) == '1') {
+                        $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (parseInt(
+                                sms
+                                .substring(0, 4)) +
+                            1));
+                    } else if (sms.substring(4) == '2') {
+                        $('#txtsemester').text(' SEMESTER GENAP ' + sms.substring(0, 4) + '/' + (parseInt(
+                                sms
+                                .substring(
+                                    0, 4)) +
+                            1));
+                    } else {
+                        $('#txtsemester').text(' SEMESTER PENDEK ' + sms.substring(0, 4) + '/' + (parseInt(
+                                sms
+                                .substring(0, 4)) +
+                            1));
+                    }
+                }
+            });
         });
     </script>
 @endpush
