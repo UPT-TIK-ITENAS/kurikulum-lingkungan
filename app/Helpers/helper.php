@@ -30,6 +30,7 @@ if (!function_exists('getMK')) {
         ]);
         $json = $res->json();
         $data = $json['data'];
+
         $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
             return stristr($item['kdkmktbkmk'], $kode);
         });
@@ -455,5 +456,19 @@ if (!function_exists('totalCPL')) {
 
 
         return $groupedData;
+    }
+}
+
+if (!function_exists('getDosenTetap')) {
+    function getDosenTetap($prodi)
+    {
+        $res = Http::post(config('app.urlApi') . 'dosen/getDosenAktifTetap', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => $prodi
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
     }
 }

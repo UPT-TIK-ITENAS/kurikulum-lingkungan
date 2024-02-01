@@ -28,7 +28,9 @@ class CPMKController extends Controller
                 'title' => 'CPMK',
                 'sesi'  => Session::get('data')
             ];
-            return view('admin.cpmk_index', compact('appdata'));
+
+            $dosen = getDosenTetap(Session::get('data')['idprodi']);
+            return view('admin.cpmk_index', compact('appdata', 'dosen'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -82,7 +84,8 @@ class CPMKController extends Controller
                             <a class="dropdown-item" href="' . $edit_url . '">CPMK</a>
                             <a class="dropdown-item" href="' . $url_subcpmk . '">Sub CPMK</a>
                             <a class="dropdown-item" href="' . $url_bobot . '">Bobot</a>
-                            <a class="dropdown-item" href="' . $url_bobot . '">Edit Data</a>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dosenModal">Show </a>
+                            <button href="#" class="dropdown-item tambahDosen" data-bs-toggle="modal" data-kdmk="' . $row['kdkmktbkmk'] . '"  data-nmmk="' . $row['nakmktbkmk'] . '" data-nakmi="' . $row['nakmitbkmk'] . '" data-sks="' . $row['sksmktbkmk'] . '">Edit Data</button>
                             </div>
                         </div>';
                     return $actionBtn;

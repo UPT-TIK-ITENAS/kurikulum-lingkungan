@@ -150,11 +150,17 @@
     <script src="{{ asset('vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('vendor/libs/dropzone/dropzone.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script src="{{ asset('vendor/libs/formvalidation/plugins/Bootstrap5.min.js') }}"></script>
 
     {{-- <script src="{{ asset('js/form-validation.js') }}"></script> --}}
     <!-- Main JS -->
     @section('scripts')
         <script>
+            $(function() {
+                $('.select2').select2({
+                    dropdownParent: $('#dosenModal')
+                });
+            });
             @if (Session::has('success'))
                 $(document).ready(function() {
                     Swal.fire({
