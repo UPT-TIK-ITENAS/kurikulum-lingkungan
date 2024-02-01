@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BobotMK;
+use App\Models\CPMK;
 use Illuminate\Http\Request;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -81,6 +83,95 @@ class DosenController extends Controller
                 })
                 ->rawColumns(['action'])
                 ->make(true);
+        }
+    }
+
+    public function kelola($datamk)
+    {
+        $datamk = explode('|', decrypt($datamk));
+        if (Session::has('data')) {
+
+            $appdata = [
+                'title' => 'Kelola CPMK',
+                'sesi'  => Session::get('data'),
+            ];
+            // dd($appdata);
+            $data = CPMK::where([
+                'idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'],
+                'idmatakuliah' => $datamk[0]
+            ])->get();
+
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'], 'cpl.idfakultas' => $appdata['sesi']['kdfakMSDOS'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'], 'bobot_mk.idfakultas' => $appdata['sesi']['kdfakMSDOS']])->where('bobot_mk', '!=', '0')->get();
+
+            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function store(Request $request)
+    {
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+
+            $data = [
+                'kode_cpmk'  => 'CPMK-' . $request->kode_cpmk,
+                'nama_cpmk'  => $request->nama_cpmk,
+                'idmatakuliah'  => $request->idmatakuliah,
+                'nama_matkul'  => $request->nama_matkul,
+                'nama_matkul_en'  => $request->nama_matkul_en,
+                'sks'  => $request->sks,
+                'idprodi'   => $sesi['kdfakMSDOS'] . $sesi['kdjurMSDOS'],
+                'idfakultas' => $sesi['kdfakMSDOS']
+            ];
+            $query = CPMK::insert($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success add');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            $data = [
+                'kode_cpmk'  => 'CPMK-' . $request->kode_cpmk,
+                'nama_cpmk'  => $request->nama_cpmk,
+                'idmatakuliah'  => $request->idmatakuliah,
+                'nama_matkul'  => $request->nama_matkul,
+                'nama_matkul_en'  => $request->nama_matkul_en,
+                'sks'  => $request->sks,
+                'idprodi'   => $sesi['kdfakMSDOS'] . $sesi['kdjurMSDOS'],
+                'idfakultas' => $sesi['kdfakMSDOS']
+            ];
+            $query = CPMK::where('id', $id)->update($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success update');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function delete($id)
+    {
+        if (Session::has('data')) {
+            $query = CPMK::where('id', $id)->delete();
+            if ($query) {
+                CE::where('idcpmk', $id)->delete();
+                return redirect()->back()->with('success', 'Success delete');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
 }
