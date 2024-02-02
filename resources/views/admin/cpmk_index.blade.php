@@ -69,10 +69,14 @@
                                 <label class="form-label">SKS</label>
                                 <input type="text" class="form-control" name="sks" id="sks" readonly>
                             </div>
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-2 mb-2">
                                 <label class="form-label">Status</label>
                                 <input type="hidden" name="wpil" id="wpil">
                                 <input type="text" class="form-control" name="wpil2" id="wpil2" readonly>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <label class="form-label">Semester</label>
+                                <input type="text" class="form-control" name="semester1" id="semester1" readonly>
                             </div>
                         </div>
 
@@ -168,6 +172,27 @@
             thsms.addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                     var sms = ($('#semester').val()).replace('/', '');
+                    $('#dosenModal').on('show.bs.modal', function(event) {
+                        var button = $(event.relatedTarget);
+                        var kdmk = button.data('kdmk');
+                        var nmmk = button.data('nmmk');
+                        var nakmi = button.data('nakmi');
+                        var sks = button.data('sks');
+                        var wpil = button.data('wpil');
+                        // Update modal content with data
+                        $('#kdmk').val(kdmk);
+                        $('#nmmk').val(nmmk);
+                        $('#nakmi').val(nakmi);
+                        $('#sks').val(sks);
+                        $('#wpil').val(wpil);
+                        $('#semester1').val(sms);
+
+                        if (wpil == 'W') {
+                            $('#wpil2').val('Wajib');
+                        } else {
+                            $('#wpil2').val('Pilihan');
+                        }
+                    });
                     if (sms.substring(4) == '1') {
                         $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (parseInt(
                                 sms
@@ -185,28 +210,6 @@
                                 .substring(0, 4)) +
                             1));
                     }
-                }
-            });
-
-            $('#dosenModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var kdmk = button.data('kdmk');
-                var nmmk = button.data('nmmk');
-                var nakmi = button.data('nakmi');
-                var sks = button.data('sks');
-                var wpil = button.data('wpil');
-
-                // Update modal content with data
-                $('#kdmk').val(kdmk);
-                $('#nmmk').val(nmmk);
-                $('#nakmi').val(nakmi);
-                $('#sks').val(sks);
-                $('#wpil').val(wpil);
-
-                if (wpil == 'W') {
-                    $('#wpil2').val('Wajib');
-                } else {
-                    $('#wpil2').val('Pilihan');
                 }
             });
         });

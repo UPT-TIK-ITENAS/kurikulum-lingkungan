@@ -65,8 +65,8 @@ class CPMKController extends Controller
                 ->addColumn('wbpiltbkur', function ($row) {
                     return $row['wbpiltbkur'];
                 })
-                ->addColumn('action', function ($row) {
-                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
+                ->addColumn('action', function ($row, Request $request) {
+                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk'] . '|' . $request->semester);
                     $edit_url = route('admin.cpmk.kelola', $data);
                     $url_subcpmk = route('admin.subcpmk.index', $data);
                     $url_bobot = route('admin.bobot', $data);
@@ -91,7 +91,7 @@ class CPMKController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function kelola($datamk)
+    public function kelola($datamk, Request $request)
     {
         $datamk = explode('|', decrypt($datamk));
         // dd($datamk);
@@ -111,10 +111,10 @@ class CPMKController extends Controller
             //     'idmatakuliah' => $datamk[0]
             // ])->where('bobot_mk', '!=', '0')->get();
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
-
-
+            $semester = $datamk[4];
+            // dd($datamk[4]);
             // dd($cpl_mk);
-            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
+            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk', 'semester'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -132,7 +132,8 @@ class CPMKController extends Controller
                 'nama_matkul_en'  => $request->nama_matkul_en,
                 'sks'  => $request->sks,
                 'idprodi'   => $sesi['idprodi'],
-                'idfakultas' => $sesi['idfakultas']
+                'idfakultas' => $sesi['idfakultas'],
+                'semester' => $request->semester
             ];
             $query = CPMK::insert($data);
             if ($query) {
@@ -157,6 +158,7 @@ class CPMKController extends Controller
                 'status_mk'  => $request->wpil,
                 'nodos'  => explode('|', $request->dosen)[0],
                 'nama_dosen'   => explode('|', $request->dosen)[1],
+                'semester'  => $request->semester1,
             ];
             $query = Pengampu::insert($data);
             if ($query) {
