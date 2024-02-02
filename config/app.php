@@ -3,6 +3,7 @@
 return [
     'urlApi' => 'https://api-sikad.itenas.ac.id/public/4p151k4dn0w/',
     'APIKEY' => '284a13407bb5660a4b725312af37b814186056c2',
+    'APIKEY_2' => '7ce3f9e1000168b512addc1c075ba9cc',
     'tahun_kurikulum' => 2022,
     /*
     |--------------------------------------------------------------------------

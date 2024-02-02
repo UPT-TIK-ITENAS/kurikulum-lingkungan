@@ -17,6 +17,7 @@ class DosenController extends Controller
                 'title' => 'Dashboard',
                 'sesi'  => Session::get('data'),
             ];
+
             return view('dosen.dashboard', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'Sesi anda telah habis');
