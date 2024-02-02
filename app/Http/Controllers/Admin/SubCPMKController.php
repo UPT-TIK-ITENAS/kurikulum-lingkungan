@@ -86,7 +86,8 @@ class SubCPMKController extends Controller
                 'nama_matkul_en'  => $request->nama_matkul_en,
                 'sks'  => $request->sks,
                 'idprodi'   => $sesi['idprodi'],
-                'idfakultas' => $sesi['idfakultas']
+                'idfakultas' => $sesi['idfakultas'],
+                'semester' => $request->semester
             ];
             $query = SubCPMK::insert($data);
             if ($query) {

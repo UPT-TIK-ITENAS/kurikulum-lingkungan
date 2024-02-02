@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content-header')
     <span class="text-muted fw-light">Data CPMK - Sub CPMK / CPMK / </span> Kelola CPMK {{ $datamk[0] }}
+    - {{ $datamk[4] }}
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -50,14 +51,6 @@
                                     <td>{{ $c->nama_cpmk }}</td>
                                     <td align="center">
                                         <div class='btn-group' role='group' aria-label='Action'>
-
-                                            {{-- <a role='button' class='btn btn-icon btn-primary'
-                                                href='{{ route('admin.cpmk.cpl', encrypt($c->id)) }}'
-                                                data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-success' title='Input relasi dengan CPL'>
-                                                CPL
-                                            </a> --}}
                                             <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-warning' title='Edit CPL' href="#"
@@ -113,6 +106,7 @@
                         </div>
                         <input type="hidden" name="idmatakuliah" id="idmatakuliah" value="{{ $datamk[0] }}">
                         <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
+                        <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}">
                         <input type="hidden" name="nama_matkul_en" id="nama_matkul_en" value="{{ $datamk[2] }}">
                         <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">
                     </div>
@@ -157,6 +151,7 @@
                             </div>
                             <input type="hidden" name="idmatakuliah" id="idmatakuliah" value="{{ $datamk[0] }}">
                             <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
+                            <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}">
                             <input type="hidden" name="nama_matkul_en" id="nama_matkul_en"
                                 value="{{ $datamk[2] }}">
                             <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">
