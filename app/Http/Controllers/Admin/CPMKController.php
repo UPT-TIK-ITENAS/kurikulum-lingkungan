@@ -9,6 +9,7 @@ use App\Models\BobotMK;
 use App\Models\CE;
 use App\Models\CPL;
 use App\Models\CPMK;
+use App\Models\Pengampu;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -30,6 +31,7 @@ class CPMKController extends Controller
             ];
 
             $dosen = getDosenTetap(Session::get('data')['idprodi']);
+            // dd(getMKSemester('20231'));
             return view('admin.cpmk_index', compact('appdata', 'dosen'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -38,17 +40,7 @@ class CPMKController extends Controller
 
     public function listmatakuliah(Request $request)
     {
-        // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-        //     'APIKEY'    => config('app.APIKEY'),
-        //     'tahun'     => config('app.tahun_kurikulum'),
-        //     'prodi'     => Session::get('data')['idprodi'],
-        // ]);
-        // $json = $res->json();
-        // $data = $json['data'];
-        // $data = collect($data)->filter(function ($item) {
-        //     return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
-        // });
-        $data = getMK();
+        $data = getMKSemester($request->semester);
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -84,9 +76,7 @@ class CPMKController extends Controller
                             <a class="dropdown-item" href="' . $edit_url . '">CPMK</a>
                             <a class="dropdown-item" href="' . $url_subcpmk . '">Sub CPMK</a>
                             <a class="dropdown-item" href="' . $url_bobot . '">Bobot</a>
-                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dosenModal">Show </a>
-                            <button href="#" class="dropdown-item tambahDosen" data-bs-toggle="modal" data-kdmk="' . $row['kdkmktbkmk'] . '"  data-nmmk="' . $row['nakmktbkmk'] . '" data-nakmi="' . $row['nakmitbkmk'] . '" data-sks="' . $row['sksmktbkmk'] . '">Edit Data</button>
-                            </div>
+                            <a href="#" class="dropdown-item pengampu" data-bs-toggle="modal" data-kdmk="' . $row['kdkmktbkmk'] . '"  data-nmmk="' . $row['nakmktbkmk'] . '" data-nakmi="' . $row['nakmitbkmk'] . '" data-sks="' . $row['sksmktbkmk'] . '" data-wpil="' . $row['wbpiltbkur'] . '" data-bs-target="#dosenModal">Assign Dosen </a>
                         </div>';
                     return $actionBtn;
                 })
@@ -154,6 +144,31 @@ class CPMKController extends Controller
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
+
+    public function store_pengampu(Request $request)
+    {
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+            $data = [
+                'kode_mk'  => $request->kdmk,
+                'nama_mk'  => $request->nmmk,
+                'nama_mk_en'  => $request->nakmi,
+                'sks'  => $request->sks,
+                'status_mk'  => $request->wpil,
+                'nodos'  => explode('|', $request->dosen)[0],
+                'nama_dosen'   => explode('|', $request->dosen)[1],
+            ];
+            $query = Pengampu::insert($data);
+            if ($query) {
+                return redirect()->back()->with('success', 'Success add');
+            } else {
+                return redirect()->back()->with('error', 'Something wrong !');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.

@@ -46,21 +46,52 @@
                     <h5 class="modal-title" id="exampleModalLabel">Assign Koordinator Dosen Pengampu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="col-md-12 mb-12">
-                        <label class="form-label">Dosen</label>
-                        <select class="form-control select2" name="dosen" id="dosen">
-                            <option value="">--Pilih Dosen--</option>
-                            @foreach ($dosen as $d)
-                                <option value="{{ $d['nodosMSDOS'] }}"> {{ $d['nodosMSDOS'] }} - {{ $d['dosen'] }}
-                                </option>
-                            @endforeach
-                        </select>
+                <form autocomplete="off" class="needs-validation" novalidate=""
+                    action="{{ route('admin.cpmk.store_pengampu') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label">Kode Mata Kuliah</label>
+                                <input type="text" class="form-control" name="kdmk" id="kdmk" readonly>
+                            </div>
+                            <div class="col-md-8 mb-8">
+                                <label class="form-label">Nama Mata Kuliah</label>
+                                <input type="text" class="form-control" name="nmmk" id="nmmk" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-6">
+                                <label class="form-label">Nama Mata Kuliah (en)</label>
+                                <input type="text" class="form-control" name="nakmi" id="nakmi" readonly>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <label class="form-label">SKS</label>
+                                <input type="text" class="form-control" name="sks" id="sks" readonly>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label">Status</label>
+                                <input type="hidden" name="wpil" id="wpil">
+                                <input type="text" class="form-control" name="wpil2" id="wpil2" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-12">
+                            <label class="form-label">Dosen</label>
+                            <select class="form-control select2" name="dosen" id="dosen">
+                                <option value="">--Pilih Dosen--</option>
+                                @foreach ($dosen as $d)
+                                    <option value="{{ $d['nodosMSDOS'] }} | {{ $d['dosen'] }}"> {{ $d['nodosMSDOS'] }} -
+                                        {{ $d['dosen'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -80,7 +111,13 @@
                     responsivePriority: 1,
                     targets: 1
                 }, ],
-                ajax: "{{ route('admin.cpmk.listmatakuliah') }}",
+                ajax: {
+                    url: "{{ route('admin.cpmk.listmatakuliah') }}",
+                    data: function(d) {
+                        d.semester = ($('#semester').val()).replace('/', '') ? ($('#semester').val())
+                            .replace('/', '') : '<>';
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -122,6 +159,10 @@
                 console.log(message);
             };
 
+            $("#semester").on('change', function() {
+                table.draw();
+            });
+
             var thsms = document.getElementById("semester");
             $('#semester').inputmask('9999/9');
             thsms.addEventListener("keyup", function(event) {
@@ -147,34 +188,27 @@
                 }
             });
 
-            $('#btnCartModal').on('click', function() {
-                $('#dosenModal').modal('show')
-            })
+            $('#dosenModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var kdmk = button.data('kdmk');
+                var nmmk = button.data('nmmk');
+                var nakmi = button.data('nakmi');
+                var sks = button.data('sks');
+                var wpil = button.data('wpil');
 
+                // Update modal content with data
+                $('#kdmk').val(kdmk);
+                $('#nmmk').val(nmmk);
+                $('#nakmi').val(nakmi);
+                $('#sks').val(sks);
+                $('#wpil').val(wpil);
 
-            // $('#semester').on('input', function() {
-            //     // Get the input value
-            //     var semesterValue = $(this).val();
-
-            //     // Update the span with the input value (optional)
-            //     $('#txtsemester').text(semesterValue);
-
-            //     // Send an AJAX request to your Laravel backend
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: '/update-semester', // Change this to your Laravel route
-            //         data: {
-            //             semester: semesterValue
-            //         },
-            //         success: function(response) {
-            //             console.log('Data sent successfully:', response);
-            //             // You can handle the response here if needed
-            //         },
-            //         error: function(error) {
-            //             console.error('Error sending data:', error);
-            //         }
-            //     });
-            // });
+                if (wpil == 'W') {
+                    $('#wpil2').val('Wajib');
+                } else {
+                    $('#wpil2').val('Pilihan');
+                }
+            });
         });
     </script>
 @endpush

@@ -472,3 +472,19 @@ if (!function_exists('getDosenTetap')) {
         return $data;
     }
 }
+
+if (!function_exists('getMKSemester')) {
+    function getMKSemester($semester)
+    {
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/getJadwalKuliahBySemesterCPL', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => Session::get('data')['idprodi'],
+            'semester' => $semester,
+            'kode' => Session::get('data')['kode']
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
+    }
+}
