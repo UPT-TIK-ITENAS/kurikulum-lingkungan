@@ -40,6 +40,8 @@
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
         $().ready(function() {
+            var thsms = document.getElementById("semester");
+            $('#semester').inputmask('9999/9');
             let table = $('#table_cpmk').DataTable({
                 responsive: true,
                 processing: true,
@@ -48,7 +50,14 @@
                     responsivePriority: 1,
                     targets: 1
                 }, ],
-                ajax: "{{ route('dosen.cpmk.listmatakuliah') }}",
+                ajax: {
+                    url: "{{ route('dosen.cpmk.listmatakuliah') }}",
+                    data: function(d) {
+                        d.semester = ($('#semester').val()).replace('/', '') ? ($('#semester').val())
+                            .replace('/', '') : '<>';
+
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -57,26 +66,26 @@
                         searchable: false,
                     },
                     {
-                        data: 'kdkmktbkmk',
-                        name: 'kdkmktbkmk',
+                        data: 'kode_mk',
+                        name: 'kode_mk',
                         className: 'text-center'
                     },
                     {
-                        data: 'nakmktbkmk',
-                        name: 'nakmktbkmk',
+                        data: 'nama_mk',
+                        name: 'nama_mk',
                     },
                     {
-                        data: 'nakmitbkmk',
-                        name: 'nakmitbkmk',
+                        data: 'nama_mk_en',
+                        name: 'nama_mk_en',
                     },
                     {
-                        data: 'sksmktbkmk',
-                        name: 'sksmktbkmk',
+                        data: 'sks',
+                        name: 'sks',
                         className: 'text-center'
                     },
                     {
-                        data: 'wbpiltbkur',
-                        name: 'wbpiltbkur',
+                        data: 'status_mk',
+                        name: 'status_mk',
                         className: 'text-center'
                     },
                     {
@@ -89,25 +98,28 @@
             $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
                 console.log(message);
             };
-
-            var thsms = document.getElementById("semester");
-            $('#semester').inputmask('9999/9');
+            $("#semester").on('change', function() {
+                table.draw();
+            });
             thsms.addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                     var sms = ($('#semester').val()).replace('/', '');
                     if (sms.substring(4) == '1') {
-                        $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (parseInt(
+                        $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (
+                            parseInt(
                                 sms
                                 .substring(0, 4)) +
                             1));
                     } else if (sms.substring(4) == '2') {
-                        $('#txtsemester').text(' SEMESTER GENAP ' + sms.substring(0, 4) + '/' + (parseInt(
+                        $('#txtsemester').text(' SEMESTER GENAP ' + sms.substring(0, 4) + '/' + (
+                            parseInt(
                                 sms
                                 .substring(
                                     0, 4)) +
                             1));
                     } else {
-                        $('#txtsemester').text(' SEMESTER PENDEK ' + sms.substring(0, 4) + '/' + (parseInt(
+                        $('#txtsemester').text(' SEMESTER PENDEK ' + sms.substring(0, 4) + '/' + (
+                            parseInt(
                                 sms
                                 .substring(0, 4)) +
                             1));

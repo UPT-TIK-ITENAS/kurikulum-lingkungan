@@ -102,7 +102,7 @@ class CPMKController extends Controller
             ];
             $data = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
             ])->get();
 
             // $cpl_mk = BobotMK::with(['cpl'])->where([

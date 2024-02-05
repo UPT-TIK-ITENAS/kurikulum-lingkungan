@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 // use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Session;
@@ -78,6 +79,26 @@ class LoginController extends Controller
         }
         $res = User::where(['username' => $request->username, 'password' => $request->password])->first();
         // dd($res);
+        $response = Http::asForm()->get(config('app.urlApi') . 'tbbas', [
+            'APIKEY' => config('app.APIKEY_2')
+        ]);
+        $restbbas = $response->json();
+        // dd($restbbas);
+
+        if (Carbon::now()->toDateString() >= ($restbbas['data'][5]['tgbtgtbbas']) && Carbon::now()->toDateString() <=  ($restbbas['data'][5]['tgbt1tbbas'])) {
+            Session::put('semester', $restbbas['data'][5]['tahuntbbas'] . '' . $restbbas['data'][5]['semestbbas']);
+            Session::put('awal_semester', $restbbas['data'][5]['tgbtgtbbas']);
+            Session::put('akhir_semester', $restbbas['data'][5]['tgbt1tbbas']);
+        } else if (Carbon::now()->toDateString() >= ($restbbas['data'][6]['tgbtgtbbas']) && Carbon::now()->toDateString() <=  ($restbbas['data'][6]['tgbt1tbbas'])) {
+            Session::put('semester', $restbbas['data'][6]['tahuntbbas'] . '' . $restbbas['data'][6]['semestbbas']);
+            Session::put('awal_semester', $restbbas['data'][6]['tgbtgtbbas']);
+            Session::put('akhir_semester', $restbbas['data'][6]['tgbt1tbbas']);
+        } else {
+            Session::put('semester', '0000/0');
+            Session::put('awal_semester', '');
+            Session::put('akhir_semester', '');
+        }
+
         if ($resdsn['success']) {
             Session::put('data', $resdsn['user']);
             Session::put('login', 'dosen');

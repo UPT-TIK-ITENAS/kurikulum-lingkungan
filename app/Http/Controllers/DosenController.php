@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BobotMK;
 use App\Models\CPMK;
+use App\Models\Pengampu;
+use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -39,33 +41,37 @@ class DosenController extends Controller
     public function listmatakuliah(Request $request)
     {
 
-        $data = getMK();
+        $data = Pengampu::where([
+            'nodos'     => Session::get('data')['nodosMSDOS'],
+            'semester'  => $request->semester
+        ])->get();
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('kdkmktbkmk', function ($row) {
+                ->addColumn('kode_mk', function ($row) {
 
-                    if (stristr($row['kdkmktbkmk'], 'MKP-')) {
-                        $data = '-';
-                    } else {
-                        $data = $row['kdkmktbkmk'];
-                    }
-                    return $data;
+                    return $row['kode_mk'];
+                    // if (stristr($row['kdkmktbkmk'], 'MKP-')) {
+                    //     $data = '-';
+                    // } else {
+                    //     $data = $row['kdkmktbkmk'];
+                    // }
+                    // return $data;
                 })
-                ->addColumn('nakmktbkmk', function ($row) {
-                    return $row['nakmktbkmk'];
+                ->addColumn('nama_mk', function ($row) {
+                    return $row['nama_mk'];
                 })
-                ->addColumn('nakmitbkmk', function ($row) {
-                    return $row['nakmitbkmk'];
+                ->addColumn('nama_mk_en', function ($row) {
+                    return $row['nama_mk_en'];
                 })
-                ->addColumn('sksmktbkmk', function ($row) {
-                    return $row['sksmktbkmk'];
+                ->addColumn('sks', function ($row) {
+                    return $row['sks'];
                 })
-                ->addColumn('wbpiltbkur', function ($row) {
-                    return $row['wbpiltbkur'];
+                ->addColumn('status_mk', function ($row) {
+                    return $row['status_mk'];
                 })
                 ->addColumn('action', function ($row) {
-                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
+                    $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks'] . '|' . $row['semester']);
                     $edit_url = route('dosen.cpmk.kelola', $data);
                     $url_subcpmk = route('dosen.subcpmk.index', $data);
                     $url_bobot = route('dosen.bobot', $data);
@@ -95,15 +101,15 @@ class DosenController extends Controller
                 'title' => 'Kelola CPMK',
                 'sesi'  => Session::get('data'),
             ];
-            // dd($appdata);
             $data = CPMK::where([
-                'idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'],
-                'idmatakuliah' => $datamk[0]
+                'idprodi'      => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'],
+                'idmatakuliah' => $datamk[0],
+                'semester'     => Session::get('semester')
             ])->get();
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'], 'cpl.idfakultas' => $appdata['sesi']['kdfakMSDOS'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['kdfakMSDOS'] . $appdata['sesi']['kdjurMSDOS'], 'bobot_mk.idfakultas' => $appdata['sesi']['kdfakMSDOS']])->where('bobot_mk', '!=', '0')->get();
 
-            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
+            return view('dosen.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -113,6 +119,7 @@ class DosenController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
+            $semester = Session::get('semester');
 
             $data = [
                 'kode_cpmk'  => 'CPMK-' . $request->kode_cpmk,
@@ -122,7 +129,8 @@ class DosenController extends Controller
                 'nama_matkul_en'  => $request->nama_matkul_en,
                 'sks'  => $request->sks,
                 'idprodi'   => $sesi['kdfakMSDOS'] . $sesi['kdjurMSDOS'],
-                'idfakultas' => $sesi['kdfakMSDOS']
+                'idfakultas' => $sesi['kdfakMSDOS'],
+                'semester' => $semester
             ];
             $query = CPMK::insert($data);
             if ($query) {
@@ -147,7 +155,8 @@ class DosenController extends Controller
                 'nama_matkul_en'  => $request->nama_matkul_en,
                 'sks'  => $request->sks,
                 'idprodi'   => $sesi['kdfakMSDOS'] . $sesi['kdjurMSDOS'],
-                'idfakultas' => $sesi['kdfakMSDOS']
+                'idfakultas' => $sesi['kdfakMSDOS'],
+                'semester' => $request->semester
             ];
             $query = CPMK::where('id', $id)->update($data);
             if ($query) {
