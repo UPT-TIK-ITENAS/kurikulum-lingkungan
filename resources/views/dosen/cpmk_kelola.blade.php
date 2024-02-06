@@ -58,7 +58,7 @@
                                                 <span class='tf-icons fa-solid fa-edit'></span>
                                             </a>
                                             <a role='button' class='btn btn-icon btn-danger del-btn'
-                                                href='{{ route('admin.cpmk.delete', $c->id) }}'
+                                                href='{{ route('dosen.cpmk.delete', $c->id) }}'
                                                 data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
                                                 data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-danger' title='Hapus CPMK'>
@@ -82,7 +82,7 @@
                     <h5 class="modal-title" id="exampleModalLabel3">Tambah CPMK Matakuliah {{ $datamk[0] }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('admin.cpmk.store') }}" method="post" class="needs-validation">
+                <form action="{{ route('dosen.cpmk.store') }}" method="post" class="needs-validation">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -127,7 +127,7 @@
                         <h5 class="modal-title" id="exampleModalLabel3">Edit CPMK Matakuliah {{ $datamk[0] }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('admin.cpmk.update', $c->id) }}" method="post" class="needs-validation">
+                    <form action="{{ route('dosen.cpmk.update', $c->id) }}" method="post" class="needs-validation">
                         @csrf
                         <div class="modal-body">
                             <div class="row">

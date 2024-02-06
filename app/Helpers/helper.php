@@ -258,6 +258,22 @@ if (!function_exists('totalCPMK')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+if (!function_exists('totalCPMKDosen')) {
+    function totalCPMKDosen($cpmk)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
+            'idprodi' => Session::get('prodi'),
+            'id_cpmk' => $cpmk
+        ])->groupby('id_cpmk')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
 
 if (!function_exists('totalBobotCPLPaduPerMK')) {
     function totalBobotCPLPaduPerMK($mk, $tipe)

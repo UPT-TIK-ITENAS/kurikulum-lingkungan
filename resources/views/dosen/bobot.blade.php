@@ -72,7 +72,8 @@
                                         </td>
                                     @endforeach
                                     <td><input type="text" class="form-control total" style="text-align: center"
-                                            id="total_{{ $cpmk->id }}" value="{{ totalCPMK($cpmk->id) }}" readonly>
+                                            id="total_{{ $cpmk->id }}" value="{{ totalCPMKDosen($cpmk->id) }}"
+                                            readonly>
                                     </td>
                                 </tr>
                             @endforeach
