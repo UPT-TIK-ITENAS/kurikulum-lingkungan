@@ -100,6 +100,7 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/cpmk/store_cpmk_cpl', [CPMKController::class, 'store_cpmk_cpl'])->name('admin.cpmk.store_cpmk_cpl');
         Route::post('/admin/cpmk/update_cpmk_cpl/{id}', [CPMKController::class, 'update_cpmk_cpl'])->name('admin.cpmk.update_cpmk_cpl');
         Route::get('/admin/cpmk/delete_cpmk_cpl/{id}', [CPMKController::class, 'delete_cpmk_cpl'])->name('admin.cpmk.delete_cpmk_cpl');
+        Route::post('/admin/cpmk/store_pengampu', [CPMKController::class, 'store_pengampu'])->name('admin.cpmk.store_pengampu');
 
 
         //SubCPMK

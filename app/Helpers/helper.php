@@ -30,6 +30,7 @@ if (!function_exists('getMK')) {
         ]);
         $json = $res->json();
         $data = $json['data'];
+
         $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
             return stristr($item['kdkmktbkmk'], $kode);
         });
@@ -455,5 +456,35 @@ if (!function_exists('totalCPL')) {
 
 
         return $groupedData;
+    }
+}
+
+if (!function_exists('getDosenTetap')) {
+    function getDosenTetap($prodi)
+    {
+        $res = Http::post(config('app.urlApi') . 'dosen/getDosenAktifTetap', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => $prodi
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
+    }
+}
+
+if (!function_exists('getMKSemester')) {
+    function getMKSemester($semester)
+    {
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/getJadwalKuliahBySemesterCPL', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => Session::get('data')['idprodi'],
+            'semester' => $semester,
+            'kode' => Session::get('data')['kode']
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
     }
 }

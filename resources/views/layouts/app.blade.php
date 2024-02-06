@@ -155,6 +155,11 @@
     <!-- Main JS -->
     @section('scripts')
         <script>
+            $(function() {
+                $('.select2').select2({
+                    dropdownParent: $('#dosenModal')
+                });
+            });
             @if (Session::has('success'))
                 $(document).ready(function() {
                     Swal.fire({
