@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\BobotController;
 use App\Http\Controllers\Admin\MKPilihanController;
+use App\Http\Controllers\DosenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,39 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
 });
 Route::middleware(['isLogin'])->group(function () {
+    Route::group(['prefix' => ''], function () {
+        Route::get('/dosen/home', [DosenController::class, 'index'])->name('dosen.home');
+
+        //CPMK
+        Route::get('/dosen/cpmk/index', [DosenController::class, 'index_cpmk'])->name('dosen.cpmk.index');
+        Route::get('/dosen/cpmk/listmatakuliah', [DosenController::class, 'listmatakuliah'])->name('dosen.cpmk.listmatakuliah');
+        Route::get('/dosen/cpmk/kelola/{id}', [DosenController::class, 'kelola'])->name('dosen.cpmk.kelola');
+        Route::post('/dosen/cpmk/store', [DosenController::class, 'store'])->name('dosen.cpmk.store');
+        Route::post('/dosen/cpmk/update/{id}', [DosenController::class, 'update'])->name('dosen.cpmk.update');
+        Route::get('/dosen/cpmk/delete/{id}', [DosenController::class, 'delete'])->name('dosen.cpmk.delete');
+        Route::get('/dosen/cpmk/cpl/{idcpmk}', [DosenController::class, 'cpl'])->name('dosen.cpmk.cpl');
+        Route::post('/dosen/cpmk/store_cpmk_cpl', [DosenController::class, 'store_cpmk_cpl'])->name('dosen.cpmk.store_cpmk_cpl');
+        Route::post('/dosen/cpmk/update_cpmk_cpl/{id}', [DosenController::class, 'update_cpmk_cpl'])->name('dosen.cpmk.update_cpmk_cpl');
+        Route::get('/dosen/cpmk/delete_cpmk_cpl/{id}', [DosenController::class, 'delete_cpmk_cpl'])->name('dosen.cpmk.delete_cpmk_cpl');
+
+        // SUB-CPMK
+        Route::get('/dosen/subcpmk/index/{id}', [DosenController::class, 'index_subcpmk'])->name('dosen.subcpmk.index');
+        Route::post('/dosen/subcpmk/store', [DosenController::class, 'store_subcpmk'])->name('dosen.subcpmk.store');
+        Route::post('/dosen/subcpmk/update/{id}', [DosenController::class, 'update_subcpmk'])->name('dosen.subcpmk.update');
+        Route::get('/dosen/subcpmk/delete/{id}', [DosenController::class, 'delete_subcpmk'])->name('dosen.subcpmk.delete');
+
+        // BOBOT
+        Route::get('/dosen/bobot/{id}', [DosenController::class, 'bobot'])->name('dosen.bobot');
+        Route::post('/dosen/bobot/store', [DosenController::class, 'store_bobot'])->name('dosen.bobot.store');
+
+        // MASTER MK
+        Route::get('/dosen/data-master/matkul', [MainController::class, 'index_matkul'])->name('dosen.matkul.index');
+        Route::get('/dosen/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('dosen.mahasiswa.listmahasiswa');
+        Route::get('/dosen/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('dosen.matkul.listmatakuliah');
+        Route::post('/dosen/data-master/matkul', [MainController::class, 'storemk'])->name('dosen.matkul.storemk');
+        Route::post('/dosen/data-master', [MainController::class, 'storemhs'])->name('dosen.matkul.storemhs');
+    });
+
     Route::group(['prefix' => ''], function () {
         Route::get('/admin/home', [MainController::class, 'index'])->name('admin.home');
         Route::get('/admin/cpl/index', [CPLController::class, 'index'])->name('admin.cpl.index');
@@ -69,6 +103,7 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/cpmk/store_cpmk_cpl', [CPMKController::class, 'store_cpmk_cpl'])->name('admin.cpmk.store_cpmk_cpl');
         Route::post('/admin/cpmk/update_cpmk_cpl/{id}', [CPMKController::class, 'update_cpmk_cpl'])->name('admin.cpmk.update_cpmk_cpl');
         Route::get('/admin/cpmk/delete_cpmk_cpl/{id}', [CPMKController::class, 'delete_cpmk_cpl'])->name('admin.cpmk.delete_cpmk_cpl');
+        Route::post('/admin/cpmk/store_pengampu', [CPMKController::class, 'store_pengampu'])->name('admin.cpmk.store_pengampu');
 
 
         //SubCPMK

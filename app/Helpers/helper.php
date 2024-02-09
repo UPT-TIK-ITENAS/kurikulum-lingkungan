@@ -6,6 +6,7 @@ use App\Models\BobotCPLPadu;
 use App\Models\BobotMK;
 use App\Models\CE;
 use App\Models\MKPilihan;
+use App\Models\Prodi;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
@@ -13,16 +14,89 @@ use Illuminate\Support\Facades\Session;
 if (!function_exists('getMK')) {
     function getMK()
     {
+        $prodi = Session::get('data')['idprodi'] ?? Session::get('data')['kdfakMSDOS'] . Session::get('data')['kdjurMSDOS'];
+        if (Session::get('login') == 'dosen') {
+            $dataprodi = Prodi::where('id', $prodi)->get('kode');
+
+            $kode = $dataprodi[0]->kode;
+        } else {
+            $kode = Session::get('data')['kode'];
+        }
+
         $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
             'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => config('app.tahun_kurikulum'),
-            'prodi'     => Session::get('data')['idprodi'],
+            'tahun'  => config('app.tahun_kurikulum'),
+            'prodi'     => $prodi,
         ]);
         $json = $res->json();
         $data = $json['data'];
-        $data1 = collect($data)->filter(function ($item) {
-            return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
+
+        $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
+            return stristr($item['kdkmktbkmk'], $kode);
         });
+
+        $counter = 1;
+        $counter1 = 1;
+        $data1 = $data1->map(function ($item) use (&$counter, &$counter1) {
+
+
+            if ($item['wbpiltbkur'] == 'P') {
+                return [
+                    'kdkmktbkmk' => 'MKP-' . '' . $counter1++,
+                    'nakmktbkmk' => 'Mata Kuliah Pilihan' . ' ' . $counter++,
+                    'nakmitbkmk' => 'Mata Kuliah Pilihan',
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur'],
+                    'kodemkasli' => $item['kdkmktbkmk'],
+                    'namamkasli' => $item['nakmktbkmk'],
+                ];
+            } else {
+                return [
+                    'kdkmktbkmk' => $item['kdkmktbkmk'],
+                    'nakmktbkmk' => $item['nakmktbkmk'],
+                    'nakmitbkmk' => $item['nakmitbkmk'],
+                    'sksmktbkmk' => $item['sksmktbkmk'],
+                    'wbpiltbkur' => $item['wbpiltbkur'],
+                    'prodi' => $item['prodi'],
+                    'kdfaktbkur' => $item['kdfaktbkur'],
+                    'kdjurtbkur' => $item['kdjurtbkur']
+                ];
+            }
+            // end foreach
+
+
+        });
+        // dd($data1);
+        return $data1;
+    }
+}
+if (!function_exists('getMKDosen')) {
+    function getMKDosen()
+    {
+        if (Session::get('login') == 'dosen') {
+            $prodi = Session::get('data')['idprodi'] ?? Session::get('data')['kdfakMSDOS'] . Session::get('data')['kdjurMSDOS'];
+
+            $dataprodi = Prodi::where('id', $prodi)->get('kode');
+
+            $kode = $dataprodi[0]->kode;
+        } else {
+            $kode = Session::get('data')['kode'];
+        }
+
+        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            'APIKEY'    => config('app.APIKEY'),
+            'semester'  => config('app.tahun_kurikulum'),
+            'prodi'     => $prodi,
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+        $data1 = collect($data)->filter(function ($item, $key) use ($kode) {
+            return stristr($item['kdkmktbkmk'], $kode);
+        });
+
         $counter = 1;
         $counter1 = 1;
         $data1 = $data1->map(function ($item) use (&$counter, &$counter1) {
@@ -177,6 +251,22 @@ if (!function_exists('totalCPMK')) {
         ];
         $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
             'idprodi' => $appdata['sesi']['idprodi'],
+            'id_cpmk' => $cpmk
+        ])->groupby('id_cpmk')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
+if (!function_exists('totalCPMKDosen')) {
+    function totalCPMKDosen($cpmk)
+    {
+        $appdata = [
+            'title' => 'Kelola Bobot',
+            'sesi'  => Session::get('data'),
+        ];
+        $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
+            'idprodi' => Session::get('prodi'),
             'id_cpmk' => $cpmk
         ])->groupby('id_cpmk')->get();
 
@@ -382,5 +472,35 @@ if (!function_exists('totalCPL')) {
 
 
         return $groupedData;
+    }
+}
+
+if (!function_exists('getDosenTetap')) {
+    function getDosenTetap($prodi)
+    {
+        $res = Http::post(config('app.urlApi') . 'dosen/getDosenAktifTetap', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => $prodi
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
+    }
+}
+
+if (!function_exists('getMKSemester')) {
+    function getMKSemester($semester)
+    {
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/getJadwalKuliahBySemesterCPL', [
+            'APIKEY'    => config('app.APIKEY'),
+            'prodi' => Session::get('data')['idprodi'],
+            'semester' => $semester,
+            'kode' => Session::get('data')['kode']
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+
+        return $data;
     }
 }

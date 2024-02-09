@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 // use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Session;
@@ -74,14 +75,42 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
         if ($validator->fails()) {
-            return back()->with('errors', $validator->messages()->all()[0])->withInput();
+            return back()->with('errors', $validator->messages()->all()[5])->withInput();
         }
         $res = User::where(['username' => $request->username, 'password' => $request->password])->first();
         // dd($res);
+        $response = Http::asForm()->get(config('app.urlApi') . 'tbbas', [
+            'APIKEY' => config('app.APIKEY_2')
+        ]);
+        $restbbas = $response->json();
+        // dd($restbbas);
+
+        if (Carbon::now()->toDateString() >= ($restbbas['data'][5]['tgbtgtbbas']) && Carbon::now()->toDateString() <=  ($restbbas['data'][5]['tgbt1tbbas'])) {
+            Session::put('semester', $restbbas['data'][5]['tahuntbbas'] . '' . $restbbas['data'][5]['semestbbas']);
+            Session::put('awal_semester', $restbbas['data'][5]['tgbtgtbbas']);
+            Session::put('akhir_semester', $restbbas['data'][5]['tgbt1tbbas']);
+        } else if (Carbon::now()->toDateString() >= ($restbbas['data'][6]['tgbtgtbbas']) && Carbon::now()->toDateString() <=  ($restbbas['data'][6]['tgbt1tbbas'])) {
+            Session::put('semester', $restbbas['data'][6]['tahuntbbas'] . '' . $restbbas['data'][6]['semestbbas']);
+            Session::put('awal_semester', $restbbas['data'][6]['tgbtgtbbas']);
+            Session::put('akhir_semester', $restbbas['data'][6]['tgbt1tbbas']);
+        } else {
+            Session::put('semester', '0000/0');
+            Session::put('awal_semester', '');
+            Session::put('akhir_semester', '');
+        }
+
         if ($resdsn['success']) {
+            $prodi = $resdsn['user']['kdfakMSDOS'] . $resdsn['user']['kdjurMSDOS'];
+            if ($prodi == '21') {
+                $fakultas = '3';
+            } else {
+                $fakultas = $resdsn['user']['kdfakMSDOS'];
+            }
             Session::put('data', $resdsn['user']);
             Session::put('login', 'dosen');
-            return redirect()->intended('/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
+            Session::put('prodi', $prodi);
+            Session::put('fakultas', $fakultas);
+            return redirect()->intended('/dosen/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
         } else if (isset($res)) {
             Session::put('data', $res);
             Session::put('login', 'admin');
