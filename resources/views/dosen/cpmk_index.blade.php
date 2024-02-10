@@ -11,7 +11,8 @@
                     <table id="tblsemester">
                         <tr>
                             <td><b>Semester : </b></td>
-                            <td><input type="text" class="form-control" name="semester" id="semester"></td>
+                            <td><input type="text" class="form-control" name="semester" id="semester"
+                                    value="{{ Session::get('semester') }}"></td>
                             <td style="padding-left: 0.3cm"> <b><span id="txtsemester"></span></b></td>
                         </tr>
                     </table>
@@ -42,6 +43,29 @@
         $().ready(function() {
             var thsms = document.getElementById("semester");
             $('#semester').inputmask('9999/9');
+
+            var sms = ($('#semester').val()).replace('/', '');
+            if (sms.substring(4) == '1') {
+                $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(0, 4)) +
+                    1));
+            } else if (sms.substring(4) == '2') {
+                $('#txtsemester').text(' SEMESTER GENAP ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(
+                            0, 4)) +
+                    1));
+            } else {
+                $('#txtsemester').text(' SEMESTER PENDEK ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(0, 4)) +
+                    1));
+            }
+
             let table = $('#table_cpmk').DataTable({
                 responsive: true,
                 processing: true,

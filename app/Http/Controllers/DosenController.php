@@ -105,7 +105,7 @@ class DosenController extends Controller
             $data = CPMK::where([
                 'idprodi'      => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester'     => Session::get('semester')
+                'semester'     => $datamk[4]
             ])->get();
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
@@ -120,7 +120,7 @@ class DosenController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
-            $semester = Session::get('semester');
+            $semester = $request->semester;
 
             $data = [
                 'kode_cpmk'  => 'CPMK-' . $request->kode_cpmk,
@@ -196,7 +196,8 @@ class DosenController extends Controller
             ];
             $data = SubCPMK::where([
                 'idprodi' => Session::get('prodi'),
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
+                'semester'     => $datamk[4]
             ])->get();
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
@@ -256,7 +257,8 @@ class DosenController extends Controller
                 'subcpmk_nama_id'  => $request->subcpmk_nama_id,
                 'subcpmk_nama_en'  => $request->subcpmk_nama_en,
                 'idprodi'   => Session::get('prodi'),
-                'idfakultas' => Session::get('fakultas')
+                'idfakultas' => Session::get('fakultas'),
+                'semester' => $request->semester
             ];
             $query = SubCPMK::where('subcpmk_id', $id)->update($data);
             if ($query) {
@@ -380,26 +382,28 @@ class DosenController extends Controller
             ];
             $data['subcpmk'] = SubCPMK::where([
                 'idprodi' => Session::get('prodi'),
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
+                'semester' => $datamk[4]
             ])->get();
-
             $data['cpmk'] = CPMK::where([
                 'idprodi' => Session::get('prodi'),
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
+                'semester' => $datamk[4]
             ])->orderBy('id', 'desc')->get();
 
             $data['bobot'] = Bobot::where([
                 'idprodi' => Session::get('prodi'),
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
+                'semester' => $datamk[4]
             ])->get();
-
+            // dd($data);
             $bobot = array();
             foreach ($data['bobot'] as $b) {
                 $bobot[$b->id_cpmk][$b->id_subcpmk] = $b->bobot;
             }
 
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
-                'idprodi' => Session::get('prodi'), 'idmatakuliah' => $datamk[0]
+                'idprodi' => Session::get('prodi'), 'idmatakuliah' => $datamk[0], 'semester' => $datamk[4]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 
@@ -411,7 +415,6 @@ class DosenController extends Controller
 
             // $bobotnya = getNilaiBobotSC($datamk[0]);
             // dd($bobotnya);
-            // dd($bobot);
             return view('dosen.bobot', compact('appdata', 'data', 'datamk', 'bobot', 'bobotsubcpmk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -422,9 +425,8 @@ class DosenController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
-            // dd($sesi);
-            foreach ($request->data as $key) {
-                // dd($key['id_kompetensi']);
+            $datamk = $request->data;
+            foreach ($datamk as $key) {
                 $data['bobot'] = $key['bobot'] ?? 0;
                 $data['kode_cpmk'] = $key['kode_cpmk'];
                 $data['subcpmk_kode'] = $key['subcpmk_kode'];
@@ -433,6 +435,7 @@ class DosenController extends Controller
                 $data['idfakultas'] = Session::get('fakultas');
                 $data['id_cpmk'] = $key['id_cpmk'];
                 $data['id_subcpmk'] = $key['id_subcpmk'];
+                $data['semester'] = $key['semester'];
 
                 if (Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', Session::get('prodi'))->where('idfakultas', Session::get('fakultas'))->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->first()) {
                     Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', Session::get('prodi'))->where('idfakultas', Session::get('fakultas'))->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->update($data);
@@ -440,7 +443,35 @@ class DosenController extends Controller
                     Bobot::create($data);
                 }
             }
-            return response()->json(['success' => 'Berhasil']);
+
+            $datasc = $request->datasc;
+            $sc1 = array_key_exists(0, $datasc) ? $datasc[0]['bobotsc'] : '0';
+            $sc2 = array_key_exists(1, $datasc) ? $datasc[1]['bobotsc'] : '0';
+            $sc3 = array_key_exists(2, $datasc) ? $datasc[2]['bobotsc'] : '0';
+            $sc4 = array_key_exists(3, $datasc) ? $datasc[3]['bobotsc'] : '0';
+            $sc5 = array_key_exists(4, $datasc) ? $datasc[4]['bobotsc'] : '0';
+            $sc6 = array_key_exists(5, $datasc) ? $datasc[5]['bobotsc'] : '0';
+            $sc7 = array_key_exists(6, $datasc) ? $datasc[6]['bobotsc'] : '0';
+            $sc8 = array_key_exists(7, $datasc) ? $datasc[7]['bobotsc'] : '0';
+
+            $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
+                'APIKEY'    => config('app.APIKEY'),
+                'kodemk'    => $datamk[0]['idmatakuliah'],
+                'semester'  => $datasc[0]['semester'],
+                'useid'     => Session::get('data')['nodosMSDOS'],
+                'tgtup'     => date('Y-m-d'),
+                'jatup'     => date("H:i:s"),
+                'btsc1'     => $sc1,
+                'btsc2'     => $sc2,
+                'btsc3'     => $sc3,
+                'btsc4'     => $sc4,
+                'btsc5'     => $sc5,
+                'btsc6'     => $sc6,
+                'btsc7'     => $sc7,
+                'btsc8'     => $sc8,
+            ]);
+            $json = $res->json();
+            return response()->json(['success' => $json['message']]);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
