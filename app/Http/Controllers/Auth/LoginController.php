@@ -100,8 +100,16 @@ class LoginController extends Controller
         }
 
         if ($resdsn['success']) {
+            $prodi = $resdsn['user']['kdfakMSDOS'] . $resdsn['user']['kdjurMSDOS'];
+            if ($prodi == '21') {
+                $fakultas = '3';
+            } else {
+                $fakultas = $resdsn['user']['kdfakMSDOS'];
+            }
             Session::put('data', $resdsn['user']);
             Session::put('login', 'dosen');
+            Session::put('prodi', $prodi);
+            Session::put('fakultas', $fakultas);
             return redirect()->intended('/dosen/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
         } else if (isset($res)) {
             Session::put('data', $res);

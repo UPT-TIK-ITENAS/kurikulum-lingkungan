@@ -116,21 +116,24 @@
                 subTotal(table);
 
             });
-
             const subTotal = (table) => {
                 const rows = table.rows;
                 const numCols = rows[0].cells.length - 1;
                 const totals = new Array(numCols).fill(0);
+
                 for (let i = 1; i < rows.length; i++) {
                     for (let j = 1; j < numCols; j++) {
-                        // totals[j] += parseFloat(rows[i].cells[j]);
                         let element = rows[i].cells[j];
 
-                        // check if element is td
-                        if (element.tagName === "TD") {
+                        // Check if element is not null or undefined
+                        if (element && element.tagName === "TD") {
                             // get the input element
                             let input = element.querySelector('input[name="bobot"]');
-                            totals[j] += parseFloat(input.value);
+
+                            // Check if input element is found
+                            if (input) {
+                                totals[j] += parseFloat(input.value);
+                            }
                         }
                     }
                 }
@@ -140,10 +143,12 @@
                 // mapping total to tfoot input
                 const tfoot = document.getElementsByTagName("tfoot")[0];
                 const inputs = tfoot.querySelectorAll(".totalCPL");
+
                 for (let i = 0; i < inputs.length; i++) {
                     inputs[i].value = total[i];
                 }
             };
+
 
             subTotal(table);
 
