@@ -51,13 +51,19 @@ class SubCPMKController extends Controller
             ];
             $data = SubCPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
-                'idmatakuliah' => $datamk[0]
+                'idmatakuliah' => $datamk[0],
+                'semester'     => $datamk[4]
             ])->get();
 
             // $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
             //     ->where('bobot_mk', '!=', '0')->get();
-
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
+            $mkpilihan = MKPilihan::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'kode_mk' => $datamk[0]])->first();
+            if ($mkpilihan) {
+                $idmatakuliah = $mkpilihan->kategori;
+            } else {
+                $idmatakuliah = $datamk[0];
+            }
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $idmatakuliah, 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
 
             // dd($cpl_mk);
 

@@ -9,6 +9,7 @@ use App\Models\BobotMK;
 use App\Models\CE;
 use App\Models\CPL;
 use App\Models\CPMK;
+use App\Models\MKPilihan;
 use App\Models\Pengampu;
 use Session;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class CPMKController extends Controller
             ];
 
             $dosen = getDosenTetap(Session::get('data')['idprodi']);
-            // dd(getMKSemester('20231'));
+
+            // $dosen_pengampu = Pengampu::where(['semester' => $request->semester, 'kode_mk' => $row['kdkmktbkmk']])->first();
             return view('admin.cpmk_index', compact('appdata', 'dosen'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -70,13 +72,17 @@ class CPMKController extends Controller
                     $edit_url = route('admin.cpmk.kelola', $data);
                     $url_subcpmk = route('admin.subcpmk.index', $data);
                     $url_bobot = route('admin.bobot', $data);
+
+                    $dosen_pengampu = Pengampu::where(['semester' => $request->semester, 'kode_mk' => $row['kdkmktbkmk']])->first();
+                    $nodos = $dosen_pengampu->nodos ?? '';
+                    $nama_dosen = $dosen_pengampu->nama_dosen ?? '';
                     $actionBtn = '<div class="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button" class="btn btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-search"></i></button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
                             <a class="dropdown-item" href="' . $edit_url . '">CPMK</a>
                             <a class="dropdown-item" href="' . $url_subcpmk . '">Sub CPMK</a>
                             <a class="dropdown-item" href="' . $url_bobot . '">Bobot</a>
-                            <a href="#" class="dropdown-item pengampu" data-bs-toggle="modal" data-kdmk="' . $row['kdkmktbkmk'] . '"  data-nmmk="' . $row['nakmktbkmk'] . '" data-nakmi="' . $row['nakmitbkmk'] . '" data-sks="' . $row['sksmktbkmk'] . '" data-wpil="' . $row['wbpiltbkur'] . '" data-bs-target="#dosenModal">Assign Dosen </a>
+                            <a href="#" class="dropdown-item pengampu" data-bs-toggle="modal" data-kdmk="' . $row['kdkmktbkmk'] . '"  data-nmmk="' . $row['nakmktbkmk'] . '" data-nakmi="' . $row['nakmitbkmk'] . '" data-sks="' . $row['sksmktbkmk'] . '" data-wpil="' . $row['wbpiltbkur'] . '"  data-dosen="' . $nodos . '" data-nmdosen="' . $nama_dosen . '"  data-bs-target="#dosenModal">Assign Dosen </a>
                         </div>';
                     return $actionBtn;
                 })
@@ -103,17 +109,27 @@ class CPMKController extends Controller
             $data = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
+                'semester'     => $datamk[4]
             ])->get();
+
+            // dd($data);
 
             // $cpl_mk = BobotMK::with(['cpl'])->where([
             //     'idprodi' => $appdata['sesi']['idprodi'],
             //     'idfakultas' => $appdata['sesi']['idfakultas'],
             //     'idmatakuliah' => $datamk[0]
             // ])->where('bobot_mk', '!=', '0')->get();
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
+
+            $mkpilihan = MKPilihan::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'kode_mk' => $datamk[0]])->first();
+            if ($mkpilihan) {
+                $idmatakuliah = $mkpilihan->kategori;
+            } else {
+                $idmatakuliah = $datamk[0];
+            }
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $idmatakuliah, 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
+
             $semester = $datamk[4];
-            // dd($datamk[4]);
-            // dd($cpl_mk);
+
             return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk', 'semester'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');

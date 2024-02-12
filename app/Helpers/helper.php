@@ -258,6 +258,21 @@ if (!function_exists('totalCPMK')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+
+if (!function_exists('totalSC')) {
+    function totalSC($sc, $semester)
+    {
+        $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
+            'idprodi' => Session::get('data')['idprodi'],
+            'id_subcpmk' => $sc,
+            'semester' => $semester
+        ])->groupby('id_subcpmk')->get();
+
+
+        return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
+    }
+}
+
 if (!function_exists('totalCPMKDosen')) {
     function totalCPMKDosen($cpmk, $semester)
     {
@@ -275,6 +290,7 @@ if (!function_exists('totalCPMKDosen')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+
 if (!function_exists('totalSCDosen')) {
     function totalSCDosen($sc, $semester)
     {
@@ -288,6 +304,7 @@ if (!function_exists('totalSCDosen')) {
         return !empty($total_nilai[0]) ? $total_nilai[0]->totalbobot : 0;
     }
 }
+
 
 if (!function_exists('totalBobotCPLPaduPerMK')) {
     function totalBobotCPLPaduPerMK($mk, $tipe)

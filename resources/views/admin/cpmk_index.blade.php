@@ -11,7 +11,8 @@
                     <table id="tblsemester">
                         <tr>
                             <td><b>Semester : </b></td>
-                            <td><input type="text" class="form-control" name="semester" id="semester"></td>
+                            <td><input type="text" class="form-control" name="semester" id="semester"
+                                    value="{{ Session::get('semester') }}"></td>
                             <td style="padding-left: 0.3cm"> <b><span id="txtsemester"></span></b></td>
                         </tr>
                     </table>
@@ -83,9 +84,10 @@
                         <div class="col-md-12 mb-12">
                             <label class="form-label">Dosen</label>
                             <select class="form-control select2" name="dosen" id="dosen">
-                                <option value="">--Pilih Dosen--</option>
+                                <option value="" selected>--Pilih Dosen--</option>
                                 @foreach ($dosen as $d)
-                                    <option value="{{ $d['nodosMSDOS'] }} | {{ $d['dosen'] }}"> {{ $d['nodosMSDOS'] }} -
+                                    <option value="{{ $d['nodosMSDOS'] }} | {{ $d['dosen'] }}">
+                                        {{ $d['nodosMSDOS'] }} -
                                         {{ $d['dosen'] }}
                                     </option>
                                 @endforeach
@@ -104,6 +106,32 @@
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
         $().ready(function() {
+
+            var thsms = document.getElementById("semester");
+            $('#semester').inputmask('9999/9');
+
+            var sms = ($('#semester').val()).replace('/', '');
+            if (sms.substring(4) == '1') {
+                $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(0, 4)) +
+                    1));
+            } else if (sms.substring(4) == '2') {
+                $('#txtsemester').text(' SEMESTER GENAP ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(
+                            0, 4)) +
+                    1));
+            } else {
+                $('#txtsemester').text(' SEMESTER PENDEK ' + sms.substring(0, 4) + '/' + (
+                    parseInt(
+                        sms
+                        .substring(0, 4)) +
+                    1));
+            }
+
             $('#dosen').select2({
                 dropdownParent: $("#dosenModal")
             });
@@ -172,27 +200,6 @@
             thsms.addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                     var sms = ($('#semester').val()).replace('/', '');
-                    $('#dosenModal').on('show.bs.modal', function(event) {
-                        var button = $(event.relatedTarget);
-                        var kdmk = button.data('kdmk');
-                        var nmmk = button.data('nmmk');
-                        var nakmi = button.data('nakmi');
-                        var sks = button.data('sks');
-                        var wpil = button.data('wpil');
-                        // Update modal content with data
-                        $('#kdmk').val(kdmk);
-                        $('#nmmk').val(nmmk);
-                        $('#nakmi').val(nakmi);
-                        $('#sks').val(sks);
-                        $('#wpil').val(wpil);
-                        $('#semester1').val(sms);
-
-                        if (wpil == 'W') {
-                            $('#wpil2').val('Wajib');
-                        } else {
-                            $('#wpil2').val('Pilihan');
-                        }
-                    });
                     if (sms.substring(4) == '1') {
                         $('#txtsemester').text(' SEMESTER GANJIL ' + sms.substring(0, 4) + '/' + (parseInt(
                                 sms
@@ -211,6 +218,39 @@
                             1));
                     }
                 }
+            });
+
+            $('#dosenModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var kdmk = button.data('kdmk');
+                var nmmk = button.data('nmmk');
+                var nakmi = button.data('nakmi');
+                var sks = button.data('sks');
+                var wpil = button.data('wpil');
+                var dosen = button.data('dosen');
+                var nmdosen = button.data('nmdosen');
+                // Update modal content with data
+                $('#kdmk').val(kdmk);
+                $('#nmmk').val(nmmk);
+                $('#nakmi').val(nakmi);
+                $('#sks').val(sks);
+                $('#wpil').val(wpil);
+                $('#semester1').val(sms);
+
+                if (dosen != null && nmdosen != null) {
+                    $('#dosen').val(dosen + '|' + nmdosen).trigger('change');
+                } else {
+                    $("#dosen").val("").trigger("change");
+                }
+                console.log($('#dosen').val());
+
+                if (wpil == 'W') {
+                    $('#wpil2').val('Wajib');
+                } else {
+                    $('#wpil2').val('Pilihan');
+                }
+
+
             });
         });
     </script>
