@@ -53,7 +53,7 @@
                         </thead>
                         <tbody>
                             <div class="alert alert-danger" id="lebih" style="display: none;">
-                                ⚠️ Total bobot melebihi ketentuan! Periksa kembali total bobot
+                                ⚠️ Total bobot tidak sesuai dengan ketentuan! Periksa kembali total bobot
                             </div>
                             @foreach ($data['cpmk'] as $cpmk)
                                 <tr>
@@ -66,7 +66,7 @@
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ !empty($bobot) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}">
+                                                    value="{{ isset($bobot[$cpmk->id][$sub->subcpmk_id]) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}">
                                             </div>
                                         </td>
                                     @endforeach
@@ -126,9 +126,10 @@
                                     @foreach ($data['subcpmk'] as $idx => $sub)
                                         <td align="center">
                                             <div>
-                                                @if (!empty($bobot))
+                                                @if (!empty($bobot) && isset($bobot[$cpmk->id][$sub->subcpmk_id]))
                                                     {{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔' : '' }}
                                                 @endif
+
                                             </div>
                                         </td>
                                     @endforeach
@@ -193,6 +194,9 @@
                 });
                 $('.grandTotal').val(grandTotal);
                 if (grandTotal > 100) {
+                    $('#lebih').css('display', 'block');
+                    $('#divSavebtn').css('display', 'none');
+                } else if (grandTotal < 100) {
                     $('#lebih').css('display', 'block');
                     $('#divSavebtn').css('display', 'none');
                 } else {
