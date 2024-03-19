@@ -17,8 +17,15 @@
                         </tr>
                     </table>
                 </div>
-
                 <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading mb-1">Perhatian !</h6>
+                        <p align="justify">
+                            Untuk membuat CPMK, Sub CPMK, dan Bobot untuk Mata Kuliah Pilihan, harap buat kategorinya
+                            terlebih dahulu di menu Pengkategorian Mata Kuliah Pilihan.
+                            <br>Setelah itu, pilih dosen pengampu untuk setiap Mata Kuliah.
+                        </p>
+                    </div>
                     <table id="table_cpmk" class="table table-bordered">
                         <thead class="text-center">
                             <tr>

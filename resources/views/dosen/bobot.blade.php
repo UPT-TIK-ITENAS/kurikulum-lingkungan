@@ -31,6 +31,17 @@
                         </tbody>
                     </table>
                     <br>
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading mb-1">Perhatian !</h6>
+                        <p align="justify"> Jika sudah di <b>SIMPAN</b> secara langsung tersimpan ke <b>Sistem Akademik
+                                (SIKAD)</b>. Hati-hati dalam pengisian bobot.
+                            <br>
+                            Batas akhir pengisian bobot semester <b>
+                                {{ substr(Session::get('semester'), 0, 4) . '/' . substr(Session::get('semester'), 4) }}</b>
+                            pada tanggal <b>
+                                {{ \Carbon\Carbon::createFromFormat('Y-m-d', Session::get('akhir_semester'))->translatedFormat('d F Y') }}</b>.
+                        </p>
+                    </div>
                     <div class="row mb-2">
                         <div class="col" id="divSavebtn" style="display: block;">
                             <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
@@ -53,7 +64,7 @@
                         </thead>
                         <tbody>
                             <div class="alert alert-danger" id="lebih" style="display: none;">
-                                ⚠️ Total bobot melebihi ketentuan! Periksa kembali total bobot
+                                ⚠️ Total bobot tidak sesuai dengan ketentuan! Periksa kembali total bobot
                             </div>
                             @foreach ($data['cpmk'] as $cpmk)
                                 <tr>
@@ -193,6 +204,9 @@
                 });
                 $('.grandTotal').val(grandTotal);
                 if (grandTotal > 100) {
+                    $('#lebih').css('display', 'block');
+                    $('#divSavebtn').css('display', 'none');
+                } else if (grandTotal < 100) {
                     $('#lebih').css('display', 'block');
                     $('#divSavebtn').css('display', 'none');
                 } else {

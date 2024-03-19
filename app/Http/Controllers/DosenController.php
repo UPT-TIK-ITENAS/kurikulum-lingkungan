@@ -83,7 +83,6 @@ class DosenController extends Controller
                             <a class="dropdown-item" href="' . $edit_url . '">CPMK</a>
                             <a class="dropdown-item" href="' . $url_subcpmk . '">Sub CPMK</a>
                             <a class="dropdown-item" href="' . $url_bobot . '">Bobot</a>
-                            <a class="dropdown-item" href="' . $url_bobot . '">Edit Data</a>
                             </div>
                         </div>';
                     return $actionBtn;
