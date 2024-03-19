@@ -77,7 +77,7 @@
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ !empty($bobot) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}">
+                                                    value="{{ isset($bobot[$cpmk->id][$sub->subcpmk_id]) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}">
                                             </div>
                                         </td>
                                     @endforeach
@@ -137,7 +137,7 @@
                                     @foreach ($data['subcpmk'] as $idx => $sub)
                                         <td align="center">
                                             <div>
-                                                @if (!empty($bobot))
+                                                @if (!empty($bobot) && isset($bobot[$cpmk->id][$sub->subcpmk_id]))
                                                     {{ $bobot[$cpmk->id][$sub->subcpmk_id] != 0 ? '✔' : '' }}
                                                 @endif
                                             </div>
