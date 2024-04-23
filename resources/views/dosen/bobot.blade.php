@@ -44,11 +44,13 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col" id="divSavebtn" style="display: block;">
-                            <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
-                                id="saveBtn">
-                                <i class="fa fa-save me-1"></i> Simpan
-                            </a>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            @if (Session::get('awal_semester') >= date('Y-m-d') && date('Y-m-d') <= Session::get('akhir_semester'))
+                                <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
+                                    id="saveBtn">
+                                    <i class="fa fa-save me-1"></i> Simpan
+                                </a>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            @endif
                         </div>
                     </div>
                     <table id="table-bobot" class="table table-bordered">
