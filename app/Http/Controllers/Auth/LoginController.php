@@ -94,9 +94,9 @@ class LoginController extends Controller
             Session::put('awal_semester', $restbbas['data'][6]['tgbtgtbbas']);
             Session::put('akhir_semester', $restbbas['data'][6]['tgbt1tbbas']);
         } else {
-            Session::put('semester', '0000/0');
-            Session::put('awal_semester', '');
-            Session::put('akhir_semester', '');
+            Session::put('semester', $restbbas['data'][5]['tahuntbbas'] . '' . $restbbas['data'][5]['semestbbas']);
+            Session::put('awal_semester', $restbbas['data'][5]['tgbtgtbbas']);
+            Session::put('akhir_semester', $restbbas['data'][5]['tgbt1tbbas']);
         }
 
         if ($resdsn['success']) {
