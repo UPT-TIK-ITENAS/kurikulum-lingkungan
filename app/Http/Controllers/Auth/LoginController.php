@@ -112,11 +112,18 @@ class LoginController extends Controller
             Session::put('fakultas', $fakultas);
             return redirect()->intended('/dosen/home')->with('login-success', $resdsn["user"]["nmdosMSDOS"] . ' ' . $resdsn["user"]["gelarMSDOS"]);
         } else if (isset($res)) {
-            Session::put('data', $res);
-            Session::put('login', 'admin');
-            Session::put('admin', $res);
-            // dd($res);
-            return redirect()->intended('/admin/home')->with('login-success', $res->nama);
+            if ($res->idfakultas == null) {
+                Session::put('data', $res);
+                Session::put('login', 'fakultas');
+                Session::put('fakultas', $res);
+                // dd($res);
+                return redirect()->intended('/fakultas/home')->with('login-success', $res->nama);
+            } else {
+                Session::put('data', $res);
+                Session::put('login', 'admin');
+                Session::put('admin', $res);
+                return redirect()->intended('/admin/home')->with('login-success', $res->nama);
+            }
         } else {
             return back()->with('login-failed', 'Username / Password Incorrect!');
         }

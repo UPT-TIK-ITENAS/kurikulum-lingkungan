@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\BobotController;
 use App\Http\Controllers\Admin\MKPilihanController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\FakultasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,39 @@ Route::middleware(['isLogin'])->group(function () {
         Route::get('/dosen/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('dosen.matkul.listmatakuliah');
         Route::post('/dosen/data-master/matkul', [MainController::class, 'storemk'])->name('dosen.matkul.storemk');
         Route::post('/dosen/data-master', [MainController::class, 'storemhs'])->name('dosen.matkul.storemhs');
+    });
+
+    Route::group(['prefix' => ''], function () {
+        Route::get('/fakultas/home', [FakultasController::class, 'index'])->name('fakultas.home');
+
+        //CPMK
+        Route::get('/fakultas/cpmk/index', [FakultasController::class, 'index_cpmk'])->name('fakultas.cpmk.index');
+        Route::get('/fakultas/cpmk/listmatakuliah', [FakultasController::class, 'listmatakuliah'])->name('fakultas.cpmk.listmatakuliah');
+        Route::get('/fakultas/cpmk/kelola/{id}', [FakultasController::class, 'kelola'])->name('fakultas.cpmk.kelola');
+        Route::post('/fakultas/cpmk/store', [FakultasController::class, 'store'])->name('fakultas.cpmk.store');
+        Route::post('/fakultas/cpmk/update/{id}', [FakultasController::class, 'update'])->name('fakultas.cpmk.update');
+        Route::get('/fakultas/cpmk/delete/{id}', [FakultasController::class, 'delete'])->name('fakultas.cpmk.delete');
+        Route::get('/fakultas/cpmk/cpl/{idcpmk}', [FakultasController::class, 'cpl'])->name('fakultas.cpmk.cpl');
+        Route::post('/fakultas/cpmk/store_cpmk_cpl', [FakultasController::class, 'store_cpmk_cpl'])->name('fakultas.cpmk.store_cpmk_cpl');
+        Route::post('/fakultas/cpmk/update_cpmk_cpl/{id}', [FakultasController::class, 'update_cpmk_cpl'])->name('fakultas.cpmk.update_cpmk_cpl');
+        Route::get('/fakultas/cpmk/delete_cpmk_cpl/{id}', [FakultasController::class, 'delete_cpmk_cpl'])->name('fakultas.cpmk.delete_cpmk_cpl');
+
+        // SUB-CPMK
+        Route::get('/fakultas/subcpmk/index/{id}', [FakultasController::class, 'index_subcpmk'])->name('fakultas.subcpmk.index');
+        Route::post('/fakultas/subcpmk/store', [FakultasController::class, 'store_subcpmk'])->name('fakultas.subcpmk.store');
+        Route::post('/fakultas/subcpmk/update/{id}', [FakultasController::class, 'update_subcpmk'])->name('fakultas.subcpmk.update');
+        Route::get('/fakultas/subcpmk/delete/{id}', [FakultasController::class, 'delete_subcpmk'])->name('fakultas.subcpmk.delete');
+
+        // BOBOT
+        Route::get('/fakultas/bobot/{id}', [FakultasController::class, 'bobot'])->name('fakultas.bobot');
+        Route::post('/fakultas/bobot/store', [FakultasController::class, 'store_bobot'])->name('fakultas.bobot.store');
+
+        // MASTER MK
+        Route::get('/fakultas/data-master/matkul', [MainController::class, 'index_matkul'])->name('fakultas.matkul.index');
+        Route::get('/fakultas/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('fakultas.mahasiswa.listmahasiswa');
+        Route::get('/fakultas/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('fakultas.matkul.listmatakuliah');
+        Route::post('/fakultas/data-master/matkul', [MainController::class, 'storemk'])->name('fakultas.matkul.storemk');
+        Route::post('/fakultas/data-master', [MainController::class, 'storemhs'])->name('fakultas.matkul.storemhs');
     });
 
     Route::group(['prefix' => ''], function () {

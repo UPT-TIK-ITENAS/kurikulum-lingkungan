@@ -8,6 +8,7 @@ use App\Models\CE;
 use App\Models\CPMK;
 use App\Models\MKPilihan;
 use App\Models\Pengampu;
+use App\Models\Prodi;
 use App\Models\SubCPMK;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Session;
 use Yajra\DataTables\DataTables;
 
-class DosenController extends Controller
+class FakultasController extends Controller
 {
     public function index()
     {
@@ -25,7 +26,7 @@ class DosenController extends Controller
                 'sesi'  => Session::get('data'),
             ];
 
-            return view('dosen.dashboard', compact('appdata'));
+            return view('fakultas.dashboard', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'Sesi anda telah habis');
         }
@@ -36,9 +37,10 @@ class DosenController extends Controller
         if (Session::has('data')) {
             $appdata = [
                 'title' => 'CPMK',
-                'sesi'  => Session::get('data')
+                'sesi'  => Session::get('data'),
+                'prodi' => Prodi::where('id_fakultas', Session::get('data')['idprodi'])->get(['id', 'nama_prodi'])
             ];
-            return view('dosen.cpmk_index', compact('appdata'));
+            return view('fakultas.cpmk_index', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -72,9 +74,9 @@ class DosenController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks'] . '|' . $row['semester']);
-                    $edit_url = route('dosen.cpmk.kelola', $data);
-                    $url_subcpmk = route('dosen.subcpmk.index', $data);
-                    $url_bobot = route('dosen.bobot', $data);
+                    $edit_url = route('fakultas.cpmk.kelola', $data);
+                    $url_subcpmk = route('fakultas.subcpmk.index', $data);
+                    $url_bobot = route('fakultas.bobot', $data);
                     $actionBtn =
                         '<div class="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-search"></i></button>
@@ -108,7 +110,7 @@ class DosenController extends Controller
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
 
-            return view('dosen.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
+            return view('fakultas.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -200,7 +202,7 @@ class DosenController extends Controller
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
 
-            return view('dosen.subcpmk_index', compact('appdata', 'data', 'datamk', 'cpl_mk'));
+            return view('fakultas.subcpmk_index', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -298,7 +300,7 @@ class DosenController extends Controller
                 'sesi'  => Session::get('data')
             ];
 
-            $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+            $res = Http::post(config('app.urlApi') . 'fakultas/akm-tengah', [
                 'APIKEY'    => config('app.APIKEY'),
                 'nrp'       => $datamhs_dec[0],
             ]);
@@ -311,7 +313,7 @@ class DosenController extends Controller
                 'datamhs' => $nilaimhs
             ];
 
-            return view('dosen.mahasiswa_sc', compact('data', 'appdata'));
+            return view('fakultas.mahasiswa_sc', compact('data', 'appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -325,7 +327,7 @@ class DosenController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $datamhs_dec = explode('|', decrypt($mk));
-            $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+            $res = Http::post(config('app.urlApi') . 'fakultas/akm-tengah', [
                 'APIKEY'    => config('app.APIKEY'),
                 'nrp'       => $datamhs_dec[1],
             ]);
@@ -413,7 +415,7 @@ class DosenController extends Controller
 
             // $bobotnya = getNilaiBobotSC($datamk[0]);
             // dd($bobotnya);
-            return view('dosen.bobot', compact('appdata', 'data', 'datamk', 'bobot', 'bobotsubcpmk', 'cpl_mk'));
+            return view('fakultas.bobot', compact('appdata', 'data', 'datamk', 'bobot', 'bobotsubcpmk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
@@ -452,7 +454,7 @@ class DosenController extends Controller
             $sc7 = array_key_exists(6, $datasc) ? $datasc[6]['bobotsc'] : '0';
             $sc8 = array_key_exists(7, $datasc) ? $datasc[7]['bobotsc'] : '0';
 
-            $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
+            $res = Http::post(config('app.urlApi') . 'fakultas/updateBobot', [
                 'APIKEY'    => config('app.APIKEY'),
                 'kodemk'    => $datamk[0]['idmatakuliah'],
                 'semester'  => $datasc[0]['semester'],

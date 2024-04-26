@@ -143,6 +143,33 @@
                     <div>Mata Kuliah</div>
                 </a>
             </li>
+        @elseif(Session::get('login') == 'fakultas')
+            <!-- Dashboards -->
+            <li class="menu-item @if (request()->routeIs('fakultas.home')) active @endif"">
+                <a href="{{ route('fakultas.home') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>Dashboards</div>
+                </a>
+            </li>
+
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Rencana Pembelajaran </span>
+            </li>
+            <li class="menu-item @if (request()->routeIs('fakultas.cpmk.*') ||
+                    request()->routeIs('fakultas.subcpmk.*') ||
+                    request()->routeIs('fakultas.bobot')) active @endif">
+                <a href="{{ route('fakultas.cpmk.index') }}" class="menu-link"> <i
+                        class="menu-icon tf-icons bx bx-food-menu"></i>
+                    <div>Data CPMK - Sub CPMK</div>
+                </a>
+            </li>
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Hasil Pengukuran</span>
+            </li>
+            <li class="menu-item @if (request()->routeIs('fakultas.matkul.index')) active @endif">
+                <a href="{{ route('fakultas.matkul.index') }}" class="menu-link"> <i
+                        class="menu-icon tf-icons bx bx-food-menu"></i>
+                    <div>Mata Kuliah</div>
+                </a>
+            </li>
         @endif
     </ul>
 </aside>

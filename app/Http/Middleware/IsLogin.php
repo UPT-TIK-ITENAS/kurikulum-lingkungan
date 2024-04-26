@@ -17,7 +17,7 @@ class IsLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session::get('login') == 'dosen' || Session::get('login') == 'admin') {
+        if (Session::get('login') == 'dosen' || Session::get('login') == 'admin' || Session::get('login') == 'fakultas') {
             return $next($request);
         } else {
             return redirect()->route('login');
