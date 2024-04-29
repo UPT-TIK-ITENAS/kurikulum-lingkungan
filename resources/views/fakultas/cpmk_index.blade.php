@@ -93,10 +93,11 @@
                     targets: 1
                 }, ],
                 ajax: {
-                    url: "{{ route('dosen.cpmk.listmatakuliah') }}",
+                    url: "{{ route('fakultas.cpmk.listmatakuliah') }}",
                     data: function(d) {
                         d.semester = ($('#semester').val()).replace('/', '') ? ($('#semester').val())
-                            .replace('/', '') : '<>';
+                            .replace('/', '') : '<>',
+                            d.prodi = $('#prodi').val();
 
                     }
                 },
@@ -143,6 +144,10 @@
             $("#semester").on('change', function() {
                 table.draw();
             });
+            $("#prodi").on('change', function() {
+                table.draw();
+            });
+
             thsms.addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                     var sms = ($('#semester').val()).replace('/', '');

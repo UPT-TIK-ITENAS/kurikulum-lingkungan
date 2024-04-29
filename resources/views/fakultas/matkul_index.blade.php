@@ -9,19 +9,6 @@
             <div class="card">
                 <div class="card-header">
                     <b>Daftar Mata Kuliah</b>
-                    <table id="tblsemester" width="100%">
-                        <tr>
-                            <td><b>Program Studi</b></td>
-                            <td><b>:</b></td>
-                            <td><select name="prodi" id="prodi" class="form-select select2">
-                                    <option>-- Pilih Program Studi --</option>
-                                    @foreach ($appdata['prodi'] as $p)
-                                        <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
                 </div>
                 <div class="card-body">
                     <table id="table_matkul" class="table table-bordered">
@@ -179,12 +166,7 @@
                     responsivePriority: 1,
                     targets: 1
                 }, ],
-                ajax: {
-                    url: "{{ route('fakultas.matkul.listmatakuliah') }}",
-                    data: function(d) {
-                        d.prodi = $('#prodi').val();
-                    }
-                },
+                ajax: "{{ route('admin.matkul.listmatakuliah') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

@@ -91,11 +91,8 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/fakultas/bobot/store', [FakultasController::class, 'store_bobot'])->name('fakultas.bobot.store');
 
         // MASTER MK
-        Route::get('/fakultas/data-master/matkul', [MainController::class, 'index_matkul'])->name('fakultas.matkul.index');
-        Route::get('/fakultas/data-master/listmahasiswa', [MainController::class, 'listmahasiswa'])->name('fakultas.mahasiswa.listmahasiswa');
-        Route::get('/fakultas/data-master/matkul/listmatakuliah', [MainController::class, 'listmatakuliah'])->name('fakultas.matkul.listmatakuliah');
-        Route::post('/fakultas/data-master/matkul', [MainController::class, 'storemk'])->name('fakultas.matkul.storemk');
-        Route::post('/fakultas/data-master', [MainController::class, 'storemhs'])->name('fakultas.matkul.storemhs');
+        Route::get('/fakultas/data-master/matkul', [FakultasController::class, 'index_matkul'])->name('fakultas.matkul.index');
+        Route::get('/fakultas/data-master/matkul/listmatakuliah', [MainController::class, 'listmk'])->name('fakultas.matkul.listmatakuliah');
     });
 
     Route::group(['prefix' => ''], function () {

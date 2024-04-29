@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                {{-- <div class="card-header">
                     <b>Sub CPMK : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#addSubCPMK" class="btn btn-primary float-end"><i
                             class='fas fa-plus mr-2'></i>
                         Tambah SubCPMK</a>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <b>Memiliki CPL :</b>
                     <table cellpadding="10" class="table table-bordered">
@@ -40,7 +40,6 @@
                                 <th>Kode Sub CPMK</th>
                                 <th>Sub Capaian Pembelajaran Mata Kuliah (Id)</th>
                                 <th>Sub Capaian Pembelajaran Mata Kuliah (En)</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,23 +49,7 @@
                                     <td align="center">{{ $c->subcpmk_kode }}</td>
                                     <td>{{ $c->subcpmk_nama_id }}</td>
                                     <td>{{ $c->subcpmk_nama_en }}</td>
-                                    <td align="center">
-                                        <div class='btn-group' role='group' aria-label='Action'>
-                                            <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-warning' title='Edit SubCPMK' href="#"
-                                                data-bs-toggle="modal" data-bs-target="#editSubCPMK{{ $c->subcpmk_id }}">
-                                                <span class='tf-icons fa-solid fa-edit'></span>
-                                            </a>
-                                            <a role='button' class='btn btn-icon btn-danger del-btn'
-                                                href='{{ route('dosen.subcpmk.delete', $c->subcpmk_id) }}'
-                                                data-nama="{{ $c->subcpmk_nama_id }}" data-id="{{ $c->subcpmk_kode }}"
-                                                data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-danger' title='Hapus SubCPMK'>
-                                                <span class='tf-icons fa-solid fa-trash'></span>
-                                            </a>
-                                        </div>
-                                    </td>
+
                                 </tr>
                             @endforeach
                         </tbody>

@@ -50,7 +50,7 @@ class FakultasController extends Controller
     {
 
         $data = Pengampu::where([
-            'nodos'     => Session::get('data')['nodosMSDOS'],
+            'prodi'     => $request->prodi,
             'semester'  => $request->semester
         ])->get();
         if ($request->ajax()) {
@@ -73,7 +73,7 @@ class FakultasController extends Controller
                     return $row['status_mk'];
                 })
                 ->addColumn('action', function ($row) {
-                    $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks'] . '|' . $row['semester']);
+                    $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks'] . '|' . $row['semester'] . '|' . $row['prodi']);
                     $edit_url = route('fakultas.cpmk.kelola', $data);
                     $url_subcpmk = route('fakultas.subcpmk.index', $data);
                     $url_bobot = route('fakultas.bobot', $data);
@@ -102,13 +102,15 @@ class FakultasController extends Controller
                 'title' => 'Kelola CPMK',
                 'sesi'  => Session::get('data'),
             ];
+            $prodi = Prodi::where('id', $datamk[5])->first();
             $data = CPMK::where([
-                'idprodi'      => Session::get('prodi'),
+                'idprodi'      => $prodi->id,
                 'idmatakuliah' => $datamk[0],
                 'semester'     => $datamk[4]
             ])->get();
 
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
+
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $prodi->id, 'cpl.idfakultas' => $prodi->id_fakultas, 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $prodi->id, 'bobot_mk.idfakultas' => $prodi->id_fakultas])->where('bobot_mk', '!=', '0')->get();
 
             return view('fakultas.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
@@ -194,13 +196,15 @@ class FakultasController extends Controller
                 'title' => 'Kelola Sub CPMK',
                 'sesi'  => $sesi,
             ];
+            $prodi = Prodi::where('id', $datamk[5])->first();
+
             $data = SubCPMK::where([
-                'idprodi' => Session::get('prodi'),
+                'idprodi' => $prodi->id,
                 'idmatakuliah' => $datamk[0],
                 'semester'     => $datamk[4]
             ])->get();
 
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $prodi->id, 'cpl.idfakultas' => $prodi->id_fakultas, 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $prodi->id, 'bobot_mk.idfakultas' => $prodi->id_fakultas])->where('bobot_mk', '!=', '0')->get();
 
             return view('fakultas.subcpmk_index', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
@@ -327,6 +331,7 @@ class FakultasController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $datamhs_dec = explode('|', decrypt($mk));
+
             $res = Http::post(config('app.urlApi') . 'fakultas/akm-tengah', [
                 'APIKEY'    => config('app.APIKEY'),
                 'nrp'       => $datamhs_dec[1],
@@ -380,19 +385,21 @@ class FakultasController extends Controller
                 'title' => 'Kelola Bobot',
                 'sesi'  => Session::get('data'),
             ];
+            $prodi = Prodi::where('id', $datamk[5])->first();
+
             $data['subcpmk'] = SubCPMK::where([
-                'idprodi' => Session::get('prodi'),
+                'idprodi' => $prodi->id,
                 'idmatakuliah' => $datamk[0],
                 'semester' => $datamk[4]
             ])->get();
             $data['cpmk'] = CPMK::where([
-                'idprodi' => Session::get('prodi'),
+                'idprodi' => $prodi->id,
                 'idmatakuliah' => $datamk[0],
                 'semester' => $datamk[4]
             ])->orderBy('id', 'desc')->get();
 
             $data['bobot'] = Bobot::where([
-                'idprodi' => Session::get('prodi'),
+                'idprodi' => $prodi->id,
                 'idmatakuliah' => $datamk[0],
                 'semester' => $datamk[4]
             ])->get();
@@ -403,7 +410,7 @@ class FakultasController extends Controller
             }
 
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
-                'idprodi' => Session::get('prodi'), 'idmatakuliah' => $datamk[0], 'semester' => $datamk[4]
+                'idprodi' => $prodi->id, 'idmatakuliah' => $datamk[0], 'semester' => $datamk[4]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 
@@ -411,7 +418,7 @@ class FakultasController extends Controller
             //     ->where('bobot_mk', '!=', '0')->get();
             // // dd($cpl_mk);
 
-            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
+            $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $prodi->id, 'cpl.idfakultas' => $prodi->id_fakultas, 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => $prodi->id, 'bobot_mk.idfakultas' => $prodi->id_fakultas])->where('bobot_mk', '!=', '0')->get();
 
             // $bobotnya = getNilaiBobotSC($datamk[0]);
             // dd($bobotnya);
@@ -474,6 +481,114 @@ class FakultasController extends Controller
             return response()->json(['success' => $json['message']]);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+    public function index_matkul()
+    {
+        if (Session::has('data')) {
+            $appdata = [
+                'title' => 'Data Matakuliah',
+                'sesi'  => Session::get('data')
+            ];
+            return view('fakultas.matkul_index', compact('appdata'));
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
+    }
+
+
+    public function listmk(Request $request)
+    {
+        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+            'APIKEY'    => config('app.APIKEY'),
+            'tahun'     => config('app.tahun_kurikulum'),
+            'prodi'     => Session::get('data')['idprodi'],
+        ]);
+        $json = $res->json();
+        $data = $json['data'];
+        $data = collect($data)->filter(function ($item) {
+            return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
+        });
+        // $data = getMK();
+        if ($request->ajax()) {
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('kdkmktbkmk', function ($row) {
+                    return $row['kdkmktbkmk'];
+                })
+                ->addColumn('nakmktbkmk', function ($row) {
+                    return $row['nakmktbkmk'];
+                })
+                ->addColumn('nakmitbkmk', function ($row) {
+                    return $row['nakmitbkmk'];
+                })
+                ->addColumn('sksmktbkmk', function ($row) {
+                    return $row['sksmktbkmk'];
+                })
+                ->addColumn('wbpiltbkur', function ($row) {
+                    return $row['wbpiltbkur'];
+                })
+                ->addColumn('cpl_mk', function ($row) {
+                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                    if (isset($mk)) {
+                        $gambarmk = asset('cpl/' . $mk->cpl_mk);
+                        $actionBtn =
+                            '<div class="btn-group" role="group" aria-label="Action">
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)"  data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
+                                    <span class="tf-icons fa-solid fa-edit"></span>
+                                </a>   
+
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" data-gambarmk="' . $gambarmk . '"
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL MK">
+                                    <span class="tf-icons fa-solid fa-eye"></span>
+                                </a>    
+                            </div>';
+                    } else {
+                        $actionBtn =
+                            '<div class="btn-group" role="group" aria-label="Action">
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
+                                    <span class="tf-icons fa-solid fa-edit"></span>
+                                </a>   
+        
+                            </div>';
+                    }
+
+                    return $actionBtn;
+                })
+                ->addColumn('cpl_mhs', function ($row) {
+                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                    if (isset($mk) && $mk->cpl_mhs != NULL) {
+                        $gambarmhs = asset('cpl/' . $mk->cpl_mhs);
+                        $actionBtn =
+                            '<div class="btn-group" role="group" aria-label="Action">
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)"  data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
+                                    <span class="tf-icons fa-solid fa-edit"></span>
+                                </a>   
+
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" data-gambarmhs="' . $gambarmhs . '"
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL Mhs">
+                                    <span class="tf-icons fa-solid fa-eye"></span>
+                                </a>    
+                            </div>';
+                    } else {
+                        $actionBtn =
+                            '<div class="btn-group" role="group" aria-label="Action">
+                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
+                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
+                                    <span class="tf-icons fa-solid fa-edit"></span>
+                                </a>   
+        
+                            </div>';
+                    }
+
+                    return $actionBtn;
+                })
+                ->rawColumns(['cpl_mk', 'cpl_mhs'])
+                ->make(true);
         }
     }
 }

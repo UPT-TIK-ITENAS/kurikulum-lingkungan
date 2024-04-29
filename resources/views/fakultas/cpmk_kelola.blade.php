@@ -8,12 +8,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                {{-- <div class="card-header">
                     <b>CPMK : {{ $datamk[0] }} - {{ $datamk[1] }}</b>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#addCPL" class="btn btn-primary float-end"><i
                             class='fas fa-plus mr-2'></i>
                         Tambah CPMK</a>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <b>Memiliki CPL :</b>
                     <table cellpadding="10" class="table table-bordered">
@@ -40,7 +40,6 @@
                                 <th>No</th>
                                 <th>Kode CPMK</th>
                                 <th>Capaian Pembelajaran Mata Kuliah</th>
-                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,24 +48,7 @@
                                     <td width="5%" align="center">{{ $no + 1 }}</td>
                                     <td align="center">{{ $c->kode_cpmk }}</td>
                                     <td>{{ $c->nama_cpmk }}</td>
-                                    <td align="center">
-                                        <div class='btn-group' role='group' aria-label='Action'>
-                                            <a role='button' class='btn btn-icon btn-warning' data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-warning' title='Edit CPL' href="#"
-                                                data-bs-toggle="modal" data-bs-target="#editCPMK{{ $c->id }}">
-                                                <span class='tf-icons fa-solid fa-edit'></span>
-                                            </a>
-                                            <a role='button' class='btn btn-icon btn-danger del-btn'
-                                                href='{{ route('dosen.cpmk.delete', $c->id) }}'
-                                                data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
-                                                data-bs-custom-class='tooltip-danger' title='Hapus CPMK'>
-                                                <span class='tf-icons fa-solid fa-trash'></span>
-                                            </a>
 
-                                        </div>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -119,8 +101,7 @@
         </div>
     </div>
     @foreach ($data as $no => $c)
-        <div class="modal fade" id="editCPMK{{ $c->id }}" tabindex="-1" style="display: none;"
-            aria-hidden="true">
+        <div class="modal fade" id="editCPMK{{ $c->id }}" tabindex="-1" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
