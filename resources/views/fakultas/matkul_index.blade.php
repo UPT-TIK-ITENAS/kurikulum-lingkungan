@@ -8,7 +8,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <b>Daftar Mata Kuliah</b>
+                    <table id="tblsemester" width="100%">
+                        <tr>
+                            <td><b>Program Studi</b></td>
+                            <td><b>:</b></td>
+                            <td><select name="prodi" id="prodi" class="form-select select2">
+                                    <option>-- Pilih Program Studi --</option>
+                                    @foreach ($appdata['prodi'] as $p)
+                                        <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="card-body">
                     <table id="table_matkul" class="table table-bordered">
@@ -158,6 +170,7 @@
     <script src="{{ asset('js/form-layouts.js') }}"></script>
     <script>
         $().ready(function() {
+            $('#prodi').select2();
             let table = $('#table_matkul').DataTable({
                 responsive: true,
                 processing: true,
@@ -166,7 +179,12 @@
                     responsivePriority: 1,
                     targets: 1
                 }, ],
-                ajax: "{{ route('admin.matkul.listmatakuliah') }}",
+                ajax: {
+                    url: "{{ route('fakultas.matkul.listmatakuliah') }}",
+                    data: function(d) {
+                        d.prodi = $('#prodi').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -197,21 +215,14 @@
                         name: 'wbpiltbkur',
                         className: 'text-center'
                     },
-                    // {
-                    //     data: 'cpl_mk',
-                    //     name: 'cpl_mk',
-                    //     className: 'text-center'
-                    // },
-                    // {
-                    //     data: 'cpl_mhs',
-                    //     name: 'cpl_mhs',
-                    //     className: 'text-center'
-                    // },
                 ],
             });
             $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
                 console.log(message);
             };
+            $("#prodi").on('change', function() {
+                table.draw();
+            });
 
             const myDropzone = new Dropzone('#data', {
                 previewTemplate: previewTemplate,

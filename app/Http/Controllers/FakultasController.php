@@ -6,6 +6,7 @@ use App\Models\Bobot;
 use App\Models\BobotMK;
 use App\Models\CE;
 use App\Models\CPMK;
+use App\Models\Matakuliah;
 use App\Models\MKPilihan;
 use App\Models\Pengampu;
 use App\Models\Prodi;
@@ -489,8 +490,10 @@ class FakultasController extends Controller
         if (Session::has('data')) {
             $appdata = [
                 'title' => 'Data Matakuliah',
-                'sesi'  => Session::get('data')
+                'sesi'  => Session::get('data'),
+                'prodi' => Prodi::where('id_fakultas', Session::get('data')['idprodi'])->get(['id', 'nama_prodi'])
             ];
+            // dd($appdata);
             return view('fakultas.matkul_index', compact('appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
@@ -500,17 +503,24 @@ class FakultasController extends Controller
 
     public function listmk(Request $request)
     {
-        $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
-            'APIKEY'    => config('app.APIKEY'),
-            'tahun'     => config('app.tahun_kurikulum'),
-            'prodi'     => Session::get('data')['idprodi'],
-        ]);
-        $json = $res->json();
-        $data = $json['data'];
-        $data = collect($data)->filter(function ($item) {
-            return stristr($item['kdkmktbkmk'], Session::get('data')['kode']);
-        });
-        // $data = getMK();
+        if ($request->prodi) {
+            $prodi = Prodi::where('id', $request->prodi)->first();
+            $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
+                'APIKEY'    => config('app.APIKEY'),
+                'tahun'     => config('app.tahun_kurikulum'),
+                'prodi'     => $prodi->id,
+            ]);
+            $json = $res->json();
+            $data = $json['data'];
+            $kode = $prodi->kode;
+
+            $data = collect($data)->filter(function ($item, $kode) {
+                return stristr($item['kdkmktbkmk'], $kode);
+            });
+        } else {
+            $data = [];
+        }
+
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -529,66 +539,67 @@ class FakultasController extends Controller
                 ->addColumn('wbpiltbkur', function ($row) {
                     return $row['wbpiltbkur'];
                 })
-                ->addColumn('cpl_mk', function ($row) {
-                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
-                    if (isset($mk)) {
-                        $gambarmk = asset('cpl/' . $mk->cpl_mk);
-                        $actionBtn =
-                            '<div class="btn-group" role="group" aria-label="Action">
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)"  data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
-                                    <span class="tf-icons fa-solid fa-edit"></span>
-                                </a>   
+                // ->addColumn('cpl_mk', function ($row) {
+                //     $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                //     if (isset($mk)) {
+                //         $gambarmk = asset('cpl/' . $mk->cpl_mk);
+                //         $actionBtn =
+                //             '<div class="btn-group" role="group" aria-label="Action">
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)"  data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
+                //                     <span class="tf-icons fa-solid fa-edit"></span>
+                //                 </a>   
 
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" data-gambarmk="' . $gambarmk . '"
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL MK">
-                                    <span class="tf-icons fa-solid fa-eye"></span>
-                                </a>    
-                            </div>';
-                    } else {
-                        $actionBtn =
-                            '<div class="btn-group" role="group" aria-label="Action">
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
-                                    <span class="tf-icons fa-solid fa-edit"></span>
-                                </a>   
-        
-                            </div>';
-                    }
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" data-gambarmk="' . $gambarmk . '"
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL MK">
+                //                     <span class="tf-icons fa-solid fa-eye"></span>
+                //                 </a>    
+                //             </div>';
+                //     } else {
+                //         $actionBtn =
+                //             '<div class="btn-group" role="group" aria-label="Action">
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMK" onclick="showedit(this)" data-kdmk="' . $row['kdkmktbkmk'] . '" data-nmmk="' . $row['nakmktbkmk'] . '" 
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL MK">
+                //                     <span class="tf-icons fa-solid fa-edit"></span>
+                //                 </a>   
 
-                    return $actionBtn;
-                })
-                ->addColumn('cpl_mhs', function ($row) {
-                    $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
-                    if (isset($mk) && $mk->cpl_mhs != NULL) {
-                        $gambarmhs = asset('cpl/' . $mk->cpl_mhs);
-                        $actionBtn =
-                            '<div class="btn-group" role="group" aria-label="Action">
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)"  data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
-                                    <span class="tf-icons fa-solid fa-edit"></span>
-                                </a>   
+                //             </div>';
+                //     }
 
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" data-gambarmhs="' . $gambarmhs . '"
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL Mhs">
-                                    <span class="tf-icons fa-solid fa-eye"></span>
-                                </a>    
-                            </div>';
-                    } else {
-                        $actionBtn =
-                            '<div class="btn-group" role="group" aria-label="Action">
-                                <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
-                                    data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
-                                    <span class="tf-icons fa-solid fa-edit"></span>
-                                </a>   
-        
-                            </div>';
-                    }
+                //     return $actionBtn;
+                // })
+                // ->addColumn('cpl_mhs', function ($row) {
+                //     $mk = Matakuliah::where('id_matakuliah', $row['kdkmktbkmk'])->first();
+                //     if (isset($mk) && $mk->cpl_mhs != NULL) {
+                //         $gambarmhs = asset('cpl/' . $mk->cpl_mhs);
+                //         $actionBtn =
+                //             '<div class="btn-group" role="group" aria-label="Action">
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)"  data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
+                //                     <span class="tf-icons fa-solid fa-edit"></span>
+                //                 </a>   
 
-                    return $actionBtn;
-                })
-                ->rawColumns(['cpl_mk', 'cpl_mhs'])
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-success" href="" data-bs-target="#showcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" data-gambarmhs="' . $gambarmhs . '"
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Show CPL Mhs">
+                //                     <span class="tf-icons fa-solid fa-eye"></span>
+                //                 </a>    
+                //             </div>';
+                //     } else {
+                //         $actionBtn =
+                //             '<div class="btn-group" role="group" aria-label="Action">
+                //                 <a role="button" data-bs-toggle="modal" class="btn btn-icon btn-warning" href="" data-bs-target="#editcplMhs" onclick="show(this)" data-kdmkk="' . $row['kdkmktbkmk'] . '" data-nmmkk="' . $row['nakmktbkmk'] . '" 
+                //                     data-bs-tooltip="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-warning" title="Edit CPL Mhs">
+                //                     <span class="tf-icons fa-solid fa-edit"></span>
+                //                 </a>   
+
+                //             </div>';
+                //     }
+
+                //     return $actionBtn;
+                // })
+                // ->rawColumns(['cpl_mk', 'cpl_mhs'])
                 ->make(true);
         }
+        // $data = getMK();
     }
 }

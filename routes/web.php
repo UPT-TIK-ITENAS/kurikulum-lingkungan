@@ -92,7 +92,7 @@ Route::middleware(['isLogin'])->group(function () {
 
         // MASTER MK
         Route::get('/fakultas/data-master/matkul', [FakultasController::class, 'index_matkul'])->name('fakultas.matkul.index');
-        Route::get('/fakultas/data-master/matkul/listmatakuliah', [MainController::class, 'listmk'])->name('fakultas.matkul.listmatakuliah');
+        Route::get('/fakultas/data-master/matkul/listmatakuliah', [FakultasController::class, 'listmk'])->name('fakultas.matkul.listmatakuliah');
     });
 
     Route::group(['prefix' => ''], function () {
