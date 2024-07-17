@@ -42,9 +42,10 @@
                                 {{ \Carbon\Carbon::createFromFormat('Y-m-d', Session::get('akhir_semester'))->translatedFormat('d F Y') }}</b>.
                         </p>
                     </div> --}}
+
                     <div class="row mb-2">
                         <div class="col" id="divSavebtn" style="display: block;">
-                            @if (Session::get('awal_semester') <= date('Y-m-d') && date('Y-m-d') <= Session::get('akhir_semester'))
+                            @if (Session::get('awal_semester') <= date('Y-m-d') || date('Y-m-d') <= Session::get('akhir_semester'))
                                 <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
                                     id="saveBtn">
                                     <i class="fa fa-save me-1"></i> Simpan
