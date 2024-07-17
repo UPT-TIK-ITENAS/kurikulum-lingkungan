@@ -31,7 +31,7 @@
                         </tbody>
                     </table>
                     <br>
-                    <div class="alert alert-warning" role="alert">
+                    {{-- <div class="alert alert-warning" role="alert">
                         <h6 class="alert-heading mb-1">Perhatian !</h6>
                         <p align="justify"> Jika sudah di <b>SIMPAN</b> secara langsung tersimpan ke <b>Sistem Akademik
                                 (SIKAD)</b>. Hati-hati dalam pengisian bobot.
@@ -41,7 +41,7 @@
                             pada tanggal <b>
                                 {{ \Carbon\Carbon::createFromFormat('Y-m-d', Session::get('akhir_semester'))->translatedFormat('d F Y') }}</b>.
                         </p>
-                    </div>
+                    </div> --}}
                     <div class="row mb-2">
                         <div class="col" id="divSavebtn" style="display: block;">
                             @if (Session::get('awal_semester') <= date('Y-m-d') || date('Y-m-d') <= Session::get('akhir_semester'))

@@ -442,34 +442,35 @@ class DosenController extends Controller
                 }
             }
 
-            $datasc = $request->datasc;
-            $sc1 = array_key_exists(0, $datasc) ? $datasc[0]['bobotsc'] : '0';
-            $sc2 = array_key_exists(1, $datasc) ? $datasc[1]['bobotsc'] : '0';
-            $sc3 = array_key_exists(2, $datasc) ? $datasc[2]['bobotsc'] : '0';
-            $sc4 = array_key_exists(3, $datasc) ? $datasc[3]['bobotsc'] : '0';
-            $sc5 = array_key_exists(4, $datasc) ? $datasc[4]['bobotsc'] : '0';
-            $sc6 = array_key_exists(5, $datasc) ? $datasc[5]['bobotsc'] : '0';
-            $sc7 = array_key_exists(6, $datasc) ? $datasc[6]['bobotsc'] : '0';
-            $sc8 = array_key_exists(7, $datasc) ? $datasc[7]['bobotsc'] : '0';
+            // $datasc = $request->datasc;
+            // $sc1 = array_key_exists(0, $datasc) ? $datasc[0]['bobotsc'] : '0';
+            // $sc2 = array_key_exists(1, $datasc) ? $datasc[1]['bobotsc'] : '0';
+            // $sc3 = array_key_exists(2, $datasc) ? $datasc[2]['bobotsc'] : '0';
+            // $sc4 = array_key_exists(3, $datasc) ? $datasc[3]['bobotsc'] : '0';
+            // $sc5 = array_key_exists(4, $datasc) ? $datasc[4]['bobotsc'] : '0';
+            // $sc6 = array_key_exists(5, $datasc) ? $datasc[5]['bobotsc'] : '0';
+            // $sc7 = array_key_exists(6, $datasc) ? $datasc[6]['bobotsc'] : '0';
+            // $sc8 = array_key_exists(7, $datasc) ? $datasc[7]['bobotsc'] : '0';
 
-            $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
-                'APIKEY'    => config('app.APIKEY'),
-                'kodemk'    => $datamk[0]['idmatakuliah'],
-                'semester'  => $datasc[0]['semester'],
-                'useid'     => Session::get('data')['nodosMSDOS'],
-                'tgtup'     => date('Y-m-d'),
-                'jatup'     => date("H:i:s"),
-                'btsc1'     => $sc1,
-                'btsc2'     => $sc2,
-                'btsc3'     => $sc3,
-                'btsc4'     => $sc4,
-                'btsc5'     => $sc5,
-                'btsc6'     => $sc6,
-                'btsc7'     => $sc7,
-                'btsc8'     => $sc8,
-            ]);
-            $json = $res->json();
-            return response()->json(['success' => $json['message']]);
+            // $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'kodemk'    => $datamk[0]['idmatakuliah'],
+            //     'semester'  => $datasc[0]['semester'],
+            //     'useid'     => Session::get('data')['nodosMSDOS'],
+            //     'tgtup'     => date('Y-m-d'),
+            //     'jatup'     => date("H:i:s"),
+            //     'btsc1'     => $sc1,
+            //     'btsc2'     => $sc2,
+            //     'btsc3'     => $sc3,
+            //     'btsc4'     => $sc4,
+            //     'btsc5'     => $sc5,
+            //     'btsc6'     => $sc6,
+            //     'btsc7'     => $sc7,
+            //     'btsc8'     => $sc8,
+            // ]);
+            // $json = $res->json();
+            // return response()->json(['success' => $json['message']]);
+            return response()->json(['success' => 'Berhasil simpan bobot']);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

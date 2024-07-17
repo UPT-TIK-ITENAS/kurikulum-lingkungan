@@ -119,24 +119,25 @@ class BobotController extends Controller
             $sc7 = array_key_exists(6, $datasc) ? $datasc[6]['bobotsc'] : '0';
             $sc8 = array_key_exists(7, $datasc) ? $datasc[7]['bobotsc'] : '0';
 
-            $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
-                'APIKEY'    => config('app.APIKEY'),
-                'kodemk'    => $datamk[0]['idmatakuliah'],
-                'semester'  => $datasc[0]['semester'],
-                'useid'     => Session::get('data')['nodosMSDOS'],
-                'tgtup'     => date('Y-m-d'),
-                'jatup'     => date("H:i:s"),
-                'btsc1'     => $sc1,
-                'btsc2'     => $sc2,
-                'btsc3'     => $sc3,
-                'btsc4'     => $sc4,
-                'btsc5'     => $sc5,
-                'btsc6'     => $sc6,
-                'btsc7'     => $sc7,
-                'btsc8'     => $sc8,
-            ]);
-            $json = $res->json();
-            return response()->json(['success' => $json['message']]);
+            // $res = Http::post(config('app.urlApi') . 'dosen/updateBobot', [
+            //     'APIKEY'    => config('app.APIKEY'),
+            //     'kodemk'    => $datamk[0]['idmatakuliah'],
+            //     'semester'  => $datasc[0]['semester'],
+            //     'useid'     => Session::get('data')['nodosMSDOS'],
+            //     'tgtup'     => date('Y-m-d'),
+            //     'jatup'     => date("H:i:s"),
+            //     'btsc1'     => $sc1,
+            //     'btsc2'     => $sc2,
+            //     'btsc3'     => $sc3,
+            //     'btsc4'     => $sc4,
+            //     'btsc5'     => $sc5,
+            //     'btsc6'     => $sc6,
+            //     'btsc7'     => $sc7,
+            //     'btsc8'     => $sc8,
+            // ]);
+            // $json = $res->json();
+            // return response()->json(['success' => $json['message']]);
+            return response()->json(['success' => 'Berhasil Simpan Bobot']);
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
