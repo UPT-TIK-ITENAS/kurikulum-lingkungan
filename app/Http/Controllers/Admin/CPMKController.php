@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bobot;
 use App\Models\BobotCPL;
 use App\Models\BobotCPLPadu;
 use App\Models\BobotMK;
@@ -109,7 +110,6 @@ class CPMKController extends Controller
             $data = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->get();
 
             // dd($data);
@@ -227,6 +227,7 @@ class CPMKController extends Controller
             $query = CPMK::where('id', $id)->delete();
             if ($query) {
                 CE::where('idcpmk', $id)->delete();
+                Bobot::where('id_cpmk', $id)->delete();
                 return redirect()->back()->with('success', 'Success delete');
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');

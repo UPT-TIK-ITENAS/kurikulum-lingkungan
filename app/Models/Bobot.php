@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bobot extends Model
 {
-    protected $table = 'bobot';
+    protected $table = 'bobot_1';
     protected $guarded = [];
 }

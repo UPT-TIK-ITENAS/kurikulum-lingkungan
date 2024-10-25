@@ -34,19 +34,16 @@ class BobotController extends Controller
             $data['subcpmk'] = SubCPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->get();
 
             $data['cpmk'] = CPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->orderBy('id', 'desc')->get();
 
             $data['bobot'] = Bobot::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->get();
 
             $bobot = array();
@@ -55,7 +52,8 @@ class BobotController extends Controller
             }
 
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
-                'idprodi' => $appdata['sesi']['idprodi'], 'idmatakuliah' => $datamk[0]
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idmatakuliah' => $datamk[0]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 
