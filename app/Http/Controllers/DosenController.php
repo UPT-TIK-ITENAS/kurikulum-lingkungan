@@ -174,6 +174,7 @@ class DosenController extends Controller
             $query = CPMK::where('id', $id)->delete();
             if ($query) {
                 CE::where('idcpmk', $id)->delete();
+                Bobot::where('id_cpmk', $id)->delete();
                 return redirect()->back()->with('success', 'Success delete');
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');
@@ -280,6 +281,7 @@ class DosenController extends Controller
         if (Session::has('data')) {
             $query = SubCPMK::where('subcpmk_id', $id)->delete();
             if ($query) {
+                Bobot::where('id_cpmk', $id)->delete();
                 return redirect()->back()->with('success', 'Success delete');
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');
@@ -401,7 +403,9 @@ class DosenController extends Controller
             }
 
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
-                'idprodi' => Session::get('prodi'), 'idmatakuliah' => $datamk[0], 'semester' => $datamk[4]
+                'idprodi' => Session::get('prodi'),
+                'idmatakuliah' => $datamk[0],
+                'semester' => $datamk[4]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 

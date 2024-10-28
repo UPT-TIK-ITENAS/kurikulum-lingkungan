@@ -309,6 +309,7 @@ class CPMKController extends Controller
         if (Session::has('data')) {
             $query = CE::where('id', $id)->delete();
             if ($query) {
+                Bobot::where('id_cpmk', $id)->delete();
                 return redirect()->back()->with('success', 'Success delete');
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');
