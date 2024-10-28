@@ -33,7 +33,7 @@ class MainController extends Controller
                     'idfakultas' => $appdata['sesi']['idfakultas']
                 ])->groupBy('semester_lulus')->get('semester_lulus')
             ];
-            // dd($appdata);
+            // dd($appdata);                                                                                    
 
             return view('admin.dashboard', compact('appdata', 'data'));
         } else {
@@ -437,7 +437,8 @@ class MainController extends Controller
         ];
 
         $datacpl_all = CPL::where([
-            'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'idfakultas' => $appdata['sesi']['idfakultas']
         ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)', 'asc')->get();
         $data_json = [];
         $label = [];

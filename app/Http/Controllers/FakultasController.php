@@ -411,7 +411,9 @@ class FakultasController extends Controller
             }
 
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
-                'idprodi' => $prodi->id, 'idmatakuliah' => $datamk[0], 'semester' => $datamk[4]
+                'idprodi' => $prodi->id,
+                'idmatakuliah' => $datamk[0],
+                'semester' => $datamk[4]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 

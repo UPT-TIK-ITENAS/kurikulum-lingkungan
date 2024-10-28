@@ -156,7 +156,8 @@ class CPLController extends Controller
                 'mhs'   => $datamhs_dec,
                 'en_mhs' => $datamhs,
                 'cpl'   => CPL::where([
-                    'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+                    'idprodi' => $appdata['sesi']['idprodi'],
+                    'idfakultas' => $appdata['sesi']['idfakultas']
                 ])->get(),
                 'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
@@ -183,15 +184,16 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $data = CPL::where([
-                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas']
             ])->get();
             $percpl = totalCPL($datamhs[0]);
             $data_json = [];
             $label = [];
             $persen = [];
             foreach ($data as $c) {
-                foreach ($percpl as $cpl){
-                    if ($cpl['idcpl'] == $c->kode_cpl){
+                foreach ($percpl as $cpl) {
+                    if ($cpl['idcpl'] == $c->kode_cpl) {
                         $bobotCPL = round($cpl['total'], 2);
                         array_push($data_json, $bobotCPL);
                         array_push($label, $c->kode_cpl);
@@ -200,7 +202,7 @@ class CPLController extends Controller
                 }
                 // $bobotCPL = getNilaiCPL($c->id, $datamhs[0]);
                 // $persenCPL = round((getNilaiCPL($c->id, $datamhs[0]) / 4) * 100);
-              
+
             }
 
             return response()->json(['cpl' => $label, 'bobot' => $data_json, 'max_bobot' => max($data_json), 'persen' => $persen, 'max_persen' => max($persen)]);
@@ -216,7 +218,8 @@ class CPLController extends Controller
             'sesi'  => Session::get('data')
         ];
         $data = CPL::where([
-            'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'idfakultas' => $appdata['sesi']['idfakultas']
         ])->get();
         $data_cpl = [];
         foreach ($data as $c) {
@@ -241,7 +244,8 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $data = CPL::where([
-                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas']
             ])->get();
 
             // $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
@@ -295,7 +299,8 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $data = CPL::where([
-                'idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas']
             ])->get();
 
             $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
