@@ -52,7 +52,6 @@ class SubCPMKController extends Controller
             $data = SubCPMK::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->get();
 
             // $cpl_mk = BobotMK::with(['cpl'])->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $datamk[0]])
@@ -146,6 +145,7 @@ class SubCPMKController extends Controller
         if (Session::has('data')) {
             $query = SubCPMK::where('subcpmk_id', $id)->delete();
             if ($query) {
+                Bobot::where('id_subcpmk', $id)->delete();
                 return redirect()->back()->with('success', 'Success delete');
             } else {
                 return redirect()->back()->with('error', 'Something wrong !');
