@@ -175,7 +175,7 @@ class CPMKController extends Controller
                 'nodos'  => explode('|', $request->dosen)[0],
                 'nama_dosen'   => explode('|', $request->dosen)[1],
                 'semester'  => $request->semester1,
-                'prodi'     => Session::get('data')['idprodi']
+                'idprodi'     => Session::get('data')['idprodi']
             ];
             $query = Pengampu::insert($data);
             if ($query) {
