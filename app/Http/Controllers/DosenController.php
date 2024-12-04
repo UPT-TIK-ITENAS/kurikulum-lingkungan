@@ -118,7 +118,7 @@ class DosenController extends Controller
     {
         if (Session::has('data')) {
             $sesi = Session::get('data');
-            $semester = $request->semester;
+            // $semester = $request->semester;
 
             $data = [
                 'kode_cpmk'  => 'CPMK-' . $request->kode_cpmk,
@@ -129,7 +129,7 @@ class DosenController extends Controller
                 'sks'  => $request->sks,
                 'idprodi'   => Session::get('prodi'),
                 'idfakultas' => Session::get('fakultas'),
-                'semester' => $semester
+                // 'semester' => $semester
             ];
             $query = CPMK::insert($data);
             if ($query) {
@@ -227,7 +227,7 @@ class DosenController extends Controller
                 'sks'  => $request->sks,
                 'idprodi'   => Session::get('prodi'),
                 'idfakultas' => Session::get('fakultas'),
-                'semester' => $request->semester
+                // 'semester' => $request->semester
             ];
             $query = SubCPMK::insert($data);
             if ($query) {
@@ -257,7 +257,7 @@ class DosenController extends Controller
                 'subcpmk_nama_en'  => $request->subcpmk_nama_en,
                 'idprodi'   => Session::get('prodi'),
                 'idfakultas' => Session::get('fakultas'),
-                'semester' => $request->semester
+                // 'semester' => $request->semester
             ];
             $query = SubCPMK::where('subcpmk_id', $id)->update($data);
             if ($query) {
@@ -383,18 +383,18 @@ class DosenController extends Controller
             $data['subcpmk'] = SubCPMK::where([
                 'idprodi' => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester' => $datamk[4]
+                // 'semester' => $datamk[4]
             ])->get();
             $data['cpmk'] = CPMK::where([
                 'idprodi' => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester' => $datamk[4]
+                // 'semester' => $datamk[4]
             ])->orderBy('id', 'desc')->get();
 
             $data['bobot'] = Bobot::where([
                 'idprodi' => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester' => $datamk[4]
+                // 'semester' => $datamk[4]
             ])->get();
             // dd($data);
             $bobot = array();
@@ -405,7 +405,7 @@ class DosenController extends Controller
             $bobotsubcpmk = Bobot::selectRaw('sum(bobot) as totalbobot,bobot')->where([
                 'idprodi' => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester' => $datamk[4]
+                // 'semester' => $datamk[4]
             ])->groupby('idprodi')->first();
             // dd($bobotsubcpmk);
 
@@ -437,7 +437,7 @@ class DosenController extends Controller
                 $data['idfakultas'] = Session::get('fakultas');
                 $data['id_cpmk'] = $key['id_cpmk'];
                 $data['id_subcpmk'] = $key['id_subcpmk'];
-                $data['semester'] = $key['semester'];
+                // $data['semester'] = $key['semester'];
 
                 if (Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', Session::get('prodi'))->where('idfakultas', Session::get('fakultas'))->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->first()) {
                     Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', Session::get('prodi'))->where('idfakultas', Session::get('fakultas'))->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->update($data);

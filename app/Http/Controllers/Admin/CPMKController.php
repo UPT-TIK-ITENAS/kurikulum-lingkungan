@@ -149,7 +149,7 @@ class CPMKController extends Controller
                 'sks'  => $request->sks,
                 'idprodi'   => $sesi['idprodi'],
                 'idfakultas' => $sesi['idfakultas'],
-                'semester' => $request->semester
+                // 'semester' => $request->semester
             ];
             $query = CPMK::insert($data);
             if ($query) {

@@ -97,7 +97,7 @@ class BobotController extends Controller
                 $data['idfakultas'] = $appdata['sesi']['idfakultas'];
                 $data['id_cpmk'] = $key['id_cpmk'];
                 $data['id_subcpmk'] = $key['id_subcpmk'];
-                $data['semester'] = $key['semester'];
+                // $data['semester'] = $key['semester'];
 
                 if (Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $appdata['sesi']['idprodi'])->where('idfakultas', $appdata['sesi']['idfakultas'])->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->first()) {
                     Bobot::where('idmatakuliah', $key['idmatakuliah'])->where('idprodi', $appdata['sesi']['idprodi'])->where('idfakultas', $appdata['sesi']['idfakultas'])->where('kode_cpmk',  $key['kode_cpmk'])->where('subcpmk_kode',  $key['subcpmk_kode'])->update($data);
