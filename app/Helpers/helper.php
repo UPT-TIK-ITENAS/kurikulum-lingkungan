@@ -465,7 +465,8 @@ if (!function_exists('totalCPL')) {
             }
             // sum bobot by subcpmk_kode
             $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
-                // $item = $item->sum('bobot') ;
+                // dd($item->sum('bobot'));
+
                 return $item->sum('bobot') / 100;
             });
             $data_sc = $data_sc->map(function ($item2, $key) use ($item) {
@@ -479,12 +480,15 @@ if (!function_exists('totalCPL')) {
             $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
             $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
                 $item->hasil = (($item->bobot_cpl) / 100) * $data_sc;
+                dd($data_sc);
                 return $item = [
                     'idcpl' => $item->id_cpl,
                     'hasil' => $item->hasil,
 
                 ];
             });
+
+            // dd($data_sc);
             $item['data_sc'] = $mappedBobotCpl ?? 0;
 
             return $item;
