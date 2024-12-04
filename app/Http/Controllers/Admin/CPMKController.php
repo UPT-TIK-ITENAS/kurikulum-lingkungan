@@ -69,7 +69,7 @@ class CPMKController extends Controller
                     return $row['wbpiltbkur'];
                 })
                 ->addColumn('action', function ($row, Request $request) {
-                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk'] . '|' . $request->semester);
+                    $data = encrypt($row['kdkmktbkmk'] . '|' . $row['nakmktbkmk'] . '|' . $row['nakmitbkmk'] . '|' . $row['sksmktbkmk']);
                     $edit_url = route('admin.cpmk.kelola', $data);
                     $url_subcpmk = route('admin.subcpmk.index', $data);
                     $url_bobot = route('admin.bobot', $data);
@@ -128,9 +128,9 @@ class CPMKController extends Controller
             }
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => $appdata['sesi']['idprodi'], 'cpl.idfakultas' => $appdata['sesi']['idfakultas'], 'idmatakuliah' => $idmatakuliah, 'bobot_mk.idprodi' => $appdata['sesi']['idprodi'], 'bobot_mk.idfakultas' => $appdata['sesi']['idfakultas']])->where('bobot_mk', '!=', '0')->get();
 
-            $semester = $datamk[4];
+            // $semester = $datamk[4];
 
-            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk', 'semester'));
+            return view('admin.cpmk_kelola', compact('appdata', 'data', 'datamk', 'cpl_mk'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }

@@ -85,8 +85,7 @@
                                         </td>
                                     @endforeach
                                     <td><input type="text" class="form-control total" style="text-align: center" readonly
-                                            id="total_{{ $cpmk->id }}" value="{{ totalCPMK($cpmk->id, $datamk[4]) }}"
-                                            readonly>
+                                            id="total_{{ $cpmk->id }}" value="{{ totalCPMK($cpmk->id) }}" readonly>
                                     </td>
                                 </tr>
                             @endforeach
@@ -100,7 +99,7 @@
                                             <input type="number" name="sc_bobot" class="form-control totalsc" readonly
                                                 style="text-align: center" data-id="{{ $sub->subcpmk_id }}"
                                                 data-kode="{{ $sub->subcpmk_kode }}"
-                                                value="{{ totalSC($sub->subcpmk_id, $datamk[4]) }}">
+                                                value="{{ totalSC($sub->subcpmk_id) }}">
                                         </div>
                                     </th>
                                 @endforeach
@@ -254,8 +253,7 @@
                         'subcpmk_kode': subcpmk,
                         'idmatakuliah': idmatakuliah,
                         'id_cpmk': split[0],
-                        'id_subcpmk': split[1],
-                        'semester': '{{ $datamk[4] }}'
+                        'id_subcpmk': split[1]
                     });
                 });
 
@@ -267,8 +265,7 @@
                     datasc.push({
                         'id': id,
                         'kode': kode,
-                        'bobotsc': bobotsc,
-                        'semester': '{{ $datamk[4] }}'
+                        'bobotsc': bobotsc
                     });
 
                 });

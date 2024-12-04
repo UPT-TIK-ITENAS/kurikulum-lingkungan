@@ -71,7 +71,7 @@ class DosenController extends Controller
                     return $row['status_mk'];
                 })
                 ->addColumn('action', function ($row) {
-                    $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks'] . '|' . $row['semester']);
+                    $data = encrypt($row['kode_mk'] . '|' . $row['nama_mk'] . '|' . $row['nama_mk_en'] . '|' . $row['sks']);
                     $edit_url = route('dosen.cpmk.kelola', $data);
                     $url_subcpmk = route('dosen.subcpmk.index', $data);
                     $url_bobot = route('dosen.bobot', $data);
@@ -103,7 +103,6 @@ class DosenController extends Controller
             $data = CPMK::where([
                 'idprodi'      => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
             ])->get();
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();
@@ -196,7 +195,7 @@ class DosenController extends Controller
             $data = SubCPMK::where([
                 'idprodi' => Session::get('prodi'),
                 'idmatakuliah' => $datamk[0],
-                'semester'     => $datamk[4]
+                // 'semester'     => $datamk[4]
             ])->get();
 
             $cpl_mk = BobotMK::join('cpl', 'bobot_mk.id_cpl', '=', 'cpl.kode_cpl')->where(['cpl.idprodi' => Session::get('prodi'), 'cpl.idfakultas' => Session::get('fakultas'), 'idmatakuliah' => $datamk[0], 'bobot_mk.idprodi' => Session::get('prodi'), 'bobot_mk.idfakultas' => Session::get('fakultas')])->where('bobot_mk', '!=', '0')->get();

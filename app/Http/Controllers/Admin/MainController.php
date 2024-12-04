@@ -48,6 +48,10 @@ class MainController extends Controller
      */
     public function listmatakuliah(Request $request)
     {
+
+        $prodi = Session::get('data')['idprodi'] ?? (Session::get('data')['kdfakMSDOS'] . Session::get('data')['kdjurMSDOS']);
+
+        // dd(Session::get('data'));
         $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
             'APIKEY'    => config('app.APIKEY'),
             'tahun'     => config('app.tahun_kurikulum'),

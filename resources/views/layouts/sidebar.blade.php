@@ -135,17 +135,17 @@
                     <div>Data CPMK - Sub CPMK</div>
                 </a>
             </li>
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Hasil Pengukuran</span>
+            {{-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Hasil Pengukuran</span>
             </li>
             <li class="menu-item @if (request()->routeIs('dosen.matkul.index')) active @endif">
                 <a href="{{ route('dosen.matkul.index') }}" class="menu-link"> <i
                         class="menu-icon tf-icons bx bx-food-menu"></i>
                     <div>Mata Kuliah</div>
                 </a>
-            </li>
+            </li> --}}
         @elseif(Session::get('login') == 'fakultas')
             <!-- Dashboards -->
-            <li class="menu-item @if (request()->routeIs('fakultas.home')) active @endif"">
+            <li class="menu-item @if (request()->routeIs('fakultas.home')) active @endif">
                 <a href="{{ route('fakultas.home') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div>Dashboards</div>

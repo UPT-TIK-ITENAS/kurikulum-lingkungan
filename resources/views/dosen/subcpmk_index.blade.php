@@ -115,7 +115,7 @@
                         <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
                         <input type="hidden" name="nama_matkul_en" id="nama_matkul_en" value="{{ $datamk[2] }}">
                         <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">
-                        <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}">
+                        {{-- <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}"> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content-header')
     <span class="text-muted fw-light">Data CPMK - Sub CPMK / CPMK / </span> Kelola CPMK {{ $datamk[0] }}
-    - {{ $datamk[4] }}
 @endsection
 @section('content')
     <!-- Basic Layout & Basic with Icons -->
@@ -106,7 +105,7 @@
                         </div>
                         <input type="hidden" name="idmatakuliah" id="idmatakuliah" value="{{ $datamk[0] }}">
                         <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
-                        <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}">
+                        {{-- <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}"> --}}
                         <input type="hidden" name="nama_matkul_en" id="nama_matkul_en" value="{{ $datamk[2] }}">
                         <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">
                     </div>
@@ -151,7 +150,7 @@
                             </div>
                             <input type="hidden" name="idmatakuliah" id="idmatakuliah" value="{{ $datamk[0] }}">
                             <input type="hidden" name="nama_matkul" id="nama_matkul" value="{{ $datamk[1] }}">
-                            <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}">
+                            {{-- <input type="hidden" name="semester" id="semester" value="{{ $datamk[4] }}"> --}}
                             <input type="hidden" name="nama_matkul_en" id="nama_matkul_en"
                                 value="{{ $datamk[2] }}">
                             <input type="hidden" name="sks" id="sks" value="{{ $datamk[3] }}">

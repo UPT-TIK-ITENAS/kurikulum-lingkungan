@@ -260,12 +260,11 @@ if (!function_exists('totalCPMK')) {
 }
 
 if (!function_exists('totalSC')) {
-    function totalSC($sc, $semester)
+    function totalSC($sc)
     {
         $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
             'idprodi' => Session::get('data')['idprodi'],
             'id_subcpmk' => $sc,
-            'semester' => $semester
         ])->groupby('id_subcpmk')->get();
 
 
@@ -274,7 +273,7 @@ if (!function_exists('totalSC')) {
 }
 
 if (!function_exists('totalCPMKDosen')) {
-    function totalCPMKDosen($cpmk, $semester)
+    function totalCPMKDosen($cpmk)
     {
         $appdata = [
             'title' => 'Kelola Bobot',
@@ -282,8 +281,7 @@ if (!function_exists('totalCPMKDosen')) {
         ];
         $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
             'idprodi' => Session::get('prodi'),
-            'id_cpmk' => $cpmk,
-            'semester' => $semester
+            'id_cpmk' => $cpmk
         ])->groupby('id_cpmk')->get();
 
 
@@ -292,12 +290,11 @@ if (!function_exists('totalCPMKDosen')) {
 }
 
 if (!function_exists('totalSCDosen')) {
-    function totalSCDosen($sc, $semester)
+    function totalSCDosen($sc)
     {
         $total_nilai = Bobot::selectRaw('sum(bobot) as totalbobot')->where([
             'idprodi' => Session::get('prodi'),
             'id_subcpmk' => $sc,
-            'semester' => $semester
         ])->groupby('id_subcpmk')->get();
 
 
