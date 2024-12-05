@@ -176,8 +176,9 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
-                    html: `Anda akan menghapus <b>${$(this).data('kode')}</b>
-                    <br><span style="color: red; font-weight: bold;">Jika Anda menghapus ${$(this).data('kode')} maka akan menghapus data bobot CPL Padu dan Matriks Bobot HARAP DIPERHATIKAN! </span>`,
+                    html: `Anda akan menghapus <b>${$(this).data('kode')}</b>. <br><span style="color: red; font-weight: bold;">
+                        Menghapus ${$(this).data('kode')} akan secara otomatis menghapus data bobot CPL Padu dan Matriks Bobot yang terkait.
+                        <br><br>Mohon periksa kembali sebelum melanjutkan!</span>`,
                     icon: 'question',
                     showConfirmButton: true,
                     showCancelButton: true,

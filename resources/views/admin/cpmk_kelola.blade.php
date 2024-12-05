@@ -58,8 +58,8 @@
                                             </a>
                                             <a role='button' class='btn btn-icon btn-danger del-btn'
                                                 href='{{ route('admin.cpmk.delete', $c->id) }}'
-                                                data-nama="{{ $c->nama_cpmk }}" data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
+                                                data-nama="{{ $c->nama_cpmk }}" data-kode="{{ $c->kode_cpmk }}"
+                                                data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-danger' title='Hapus CPMK'>
                                                 <span class='tf-icons fa-solid fa-trash'></span>
                                             </a>
@@ -188,7 +188,10 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
-                    text: `Anda akan menghapus CPMK ${$(this).data('nama')}`,
+                    html: `Anda akan menghapus <b>${$(this).data('kode')}</b>.
+                    <br><span style="color: red; font-weight: bold;">
+                        Menghapus ${$(this).data('kode')} akan secara otomatis menghapus data bobot Mata Kuliah yang terkait.
+                        <br><br>Mohon periksa kembali sebelum melanjutkan!</span>`,
                     icon: 'question',
                     showConfirmButton: true,
                     showCancelButton: true,

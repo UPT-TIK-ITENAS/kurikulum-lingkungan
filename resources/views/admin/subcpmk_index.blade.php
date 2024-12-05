@@ -198,7 +198,10 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
-                    text: `Anda akan menghapus ${$(this).data('id')}`,
+                    html: `Anda akan menghapus <b>${$(this).data('id')}</b>.
+                    <br><span style="color: red; font-weight: bold;">
+                        Menghapus ${$(this).data('id')} akan secara otomatis menghapus data bobot Mata Kuliah yang terkait.
+                        <br><br>Mohon periksa kembali sebelum melanjutkan!</span>`,
                     icon: 'question',
                     showConfirmButton: true,
                     showCancelButton: true,
