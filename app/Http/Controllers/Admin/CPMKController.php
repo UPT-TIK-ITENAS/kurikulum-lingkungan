@@ -248,7 +248,9 @@ class CPMKController extends Controller
                 'cpl'   => CPL::where([
                     'idprodi'      => $sesi['idprodi'],
                     'idfakultas'   => $sesi['idfakultas']
-                ])->get()
+                ])
+                    ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                    ->get()
             ];
             // dd($data);
             $appdata = [

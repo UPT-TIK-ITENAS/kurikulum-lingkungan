@@ -45,8 +45,8 @@
                                             </a>
                                             <a role='button' class='btn btn-icon btn-danger del-btn'
                                                 href='{{ route('admin.cpl.delete', $c->id) }}'
-                                                data-nama="{{ $c->nama_cpl }}" data-bs-tooltip='tooltip'
-                                                data-bs-offset='0,8' data-bs-placement='top'
+                                                data-nama="{{ $c->nama_cpl }}" data-kode="{{ $c->kode_cpl }}"
+                                                data-bs-tooltip='tooltip' data-bs-offset='0,8' data-bs-placement='top'
                                                 data-bs-custom-class='tooltip-danger' title='Hapus CPL'>
                                                 <span class='tf-icons fa-solid fa-trash'></span>
                                             </a>
@@ -176,7 +176,8 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Lanjutkan?',
-                    text: `Anda akan menghapus CPL ${$(this).data('nama')}`,
+                    html: `Anda akan menghapus <b>${$(this).data('kode')}</b>
+                    <br><span style="color: red; font-weight: bold;">Jika Anda menghapus ${$(this).data('kode')} maka akan menghapus data bobot CPL Padu dan Matriks Bobot HARAP DIPERHATIKAN! </span>`,
                     icon: 'question',
                     showConfirmButton: true,
                     showCancelButton: true,

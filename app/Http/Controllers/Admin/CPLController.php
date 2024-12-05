@@ -27,7 +27,13 @@ class CPLController extends Controller
                 'title' => 'CPL',
                 'sesi'  => Session::get('data')
             ];
-            $cpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->get();
+            $cpl = CPL::where([
+                'idprodi' => $appdata['sesi']['idprodi'],
+                'idfakultas' => $appdata['sesi']['idfakultas']
+            ])
+                ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                ->get();
+
 
             return view('admin.cpl_index', compact('appdata', 'cpl'));
         } else {
@@ -89,16 +95,31 @@ class CPLController extends Controller
     public function delete($id)
     {
         if (Session::has('data')) {
-            $query = CPL::where('id', $id)->delete();
-            if ($query) {
+            $sesi = Session::get('data');
+
+            // Cari data CPL yang ingin dihapus
+            $cpl = CPL::find($id);
+
+            if ($cpl) {
+                $id_cpl = $cpl->kode_cpl;
+
+                // Hapus data dari tabel terkait
+                BobotCPL::where('idprodi', $sesi['idprodi'])->where('id_cpl', $id_cpl)->delete();
+                BobotMK::where('idprodi', $sesi['idprodi'])->where('id_cpl', $id_cpl)->delete();
+                BobotCPLPadu::where('idprodi', $sesi['idprodi'])->where('id_cpl', $id_cpl)->delete();
+
+                // Hapus data CPL
+                $cpl->delete();
+
                 return redirect()->back()->with('success', 'Success delete');
             } else {
-                return redirect()->back()->with('error', 'Something wrong !');
+                return redirect()->back()->with('error', 'CPL not found!');
             }
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
         }
     }
+
 
     // public function cpl_mahasiswa(Request $request, $datamhs)
     // {
@@ -158,7 +179,9 @@ class CPLController extends Controller
                 'cpl'   => CPL::where([
                     'idprodi' => $appdata['sesi']['idprodi'],
                     'idfakultas' => $appdata['sesi']['idfakultas']
-                ])->get(),
+                ])
+                    ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                    ->get(),
                 'ce'    => CE::select('ce_mk.*', 'ce_mk.id as idce', 'cpmk.id as cpmk_id', 'cpmk.idmatakuliah', 'cpmk.nama_matkul', 'cpmk.kode_cpmk', 'cpmk.sks')->join('cpmk', 'cpmk.id', '=', 'ce_mk.idcpmk')->where(
                     [
                         'idprodi' => $appdata['sesi']['idprodi'],
@@ -186,7 +209,9 @@ class CPLController extends Controller
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->get();
+            ])
+                ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                ->get();
             $percpl = totalCPL($datamhs[0]);
             $data_json = [];
             $label = [];
@@ -220,7 +245,9 @@ class CPLController extends Controller
         $data = CPL::where([
             'idprodi' => $appdata['sesi']['idprodi'],
             'idfakultas' => $appdata['sesi']['idfakultas']
-        ])->get();
+        ])
+            ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+            ->get();
         $data_cpl = [];
         foreach ($data as $c) {
             $bobotCPL = getNilaiCPLBySemester($c->id, $nim, $semester);
@@ -246,7 +273,9 @@ class CPLController extends Controller
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->get();
+            ])
+                ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                ->get();
 
             // $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
             //     'APIKEY'    => config('app.APIKEY'),
@@ -301,7 +330,9 @@ class CPLController extends Controller
             $data = CPL::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
                 'idfakultas' => $appdata['sesi']['idfakultas']
-            ])->get();
+            ])
+                ->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT) ASC')
+                ->get();
 
             $res = Http::post(config('app.urlApi') . 'mahasiswa/ipk_prodi_semester', [
                 'APIKEY'    => config('app.APIKEY'),
@@ -351,6 +382,8 @@ class CPLController extends Controller
             ];
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
             $totalcpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->count();
+
+            // dd($totalcpl);
             // dd($totalcpl);
             // $res = Http::post(config('app.urlApi') . 'dosen/matkul-prodi', [
             //     'APIKEY'    => config('app.APIKEY'),

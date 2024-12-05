@@ -12,6 +12,16 @@ class CPL extends Model
 
     public function bobot_mk()
     {
-        return $this->hasMany('App\Models\BobotMK', 'id_cpl', 'kode_cpl');
+        return $this->hasMany(BobotMK::class, 'id_cpl', 'kode_cpl');
+    }
+
+    public function bobotCPL()
+    {
+        return $this->hasMany(BobotCPL::class, 'id_cpl', 'id_cpl');
+    }
+
+    public function bobotCPLPadu()
+    {
+        return $this->hasMany(BobotCPLPadu::class, 'id_cpl', 'id_cpl');
     }
 }
