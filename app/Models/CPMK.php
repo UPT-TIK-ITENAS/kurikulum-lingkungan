@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CPMK extends Model
 {
-    protected $table = 'cpmk_1';
+    protected $table = 'cpmk_2';
     protected $guarded = [];
 }
