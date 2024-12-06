@@ -459,9 +459,9 @@ if (!function_exists('totalCPL')) {
         $mappedNilai = $nilai->map(function ($item) {
             $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
             if ($mkp) {
-                $data_sc = DB::table('bobot_1')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
+                $data_sc = DB::table('bobot_2')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
             } else {
-                $data_sc = DB::table('bobot_1')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
+                $data_sc = DB::table('bobot_2')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
             }
             // sum bobot by subcpmk_kode
             $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
