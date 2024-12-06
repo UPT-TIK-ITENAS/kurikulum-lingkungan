@@ -480,7 +480,7 @@ if (!function_exists('totalCPL')) {
             $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
             $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
                 $item->hasil = (($item->bobot_cpl) / 100) * $data_sc;
-                dd($data_sc);
+                // dd($data_sc);
                 return $item = [
                     'idcpl' => $item->id_cpl,
                     'hasil' => $item->hasil,

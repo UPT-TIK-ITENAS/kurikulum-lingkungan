@@ -397,9 +397,7 @@ class CPLController extends Controller
             $dataMatkul = getMK();
             $bobotcpl = BobotCPLPadu::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
-            ])->first();
-
-            // dd($bobotcpl);
+            ])->get();
 
             $bobot = array();
             foreach ($bobotcpl as $b) {

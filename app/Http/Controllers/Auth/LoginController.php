@@ -46,9 +46,11 @@ class LoginController extends Controller
 
     public function index()
     {
-        if (Session::get('login') == 'dosen' || Session::get('login') == 'admin') {
-            return redirect('/home');
-        } else {
+        if (Session::get('login') == 'dosen') {
+            return redirect('/dosen/home');
+        } elseif(Session::get('login') == 'admin'){
+            return redirect('/admin/home');
+        }else {
             return view('auth.login');
         }
     }
