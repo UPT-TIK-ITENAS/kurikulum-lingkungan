@@ -43,7 +43,7 @@
                         </p>
                     </div> --}}
                     <div class="row mb-2">
-                        <div class="col" id="divSavebtn" style="display: block;">
+                        {{-- <div class="col" id="divSavebtn" style="display: block;">
                             @if (Session::get('awal_semester') <= date('Y-m-d') || date('Y-m-d') <= Session::get('akhir_semester'))
                                 <a class='btn btn-icon btn-primary ' style='float: right;padding: 15px 45px;' href='#'
                                     id="saveBtn">
@@ -51,7 +51,7 @@
                                 </a>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             @endif
-                        </div>
+                        </div> --}}
                     </div>
                     <table id="table-bobot" class="table table-bordered">
                         <thead class="text-center">
@@ -79,7 +79,8 @@
                                                     id="bobot_{{ $cpmk->id }}_{{ $sub->subcpmk_id }}"
                                                     data-mk="{{ $cpmk->idmatakuliah }}" data-cpmk="{{ $cpmk->kode_cpmk }}"
                                                     data-sub="{{ $sub->subcpmk_kode }}" class="form-control base"
-                                                    value="{{ isset($bobot[$cpmk->id][$sub->subcpmk_id]) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}">
+                                                    value="{{ isset($bobot[$cpmk->id][$sub->subcpmk_id]) ? $bobot[$cpmk->id][$sub->subcpmk_id] : '0' }}"
+                                                    readonly>
                                             </div>
                                         </td>
                                     @endforeach
