@@ -381,7 +381,9 @@ class CPLController extends Controller
                 'sesi'  => Session::get('data')
             ];
             $cpl = CPL::selectRaw('cpl.*, CAST(SUBSTRING(kode_cpl,5,2) AS INT) as kode')->where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->orderby('kode')->get();
+
             $totalcpl = CPL::where(['idprodi' => $appdata['sesi']['idprodi'], 'idfakultas' => $appdata['sesi']['idfakultas']])->count();
+            // dd($totalcpl);
 
             // dd($totalcpl);
             // dd($totalcpl);
@@ -395,7 +397,9 @@ class CPLController extends Controller
             $dataMatkul = getMK();
             $bobotcpl = BobotCPLPadu::where([
                 'idprodi' => $appdata['sesi']['idprodi'],
-            ])->get();
+            ])->first();
+
+            // dd($bobotcpl);
 
             $bobot = array();
             foreach ($bobotcpl as $b) {
