@@ -419,11 +419,14 @@ class MainController extends Controller
     public function printskpi($nim)
     {
         $data = Lulusan::join('prodi', 'lulusan.idprodi', '=', 'prodi.id')->join('fakultas', 'prodi.id_fakultas', '=', 'fakultas.id')->where('nim', $nim)->first();
-        $cpl = CPL::orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
         $appdata = [
             'title' => 'Data Lulusan',
             'sesi'  => Session::get('data')
         ];
+        $cpl = CPL::where([
+            'idprodi' => $appdata['sesi']['idprodi'],
+            'idfakultas' => $appdata['sesi']['idfakultas']
+        ])->orderByRaw('CAST(SUBSTRING(kode_cpl,5,2) AS INT)')->get();
 
         $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
             'APIKEY'    => config('app.APIKEY'),
