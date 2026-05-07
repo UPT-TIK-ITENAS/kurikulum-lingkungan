@@ -445,65 +445,125 @@ if (!function_exists('getNilaiBobotSC')) {
 }
 
 if (!function_exists('totalCPL')) {
+    // function totalCPL($nrp)
+    // {
+
+    //     $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
+    //         'APIKEY'    => config('app.APIKEY'),
+    //         'nrp'       => $nrp,
+    //     ]);
+    //     $json = $res->json();
+    //     // dd($json);
+    //     $nilaimhs = $json['data'];
+    //     $nilai = collect($nilaimhs);
+    //     $mappedNilai = $nilai->map(function ($item) {
+    //         $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
+    //         if ($mkp) {
+    //             $data_sc = DB::table('bobot_2')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
+    //         } else {
+    //             $data_sc = DB::table('bobot_2')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
+    //         }
+    //         // sum bobot by subcpmk_kode
+    //         $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
+    //             // dd($item->sum('bobot'));
+
+    //             return $item->sum('bobot') / 100;
+    //         });
+    //         $data_sc = $data_sc->map(function ($item2, $key) use ($item) {
+    //             if (array_key_exists($key, $item)) {
+    //                 return $item2 * $item[$key];
+    //             } else {
+    //                 return 0;
+    //             }
+    //         })->sum();
+
+    //         $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
+    //         $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
+    //             $item->hasil = (($item->bobot_cpl) / 100) * $data_sc;
+    //             // dd($data_sc);
+    //             return $item = [
+    //                 'idcpl' => $item->id_cpl,
+    //                 'hasil' => $item->hasil,
+
+    //             ];
+    //         });
+
+    //         // dd($data_sc);
+    //         $item['data_sc'] = $mappedBobotCpl ?? 0;
+
+    //         return $item;
+    //     });
+
+    //     $groupedData = collect($mappedNilai)->flatMap(function ($item) {
+    //         return $item['data_sc'];
+    //     })->groupBy('idcpl')->map(function ($group) {
+    //         return [
+    //             'idcpl' => $group[0]['idcpl'],
+    //             'total' => $group->sum('hasil'),
+    //         ];
+    //     })->values()->toArray();
+
+
+    //     return $groupedData;
+    // }
+
     function totalCPL($nrp)
     {
-
-        $res = Http::post(config('app.urlApi') . 'dosen/akm-tengah', [
-            'APIKEY'    => config('app.APIKEY'),
-            'nrp'       => $nrp,
+        $res = Http::post(config('app.urlApi') . 'mahasiswa/matkul-mhs', [
+            'APIKEY' => config('app.APIKEY'),
+            'nrp'    => $nrp,
         ]);
+
         $json = $res->json();
-        // dd($json);
-        $nilaimhs = $json['data'];
+        $nilaimhs = $json['data'] ?? [];
+
         $nilai = collect($nilaimhs);
-        $mappedNilai = $nilai->map(function ($item) {
-            $mkp = MKPilihan::where('kode_mk', $item['kdkmkMSAKM'])->first();
-            if ($mkp) {
-                $data_sc = DB::table('bobot_2')->where('idmatakuliah', $mkp->kategori)->where('idprodi', session()->get('data')->idprodi)->get();
-            } else {
-                $data_sc = DB::table('bobot_2')->where('idmatakuliah', '=', $item['kdkmkMSAKM'])->get();
-            }
-            // sum bobot by subcpmk_kode
-            $data_sc = $data_sc->groupBy('subcpmk_kode')->map(function ($item) {
-                // dd($item->sum('bobot'));
+        $mappedNilai = [];
 
-                return $item->sum('bobot') / 100;
-            });
-            $data_sc = $data_sc->map(function ($item2, $key) use ($item) {
-                if (array_key_exists($key, $item)) {
-                    return $item2 * $item[$key];
-                } else {
-                    return 0;
-                }
-            })->sum();
+        foreach ($nilai as $item) {
 
-            $bobot_cpl = DB::table('bobot_cpl')->where('idmatakuliah', $item['kdkmkMSAKM'])->get();
-            $mappedBobotCpl = $bobot_cpl->map(function ($item, $key) use ($data_sc) {
-                $item->hasil = (($item->bobot_cpl) / 100) * $data_sc;
-                // dd($data_sc);
-                return $item = [
-                    'idcpl' => $item->id_cpl,
-                    'hasil' => $item->hasil,
+            $nilaiAkhir = $item['nlfinmsakm'] ?? 0;
 
+            $bobot_cpl = DB::table('bobot_cpl')
+                ->where('idmatakuliah', $item['KDKMKHSNIL'] ?? null)
+                ->get();
+
+            $mappedBobotCpl = [];
+
+            foreach ($bobot_cpl as $items) {
+
+                $bobot = isset($items->bobot_cpl) ? (float) $items->bobot_cpl : 0;
+                $nilai = isset($nilaiAkhir) ? (float) $nilaiAkhir : 0;
+
+                $hasil = $bobot * $nilai/100;
+
+                $mappedBobotCpl[] = [
+                    'idcpl' => $items->id_cpl,
+                    'bobot' => $bobot,
+                    'nilai' => $nilai,
+                    'hasil' => $hasil,
                 ];
-            });
+            }
 
-            // dd($data_sc);
-            $item['data_sc'] = $mappedBobotCpl ?? 0;
+            $item['data_sc'] = $mappedBobotCpl;
+            $mappedNilai[] = $item;
+        }
 
-            return $item;
-        });
+        $mappedNilai = collect($mappedNilai);
 
-        $groupedData = collect($mappedNilai)->flatMap(function ($item) {
-            return $item['data_sc'];
-        })->groupBy('idcpl')->map(function ($group) {
-            return [
-                'idcpl' => $group[0]['idcpl'],
-                'total' => $group->sum('hasil'),
-            ];
-        })->values()->toArray();
-
-
+        $groupedData = $mappedNilai
+            ->flatMap(function ($item) {
+                return $item['data_sc'];
+            })
+            ->groupBy('idcpl')
+            ->map(function ($group) {
+                return [
+                    'idcpl' => $group[0]['idcpl'],
+                    'total' => $group->sum('hasil'),
+                ];
+            })
+            ->values()
+            ->toArray();
         return $groupedData;
     }
 }
@@ -511,6 +571,21 @@ if (!function_exists('totalCPL')) {
 if (!function_exists('getDosenTetap')) {
     function getDosenTetap($prodi)
     {
+        if(substr($prodi, 0, 1) == '6'){
+            switch ($prodi) {
+                case '61':
+                  $prodi = '12';
+                  break;
+                case '62':
+                    $prodi = '13';
+                    break;
+                case '63':
+                    $prodi = '22';
+                    break;
+                default:
+                    $prodi;        
+            } 
+        }
         $res = Http::post(config('app.urlApi') . 'dosen/getDosenAktifTetap', [
             'APIKEY'    => config('app.APIKEY'),
             'prodi' => $prodi

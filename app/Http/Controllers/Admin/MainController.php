@@ -447,14 +447,33 @@ class MainController extends Controller
         $data_json = [];
         $label = [];
         $persen = [];
-        foreach ($datacpl_all as $c) {
-            $bobotCPL = getNilaiCPL($c->id, $nim);
-            $persenCPL = round((getNilaiCPL($c->id, $nim) / 4) * 100);
-            array_push($data_json, $bobotCPL);
-            array_push($label, '"' . $c->kode_cpl . '"');
-            array_push($persen, $persenCPL);
+        $totalCPL = totalCPL($nim);
+        
+        $data_json = [];
+        $label = [];
+        $persen = [];
+        foreach ($datacpl['cpl'] as $c) {
+            foreach ($totalCPL as $nilaicpl) {
+                if ($nilaicpl['idcpl'] == $c->kode_cpl) {
+                    $bobotCPL = round($nilaicpl['total'], 2);
+                    array_push($data_json, $bobotCPL);
+                    array_push($label, '"' . $c->kode_cpl . '"');
+                    array_push($persen, $bobotCPL);
+                }
+            }
+
         }
-        // dd(implode(',', $label));
+        // dd($data_json, $label, $persen);
+        $datacpl['cpl'] = $datacpl['cpl']->map(function($cpl) use ($totalCPL) {
+            $cpl->total = 0;
+            foreach($totalCPL as $nilaicpl){
+                if($nilaicpl['idcpl'] == $cpl->kode_cpl){
+                    $cpl->total = round($nilaicpl['total'], 2);
+                }
+            }
+            return $cpl->toArray();
+        })->toArray();
+
         $chartConfig = '{
             "type": "radar",
             "data": {
@@ -464,7 +483,7 @@ class MainController extends Controller
                     "data": [' . implode(',', $data_json) . '],
                     "fill": true,
                     "backgroundColor": "rgba(242, 145, 0, 0.2)",
-                    "borderColor":"rgb(242, 145, 0)",
+                    "borderColor":"rgb(242, 145, 0)"
                 }]
             },
             "options": {
@@ -479,7 +498,7 @@ class MainController extends Controller
                 }
             }
         }';
-        $chartUrl = 'https://quickchart.io/chart?chart=' . $chartConfig . '&backgroundColor=white&weight=550&height=350&devicePixelRatio=1.0&format=png&version=3.9.1';
+        $chartUrl = 'https://quickchart.io/chart?chart=' . urlencode($chartConfig) . '&backgroundColor=white&width=550&height=350&devicePixelRatio=1.0&format=png&version=3.9.1';
 
         // dd($chartUrl);
 

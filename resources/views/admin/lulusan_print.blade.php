@@ -274,11 +274,10 @@
                 @foreach ($datacpl['cpl'] as $c)
                     <tr>
                         <td style="font-size: 16px; padding: 2px;">
-                            <p align="justify"><b>{{ $c->kode_cpl }}</b> -
-                                {{ $c->nama_cpl }}</p>
+                            <p align="justify"><b>{{ $c['kode_cpl'] }}</b> -
+                                {{ $c['nama_cpl'] }}</p>
                         </td>
-                        {{-- <td style="font-size: 16px;">{{ $c->nama_cpl }}</td> --}}
-                        <td style="font-size: 16px;text-align: center;">{{ getNilaiCPL($c->id, $datacpl['mhs']) }}</td>
+                        <td style="font-size: 16px;text-align: center;">{{ $c['total'] }}</td>
                     </tr>
                 @endforeach
             </tbody>

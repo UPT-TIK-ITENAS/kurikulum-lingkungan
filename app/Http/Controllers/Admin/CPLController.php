@@ -192,6 +192,7 @@ class CPLController extends Controller
                 'nilai' => $nilaimhs,
                 'total' => totalCPL($datamhs_dec[0]),
             ];
+            
             return view('admin.mahasiswa_cpl', compact('data', 'appdata'));
         } else {
             return redirect()->route('login')->with('error', 'You are not authenticated');
