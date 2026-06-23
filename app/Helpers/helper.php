@@ -513,6 +513,7 @@ if (!function_exists('totalCPL')) {
             'APIKEY' => config('app.APIKEY'),
             'nrp'    => $nrp,
         ]);
+        $sesi = Session::get('data');
 
         $json = $res->json();
         $nilaimhs = $json['data'] ?? [];
@@ -520,22 +521,26 @@ if (!function_exists('totalCPL')) {
         $nilai = collect($nilaimhs);
         $mappedNilai = [];
 
-        foreach ($nilai as $item) {
-
+        foreach ($nilaimhs as $item) {
             $nilaiAkhir = $item['nlfinmsakm'] ?? 0;
+            $kodeMk = $item['KDKMKHSNIL'] ?? null;
 
-            $bobot_cpl = DB::table('bobot_cpl')
-                ->where('idmatakuliah', $item['KDKMKHSNIL'] ?? null)
+            $kategoriMkPilihan = MKPilihan::where('kode_mk', $kodeMk)
+                ->value('kategori');
+
+            $idPencarian = $kategoriMkPilihan ? $kategoriMkPilihan : $kodeMk;
+
+            $bobot_cpl = BobotCPL::where('idmatakuliah', $idPencarian)
+                ->where('idprodi', $sesi['idprodi'])
                 ->get();
 
             $mappedBobotCpl = [];
 
             foreach ($bobot_cpl as $items) {
-
                 $bobot = isset($items->bobot_cpl) ? (float) $items->bobot_cpl : 0;
                 $nilai = isset($nilaiAkhir) ? (float) $nilaiAkhir : 0;
 
-                $hasil = $bobot * $nilai/100;
+                $hasil = $bobot * $nilai / 100;
 
                 $mappedBobotCpl[] = [
                     'idcpl' => $items->id_cpl,
@@ -564,6 +569,7 @@ if (!function_exists('totalCPL')) {
             })
             ->values()
             ->toArray();
+
         return $groupedData;
     }
 }
@@ -571,11 +577,11 @@ if (!function_exists('totalCPL')) {
 if (!function_exists('getDosenTetap')) {
     function getDosenTetap($prodi)
     {
-        if(substr($prodi, 0, 1) == '6'){
+        if (substr($prodi, 0, 1) == '6') {
             switch ($prodi) {
                 case '61':
-                  $prodi = '12';
-                  break;
+                    $prodi = '12';
+                    break;
                 case '62':
                     $prodi = '13';
                     break;
@@ -583,8 +589,8 @@ if (!function_exists('getDosenTetap')) {
                     $prodi = '22';
                     break;
                 default:
-                    $prodi;        
-            } 
+                    $prodi;
+            }
         }
         $res = Http::post(config('app.urlApi') . 'dosen/getDosenAktifTetap', [
             'APIKEY'    => config('app.APIKEY'),
