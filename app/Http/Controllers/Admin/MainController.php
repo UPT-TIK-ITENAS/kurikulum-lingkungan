@@ -451,7 +451,7 @@ class MainController extends Controller
         $label = [];
         $persen = [];
         $totalCPL = totalCPL($nim);
-        
+
         $data_json = [];
         $label = [];
         $persen = [];
@@ -464,13 +464,12 @@ class MainController extends Controller
                     array_push($persen, $bobotCPL);
                 }
             }
-
         }
         // dd($data_json, $label, $persen);
-        $datacpl['cpl'] = $datacpl['cpl']->map(function($cpl) use ($totalCPL) {
+        $datacpl['cpl'] = $datacpl['cpl']->map(function ($cpl) use ($totalCPL) {
             $cpl->total = 0;
-            foreach($totalCPL as $nilaicpl){
-                if($nilaicpl['idcpl'] == $cpl->kode_cpl){
+            foreach ($totalCPL as $nilaicpl) {
+                if ($nilaicpl['idcpl'] == $cpl->kode_cpl) {
                     $cpl->total = round($nilaicpl['total'], 2);
                 }
             }
@@ -507,5 +506,45 @@ class MainController extends Controller
 
         $pdf = PDF::loadview('admin.lulusan_print', compact('data', 'cpl', 'datacpl', 'chartUrl'))->setPaper('A4', 'potrait')->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         return $pdf->stream();
+    }
+
+    public function getLulusan(Request $request)
+    {
+
+        if (Session::has('data')) {
+            $sesi = Session::get('data');
+
+            $res = Http::get(config('app.urlApi') . 'lulusan/getLulusanByProdiSemester', [
+                'APIKEY'   => config('app.APIKEY'),
+                'semester' => str_replace('/', '', $request->semester_lulus_sinkron),
+                'prodi'    => $sesi['idprodi'],
+            ]);
+
+            $json = $res->json();
+            $mhs = $json['data'];
+
+            $inserted = 0;
+
+            foreach ($mhs as $item) {
+                if (!Lulusan::where('nim', $item['nimhsMSMHS'])->exists()) {
+                    Lulusan::create([
+                        'nim'             => $item['nimhsMSMHS'],
+                        'nama_mhs'        => $item['nmmhsMSMHS'],
+                        'semester_lulus'  => str_replace('/', '', $request->semester_lulus_sinkron),
+                        'idprodi'         => $sesi['idprodi'],
+                        'idfakultas'      => $sesi['idfakultas'],
+                    ]);
+
+                    $inserted++;
+                }
+            }
+
+            return redirect()->back()->with(
+                $inserted > 0 ? 'success' : 'error',
+                $inserted > 0 ? "Berhasil menambahkan {$inserted} data." : 'Semua data lulusan sudah ada.'
+            );
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authenticated');
+        }
     }
 }

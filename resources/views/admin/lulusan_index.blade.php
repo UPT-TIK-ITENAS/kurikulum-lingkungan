@@ -9,9 +9,17 @@
             <div class="card">
                 <div class="card-header">
                     <b>Daftar Lulusan</b>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#addLulusan" class="btn btn-primary float-end"><i
-                            class='fas fa-plus mr-2'></i>
-                        Tambah Lulusan</a>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#sinkronLulusan" class="btn btn-success">
+                            <i class="fas fa-sync me-2"></i>
+                            Sinkron Lulusan
+                        </a>
+
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addLulusan" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>
+                            Tambah Lulusan
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <table id="table-lulusan" class="table table-bordered">
@@ -31,6 +39,7 @@
             </div>
         </div>
     </div>
+    {{-- Add Lulusan --}}
     <div class="modal fade" id="addLulusan" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -70,6 +79,37 @@
             </div>
         </div>
     </div>
+    {{-- End Add Lulusan --}}
+
+    {{-- Sinkron Lulusan --}}
+    <div class="modal fade" id="sinkronLulusan" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">Sinkron Lulusan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('admin.lulusan.getLulusan') }}" method="post" class="needs-validation">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nameLarge" class="form-label">Semester Lulus</label>
+                                <input type="text" class="form-control" id="semester_lulus_sinkron"
+                                    name="semester_lulus_sinkron" required placeholder="contoh : 2021/1"></input>
+                            </div>
+                        </div>
+                        <small>*) 1 : Ganjil, 2 : Genap</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button class="btn btn-primary" type="submit">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- End Sinkron Lulusan --}}
 @endsection
 @push('scripts')
     <!-- Page JS -->
@@ -136,6 +176,7 @@
                 dropdownParent: $("#addLulusan")
             });
             $('#semester_lulus').inputmask('9999/9');
+            $('#semester_lulus_sinkron').inputmask('9999/9');
         });
     </script>
 @endpush

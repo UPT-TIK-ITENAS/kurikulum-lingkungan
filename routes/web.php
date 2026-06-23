@@ -173,5 +173,6 @@ Route::middleware(['isLogin'])->group(function () {
         Route::post('/admin/data-master/storelulusan', [MainController::class, 'storelulusan'])->name('admin.lulusan.store');
         Route::get('/admin/data-master/storelulusan/{id}', [MainController::class, 'deletelulusan'])->name('admin.lulusan.delete');
         Route::get('/admin/data-master/printskpi/{nim}', [MainController::class, 'printskpi'])->name('admin.lulusan.printskpi');
+        Route::post('/admin/data-master/getLulusan', [MainController::class, 'getLulusan'])->name('admin.lulusan.getLulusan');
     });
 });
